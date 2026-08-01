@@ -54,3 +54,28 @@ AppWorld 的 147 条候选任务全部保留。AppWorld 的任务天然具有较
 \subsection{自主设计选择}
 
 以下规则均由本项目自主设定，不属于四个源基准或参考论文的原有方法：禁止关系使用全部可见工具而非仅已执行工具；保留完整参考序列而非截断为固定长度；使用合成可选敏感字段参数而非依赖原生可选参数；根据具体敏感值是否出现在该工具的参考参数中生成授权标签；每步最多两个触发参数；敏感字段不足时确定性补全。这些选择的影响在局限性部分讨论。
+
+\subsection{与原论文的规模对照}
+
+表\ref{tab:scale-comparison}将本文的最终保留数与 \ToolPrivacyBench 公开派生数据的保留数对照。\ToolPrivacyBench 在四个来源上分别保留 443、377、170 和 10 条，合计 1{,}000 条；本文分别保留 113、147、61 和 7 条，合计 328 条。
+
+\begin{table}[t]
+  \centering
+  \caption{本文与 \ToolPrivacyBench 的保留规模对照。}
+  \label{tab:scale-comparison}
+  \small
+  \begin{tabular}{lrrr}
+    \toprule
+    来源 & 原论文保留 & 本文源池 & 本文保留 \\
+    \midrule
+    BFCL & 443 & 200（仅 base 变体） & 113 \\
+    AppWorld & 377 & 147（有方案日志的任务） & 147 \\
+    $\tau$-bench & 170 & 165（test split） & 61 \\
+    API-Bank & 10 & 264（Level-1/2 对话） & 7 \\
+    \midrule
+    合计 & 1{,}000 & --- & 328 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+差异的主要原因因来源而异。BFCL 的差异最大：原论文使用了四个变体（base、miss\_param、miss\_func、long\_context），本文只使用 base 变体以避免同源重复。AppWorld 的差异来自数据选择：原论文的 377 条可能包含了没有官方方案日志的任务，本文只使用 147 条有 \code{api\_calls.json} 的任务。$\tau$-bench 的差异来自执行过滤：本文排除了 16 条包含业务错误的参考序列，且 test split 只有 84 条满足调用门槛。API-Bank 的差异来自数据入口：本文使用 Level-1/Level-2 正式对话而非 Level-3 手写样例，但 85\% 的对话只有一次调用，满足门槛的极少。
