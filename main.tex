@@ -107,9 +107,24 @@
 \date{2026年8月}
 
 \begin{document}
-\maketitle
-\vspace{-1.5em}
 
+% ===== 封面 =====
+\begin{titlepage}
+  \centering
+  \vspace*{8cm}
+  {\Huge\bfseries RPLBench\\[0.3em]}
+  {\Large 面向工具调用智能体的冗余参数泄露评测数据构建}\\[0.5em]
+  {\large 基于 $\tau$-bench、BFCL、API-Bank 与 AppWorld 的可复现方法}\\[2cm]
+  {\large 赵嘉宁}\\[0.5em]
+  {\large 2026年8月}
+  \vfill
+\end{titlepage}
+
+% ===== 目录 =====
+\tableofcontents
+\newpage
+
+% ===== 正文 =====
 \input{manuscript/sections/00_abstract}
 \input{manuscript/sections/01_introduction}
 \input{manuscript/sections/02_background_toolprivacybench}
@@ -131,5 +146,7 @@
 \bibliographystyle{unsrtnat}
 \bibliography{literature/references}
 \endgroup
+
+\input{manuscript/sections/12_appendix}
 
 \end{document}
