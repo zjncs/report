@@ -1,42 +1,18 @@
 \section{实现与可复现性}
 
-\subsection{代码结构}
+\subsection{系统结构}
 
-实现按职责分为 adapters、source rules、builder、privacy、validator 和 release audit。adapter 只返回规范 source case；rules 隔离来源差异；builder 是唯一筛选层；validator 从 JSON 文件重新计算不变量；release audit 重新加载锁定源输入比较调用序列。相同 source revision、输入文件和配置必须产生字节一致的输出。
+系统按职责分为适配器、来源规则、构建器、隐私构造、校验器和发布审计六个模块。适配器只返回规范任务对象；来源规则隔离来源差异；构建器是唯一筛选层；校验器从发布文件重新计算不变量；发布审计重新加载锁定源输入比较调用序列。相同来源版本、输入文件和配置必须产生字节一致的输出。
 
-\subsection{Release 文件}
+\subsection{发布文件}
 
-每个源严格输出四个文件：
-
-\begin{table}[t]
-  \centering
-  \caption{Release 文件与职责。}
-  \small
-  \begin{tabularx}{\textwidth}{L{4.5cm}Y}
-    \toprule
-    文件 & 内容 \\
-    \midrule
-    \code{<source>\_rpl\_chains.jsonl} & 完整任务链、ground/leaking calls、trigger 参数和紧凑 qc \\
-    \code{<source>\_tools.json} & 冻结工具 schema，所有参数显式区分 required/optional \\
-    \code{<source>\_entities.jsonl} & case-specific 档案与敏感等级 \\
-    \code{conversion\_report.json} & revision、配置哈希、筛选统计、schema 扩展、visible tools、verification、policy 和 case 映射 \\
-    \bottomrule
-  \end{tabularx}
-\end{table}
-
-逐字段 provenance、sparse allowed edges 和 trigger 审计合并到每条 case 的单一 \code{case\_audit.jsonl} 记录中。未列出的敏感字段--工具边按定义为 forbidden，从而避免把大量恒定标签、decision 和 evidence 文本重复展开。
+每个来源严格输出四个文件：任务链包含完整调用序列和配对调用；工具定义包含所有参数的必填或可选标注；用户档案包含字段和敏感等级；转换报告包含版本、配置哈希、筛选统计、工具扩展和逐任务记录。逐字段来源追溯、稀疏允许边和触发参数审计合并到每条任务的审计记录中。未列出的敏感字段与工具的组合按定义为禁止，避免重复展开大量恒定标签。
 
 \subsection{独立验证}
 
-validator 检查精确文件集合、固定字段、tool schema、chain/entity/audit 一一关系、连续 step、prelude、配置门槛、public visible tools、sparse allowlist、ground 值保持、trigger 参数键差分，以及 trigger 与 entity 敏感字段的一一对应。它还核对 verification 与 source evidence、record policy 与注册 \code{SourceRules} 的冻结 wire 表示，并要求 \code{n\_trigger\_warnings=0}。门槛来自配置；链长只验证 \code{chain\_length=len(tasks)}。
+校验器检查精确文件集合、固定字段、工具定义、任务与档案的一一关系、连续步骤、配置门槛、可见工具、稀疏允许列表、功能调用值保持、触发参数键差分，以及触发参数与档案敏感字段的一一对应。门槛来自配置；链长只验证等于任务数。
 
-release audit 读取 \code{SOURCE\_LOCK.json}，确认源仓库 HEAD 和 clean 状态，然后对每个发布 case 比较
-
-\begin{equation}
-\operatorname{serialize}(C_c)=\operatorname{serialize}(\text{tasks}[1:].\text{ground\_truth\_call}).
-\end{equation}
-
-manifest 记录四个来源共 16 个正式文件的大小和 SHA-256。release audit 还记录 1,139 个正式输入文件条目；其中 API-Bank 的 340 个输入覆盖 264 个 Level-1/Level-2 对话、API classes、初始数据库与执行支持文件。AppWorld 完整 task data 不全由 Git commit 覆盖，因此全部候选 task inputs、四个 split、API docs 与 \code{data/version.txt} 都进入哈希清单，版本值与文件哈希同时锁定。回归测试在两个临时目录独立构建，并与 checked-in release 比较哈希。
+发布审计读取版本锁文件，确认源仓库版本和干净状态，然后对每个发布任务比较序列化后的来源参考调用与发布的功能调用是否逐项相等。清单记录四个来源共 16 个正式文件的大小和 SHA-256。发布审计还记录 1{,}139 个正式输入文件条目；其中 API-Bank 的 340 个输入覆盖 264 个 Level-1/Level-2 对话、API 类、初始数据库与执行支持文件。AppWorld 完整任务数据不全由 Git 版本覆盖，因此全部候选任务输入、四个 split、API 文档与版本标识都进入哈希清单。回归测试在两个临时目录独立构建，并与已发布数据比较哈希。
 
 \subsection{复现命令}
 
@@ -44,7 +20,6 @@ manifest 记录四个来源共 16 个正式文件的大小和 SHA-256。release 
 rplbench convert --source all --benchmarks-root ../source_benchmarks
 rplbench validate --source all
 rplbench manifest --source all
-rplbench release-audit --source all --benchmarks-root ../source_benchmarks --config-dir configs
+rplbench release-audit --source all --benchmarks-root ../source_benchmarks
 python -m pytest -q
-python paper/scripts/generate_artifacts.py
 \end{lstlisting}

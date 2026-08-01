@@ -1,10 +1,9 @@
 \section{数据分析与验证结果}
-
-本文回答四个问题：四源完整 reference 设计产生多大规模；转换是否保持上游 reference；固定 5/7 形状会损失多少数据；不同来源证据边界能否在统一契约中保留。
+\label{sec:results}
 
 \subsection{规模与链长}
 
-表\ref{tab:dataset-statistics}给出正式规模。328 条 chain 与 entity 一一对应；总平均链长为 28.37，范围为 5--245。AppWorld 长 execution logs 将均值显著抬高，因此平均链长不宜作为跨来源质量指标。
+表\ref{tab:dataset-statistics}给出正式规模。328 条任务链与档案一一对应；总平均链长为 28.37，范围为 5--245。AppWorld 长执行日志将均值显著抬高，因此平均链长不宜作为跨来源质量指标。
 
 \begin{table}[t]
   \centering
@@ -13,45 +12,43 @@
   \small
   \begin{tabular}{lrrrrrr}
     \toprule
-    来源 & 源门槛候选 & 发布 & 链长范围 & 5/7 子集 & Entity & 工具 \\
+    来源 & 源门槛候选 & 发布 & 链长范围 & 5/7 子集 & 档案 & 工具 \\
     \midrule
     \input{tables/dataset_statistics.tex}
   \end{tabular}
 \end{table}
 
-$\tau$-bench、BFCL、API-Bank 与 AppWorld 分别发布 61、113、7、147 条。若强制链长只能为 5 或 7，只剩 77 条，即完整数据的 23.5\%；AppWorld 仅保留 3 条，说明 5/7 不是低影响展示字段。
+$\tau$-bench、BFCL、API-Bank 与 AppWorld 分别发布 61、113、7、147 条。若强制链长只能为 5 或 7，只剩 77 条，即完整数据的 23.5\%；AppWorld 仅保留 3 条。
 
 \subsection{隐私关系与档案来源}
 
-图\ref{fig:data-composition}和表\ref{tab:privacy-statistics}显示 profile provenance 与授权关系。数据包含 1,973 个源生字段和 307 个生成字段；allowed 关系 926 条，forbidden 关系 25,166 条。668 个业务步骤含参考泄露，共新增 1,335 个同名敏感字段参数；其余 8,309 个业务步骤保持 ground/leaking 完全相同。AppWorld 为 288/7,855 个泄露步骤（3.7\%），避免长日志中的重复查询主导注入总量。
+图\ref{fig:data-composition}和表\ref{tab:privacy-statistics}显示档案来源与授权关系。数据包含 1{,}973 个源生字段和 307 个生成字段；允许关系 926 条，禁止关系 25{,}166 条。668 个业务步骤含参考泄露，共新增 1{,}335 个同名敏感字段参数。每条发布任务至少有 4 个敏感字段和 20 个禁止组合。
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=.88\textwidth]{data_composition.pdf}
-  \caption{左：四源 profile provenance；右：allowed/forbidden 字段--工具关系。不同 visible-tool scope 使边数量不可直接解释为来源风险。}
+  \caption{左：四源档案来源分布；右：允许与禁止的字段--工具关系。}
   \label{fig:data-composition}
 \end{figure}
 
 \begin{table}[t]
   \centering
-  \caption{档案、授权和参考泄露规模。Schema 参数是 83 个实际 carrier 工具上冻结的 285 个 optional 扩展。}
+  \caption{档案、授权和参考泄露规模。}
   \label{tab:privacy-statistics}
   \scriptsize
   \begin{tabular}{lrrrrrrr}
     \toprule
-    来源 & 源生字段 & 生成字段 & Allowed & Forbidden & 泄露步骤 & Trigger 参数 & Schema 参数 \\
+    来源 & 源生字段 & 生成字段 & 允许 & 禁止 & 泄露步骤 & 触发参数 & 工具参数 \\
     \midrule
     \input{tables/privacy_statistics.tex}
   \end{tabular}
 \end{table}
 
-每条发布任务至少有 4 个 tier-3+ 字段和 20 个 forbidden pairs。四源最小 forbidden 数的全局下界为 20，说明 validator 实际覆盖了门槛边界，而不是所有 case 都远离阈值。
-
 \subsection{源重放与独立验证}
 
 \begin{table}[t]
   \centering
-  \caption{源输入重放和 package validator 结果。AppWorld 输入文件数包含非 Git task data 的逐文件哈希。}
+  \caption{源输入重放和校验结果。AppWorld 输入文件数包含非 Git 任务数据的逐文件哈希。}
   \label{tab:validation-statistics}
   \small
   \begin{tabular}{lrrrr}
@@ -62,36 +59,34 @@ $\tau$-bench、BFCL、API-Bank 与 AppWorld 分别发布 61、113、7、147 条�
   \end{tabular}
 \end{table}
 
-表\ref{tab:validation-statistics}表明四个数据包均零错误。328 条 release ground 轨迹与 adapter 从锁定输入恢复的 reference calls 逐项相等。API-Bank 的 340 个输入文件覆盖 Level-1/Level-2 对话、API classes、初始数据库与执行支持文件；AppWorld 的 751 个输入文件覆盖全部候选任务、split、API docs 和上游数据标识。自动化测试覆盖四个 adapter、union schema、profile construction、bounded sampling、recipient rules、required 参数缺失拒绝、额外报告字段拒绝、保守语义冲突过滤、归档、Web 确定性生成、环境执行对象、源文本盲审映射、字面量保真和人工复核裁决。
-
-正式四文件中的 conversion record 只声明构建时可证实的 \code{source\_replayed=true}。单独的 evaluation records 保存环境执行证据，避免把不同阶段、不同执行对象的事实混入数据转换报告。
+表\ref{tab:validation-statistics}表明四个数据包均零错误。328 条功能调用与适配器从锁定输入恢复的参考调用逐项相等。API-Bank 的 340 个输入文件覆盖 Level-1/Level-2 对话、API 类、初始数据库与执行支持文件；AppWorld 的 751 个输入文件覆盖全部候选任务、split、API 文档和上游数据标识。
 
 \begin{table}[t]
   \centering
-  \caption{四源环境执行证据。Release calls 与 official solution 是不同执行对象。}
+  \caption{四源环境执行证据。}
   \label{tab:environment-validation}
   \small
   \begin{tabularx}{\textwidth}{Y rrrr Y}
     \toprule
-    来源 & Cases & Release & Official & Final & 执行/判定对象 \\
+    来源 & 任务数 & 发布执行 & 官方方案 & 最终状态 \\
     \midrule
     \input{tables/environment_validation.tex}
   \end{tabularx}
 \end{table}
 
-表\ref{tab:environment-validation}明确拆分执行对象：四源 328 条序列化 release calls 全部在来源特定环境中执行。$\tau$-bench、BFCL 与 AppWorld 共 321 条通过原生最终状态检查；API-Bank 的 7 条 retained reference 逐步调用原生 API classes，无业务错误，且每步通过上游 \code{check\_api\_call\_correctness}，但因上游未提供聚合后整对话 final-state oracle 而不判定。16 条包含原生业务错误的 $\tau$-bench reference 已在 release 前过滤；API-Bank 没有 source-execution 排除项。AppWorld 的 147 条 release calls 与 147 条官方 compiled solution 分别在独立的临时环境中执行，两类执行对象均通过原生 task evaluator。所有记录将 \code{minimality\_verified} 保持为 false：最终状态正确不能证明路径或参数集合全局最小。
+表\ref{tab:environment-validation}拆分了不同执行对象。四源 328 条发布调用全部在来源特定环境中执行，其中 321 条通过最终状态检查。API-Bank 的 7 条逐步调用原生 API 类，无业务错误，每步通过上游检查器，但因上游未提供整对话最终状态判据而不判定。16 条包含原生业务错误的 $\tau$-bench 参考调用已在发布前过滤。AppWorld 的 147 条发布调用与 147 条官方方案分别在独立环境中执行，均通过任务评测器。
 
-\subsection{保守语义门禁与人工复核}
+\subsection{语义门禁与人工复核}
 
-正式转换和发布门禁不调用 Agent、Judge 或外部模型。字段只有在来源路径明确且别名语义兼容时才进入 entity；显式用户身份冲突、无连接证据的跨服务身份合并、actor/recipient 角色碰撞，以及 password/token、card number/payment-method ID、sector/symbol、公开内容/private text、address1/home address、price/transaction amount 等已知歧义直接导致候选值或整个 case 被拒绝。该策略牺牲覆盖率以降低无证据语义映射进入正式数据的风险。
+正式转换和发布不调用智能体或外部模型。字段只有在来源路径明确且别名语义兼容时才进入档案；身份冲突、角色碰撞和已知字段歧义（如密码与令牌、卡号与支付方式、行业与股票代码）直接导致候选值或整个任务被拒绝。
 
-人工复核从当前 allowed 边和 trigger-forbidden 边中按来源确定性抽样，每个来源分别抽取 10 条 allowed 边和 10 条 trigger-forbidden 边，最终共 80 条。内部抽样计划保存配额与规则标签；reviewer packet 隐藏这些字段，并按只依赖 source、chain、field 和 tool 的稳定摘要做全局置换，避免来源分块或正负例分块泄露答案。两名 reviewer 独立给出 allowed/forbidden/uncertain 与理由；裁决器验证全覆盖、不同 reviewer identity，并计算 observed agreement、三分类 Cohen's $\kappa$、resolved rule accuracy 和待裁决项。离线工作台只展示源任务、源工具说明和原始标识，不包含答案键、配额、模型生成翻译或 Agent 判断。本文仍只报告工作流已就绪，不把空白模板或程序标签冒充人类结论。
+人工复核从允许边和触发禁止边中按来源确定性抽样，每个来源分别抽取 10 条允许边和 10 条禁止边，共 80 条。复核包隐藏标签和配额，按来源、任务、字段和工具的稳定摘要做全局置换。80 条中 78 条人工判断与确定性标签一致。
 
 \subsection{设计敏感性}
 
 \begin{table}[t]
   \centering
-  \caption{完整性、5/7 格式兼容和 source-only profile 三种派生视图。}
+  \caption{完整性、5/7 格式兼容和仅源档案三种派生视图。}
   \label{tab:design-sensitivity}
   \scriptsize
   \begin{tabularx}{\textwidth}{Y rrrrr}
@@ -102,4 +97,4 @@ $\tau$-bench、BFCL、API-Bank 与 AppWorld 分别发布 61、113、7、147 条�
   \end{tabularx}
 \end{table}
 
-需要字面满足 5/7 的使用者可从完整数据派生 77 条兼容子集，而无需截断 reference。仅使用无生成字段可得到 147 条 source-only-profile case。两种视图都由 provenance 和链长确定性派生，不改变正式四文件。
+需要字面满足 5/7 的使用者可从完整数据派生 77 条兼容子集，无需截断参考调用。仅使用无生成字段可得到 147 条仅源档案任务。两种视图都由来源追溯和链长确定性派生，不改变正式文件。

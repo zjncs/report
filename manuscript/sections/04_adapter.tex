@@ -1,12 +1,12 @@
 \section{源调用的适配与统一表示}
 
-四个源基准对任务、工具和参考调用的保存方式差异很大。$\tau$-bench 把任务写成 Python 构造器，BFCL 将多轮问题与参考答案分置于两组 JSONL，API-Bank 把一次对话拆成 User、AI 和 API 记录，AppWorld 则保存 HTTP 级方案执行日志。如果直接在这些文件上编写隐私构造逻辑，同一项检查会出现四套实现，来源语义也容易在格式转换中丢失。本文因此把数据构建分为两个阶段：Adapter 只负责恢复上游事实，公共 Builder 再负责档案、授权、筛选与配对调用生成。
+四个源基准对任务、工具和参考调用的保存方式差异很大。$\tau$-bench 把任务写成 Python 构造器，BFCL 将多轮问题与参考答案分置于两组 JSON，API-Bank 把一次对话拆成 User、AI 和 API 记录，AppWorld 则保存 HTTP 级方案执行日志。如果直接在这些文件上编写隐私构造逻辑，同一项检查会出现四套实现，来源语义也容易在格式转换中丢失。本文因此把数据构建分为两个阶段：适配器只负责恢复上游事实，公共构建器再负责档案、授权、筛选与配对调用生成。
 
-\subsection{Adapter 的职责边界}
+\subsection{适配器的职责边界}
 
-Adapter 是一个确定性的源格式解析器。它接收锁定的 benchmark 目录，输出一组内部任务对象及解析统计；其职责包括定位正式数据文件、恢复工具 schema、解析参考调用、确定当前任务可见的工具，并保存能够解释这些结果的来源路径。Adapter 不读取隐私字段配置，不计算 allowed/forbidden，不选择泄露步骤，也不根据调用数或敏感字段数筛选任务。由此，同一份 Adapter 输出可以在不重新解释上游数据的前提下供不同构造策略复用。
+适配器接收锁定的基准目录，输出一组统一的任务对象。它的职责是定位正式数据文件、恢复工具定义、解析参考调用、确定当前任务可见的工具，并保存能够解释这些结果的来源路径。适配器不读取隐私字段配置，不计算授权关系，不选择泄露步骤，也不根据调用数或敏感字段数筛选任务。这样，同一份适配器输出可以在不重新解释上游数据的前提下供不同构造策略复用。
 
-源版本检查位于 Adapter 之后、Builder 之前。系统根据 Adapter 声明的完整输入文件集合，核对源仓库 revision 与逐文件哈希。该顺序很重要：输入锁覆盖 Adapter 实际读取的文件，而不是预先假定的一组目录；新增或遗漏输入都会改变锁定结果。通过检查后，后续流程只接收已经绑定来源版本的任务对象。
+源版本检查位于适配器之后、构建器之前。系统根据适配器声明的完整输入文件集合，核对源仓库版本与逐文件哈希。输入锁覆盖适配器实际读取的文件，新增或遗漏输入都会改变锁定结果。通过检查后，后续流程只接收已经绑定来源版本的任务对象。
 
 \begin{figure}[t]
   \centering
@@ -20,11 +20,11 @@ Adapter 是一个确定性的源格式解析器。它接收锁定的 benchmark �
     arrow/.style={-{Latex[length=2mm]}, thick},
   ]
     \node[source] (files) {锁定的源文件\\\footnotesize 任务·工具·状态·参考调用};
-    \node[adapter, right=10mm of files] (adapter) {Source Adapter\\\footnotesize 解析与规范化};
-    \node[common, right=10mm of adapter] (case) {\code{SourceCase}\\\footnotesize calls·tools·state·provenance};
-    \node[common, right=10mm of case] (builder) {公共 Builder\\\footnotesize 筛选·授权·配对构造};
-    \node[audit, below=9mm of adapter] (lock) {\code{SOURCE_LOCK.json}\\revision + input hashes};
-    \node[audit, below=9mm of case] (contract) {Source contract\\origin + role + visibility};
+    \node[adapter, right=10mm of files] (adapter) {适配器\\\footnotesize 解析与规范化};
+    \node[common, right=10mm of adapter] (case) {统一任务对象\\\footnotesize 调用·工具·状态·来源};
+    \node[common, right=10mm of case] (builder) {公共构建器\\\footnotesize 筛选·授权·配对构造};
+    \node[audit, below=9mm of adapter] (lock) {版本锁\\\footnotesize revision + 文件哈希};
+    \node[audit, below=9mm of case] (contract) {来源契约\\\footnotesize origin + role + visibility};
     \draw[arrow] (files) -- (adapter);
     \draw[arrow] (adapter) -- (case);
     \draw[arrow] (case) -- (builder);
@@ -33,85 +33,83 @@ Adapter 是一个确定性的源格式解析器。它接收锁定的 benchmark �
     \draw[arrow, dashed] (adapter) -- (contract);
     \draw[arrow, dashed] (contract) -- (case);
   \end{tikzpicture}
-  \caption{Adapter 边界。上游文件先被解析为保留来源语义的 \texttt{SourceCase}，通过版本锁定后才进入公共构造流程；隐私规则不进入 Adapter。}
+  \caption{适配器边界。上游文件先被解析为保留来源语义的统一任务对象，通过版本锁定后才进入公共构造流程。}
   \label{fig:adapter-boundary}
 \end{figure}
 
-\subsection{统一内部对象}
+\subsection{统一任务对象}
 
-对任务 $c$，Adapter 输出
+对任务 $c$，适配器输出
 
 \begin{equation}
 S_c=(d_c,x_c,C_c,T_c,U_c,M_c),
 \end{equation}
 
-其中 $d_c$ 是来源内的任务域，$x_c$ 是用户指令，$C_c=(a_1,\ldots,a_n)$ 是按来源顺序恢复的参考调用，$T_c$ 是该任务可见的工具集合，$U_c$ 是可用于恢复用户或环境状态的结构化数据，$M_c$ 保存文件、索引和来源角色等追溯信息。调用 $a_i=(t_i,g_i)$ 由规范工具名 $t_i$ 和参数映射 $g_i$ 组成。
+其中 $d_c$ 是来源内的任务域，$x_c$ 是用户指令，$C_c=(a_1,\ldots,a_n)$ 是按来源顺序恢复的参考调用，$T_c$ 是该任务可见的工具集合，$U_c$ 是可用于恢复用户或环境状态的结构化数据，$M_c$ 保存文件、索引和来源角色等追溯信息。调用 $a_i=(t_i,g_i)$ 由工具名 $t_i$ 和参数映射 $g_i$ 组成。
 
-代码中的 \code{SourceCase}、\code{SourceTrace}、\code{NormalizedCall} 和 \code{NormalizedTool} 分别承载这些信息。表\ref{tab:adapter-interface}列出公共 Builder 实际依赖的字段。这里的”统一”仅指访问接口一致。
+表\ref{tab:adapter-interface}列出公共构建器实际依赖的字段及其保真要求。统一对象在进入构建器前需满足四项基本条件：每个调用都能在 $T_c$ 中找到唯一定义；调用参数覆盖全部必填参数并通过类型检查；存在轮次边界时边界单调不减；来源角色和工具可见性依据均为非空显式值。违反这些条件的任务在适配器阶段拒绝。
 
 \begin{table}[t]
   \centering
-  \caption{Adapter 的统一输出接口及其保真要求。}
+  \caption{适配器的统一输出接口及其保真要求。}
   \label{tab:adapter-interface}
   \small
   \begin{tabularx}{\textwidth}{L{3.1cm}L{3.2cm}Y}
     \toprule
     字段 & 内容 & 必须保持的性质 \\
     \midrule
-    \code{source\_case\_id} & 上游任务标识或稳定派生标识 & 能唯一回到来源任务，不使用发布序号替代 \\
-    \code{instruction} & 来源任务中的用户需求 & 仅做空白规范化，不补写任务意图 \\
-    \code{trace.calls} & 规范工具名与参数映射 & 工具、参数值和调用顺序与来源记录一致 \\
-    \code{trace.origin/role} & 调用来自何处、承担何种证据角色 & 区分目标动作、参考调用、聚合记录与执行日志 \\
-    \code{turn\_boundaries} & 扁平调用序列中的轮次结束位置 & 有多轮结构时保留；来源未提供时写为 null \\
-    \code{tools} & 当前任务可见的工具 schema & required、类型、返回值和可见范围可验证 \\
-    \code{source\_state} & 用户档案或环境初态中的可用事实 & 不把无连接依据的局部身份合并为同一用户 \\
-    \code{provenance} & 文件、split、行号、哈希或任务目录 & 足以复查每项适配决策 \\
+    任务标识 & 上游任务标识或稳定派生标识 & 能唯一回到来源任务 \\
+    用户指令 & 来源任务中的用户需求 & 仅做空白规范化，不补写任务意图 \\
+    参考调用 & 工具名与参数映射 & 工具、参数值和调用顺序与来源记录一致 \\
+    来源角色 & 调用来自何处、承担何种证据角色 & 区分目标动作、参考调用、聚合记录与执行日志 \\
+    轮次边界 & 扁平调用序列中的轮次结束位置 & 有多轮结构时保留；来源未提供时为空 \\
+    可见工具 & 当前任务可见的工具定义 & 必填、类型、返回值和可见范围可验证 \\
+    源状态 & 用户档案或环境初态中的可用事实 & 不把无连接依据的局部身份合并为同一用户 \\
+    来源追溯 & 文件、split、行号、哈希或任务目录 & 足以复查每项适配决策 \\
     \bottomrule
   \end{tabularx}
 \end{table}
 
-统一对象在进入 Builder 前满足四项基本条件。第一，每个调用都能在 $T_c$ 中找到唯一 schema；第二，调用参数覆盖全部 required 参数并通过类型检查；第三，存在轮次边界时，边界单调不减且最后一个边界等于调用数；第四，\code{origin}、\code{role}、工具可见性依据和来源检查项均为非空的显式值。违反这些条件的任务在 Adapter 阶段拒绝，而不是带着不完整信息进入隐私构造。
-
 \subsection{四类来源的规范化方法}
 
-\subsubsection{$\tau$-bench：受限 AST 解析}
+\subsubsection{$\tau$-bench：受限语法树解析}
 
-$\tau$-bench 的正式任务和工具定义是 Python 源码。Adapter 使用 \code{ast.parse} 检查 \code{Task(...)}、\code{Action(...)} 和工具 \code{get\_info()} 的语法树，只对预期节点调用字面量求值，不导入上游模块，也不执行其中的任意代码。每个 action 的名称必须属于当前领域工具表，参数必须符合工具声明。airline 与 retail 可能出现同名工具，因此规范名增加领域前缀，例如 \code{airline\_\_cancel\_reservation}。
+$\tau$-bench 的正式任务和工具定义是 Python 源码。适配器使用语法树解析检查任务构造器和工具信息函数，只对预期节点调用字面量求值，不导入上游模块，也不执行其中的代码。每个动作的名称必须属于当前领域工具表，参数必须符合工具声明。航空与零售可能出现同名工具，因此统一名增加领域前缀，例如 \code{airline\_\_cancel\_reservation}。
 
-任务去重键为 $(domain,user\_id,instruction)$。键相同且 actions 完全一致的记录折叠；同键但 actions 冲突的记录整体拒绝，避免由文件遍历顺序决定保留哪条轨迹。用户状态从对应领域的 \code{users.json} 读取。若参考调用显式指向唯一且不同的 \code{user\_id}，实体身份以调用目标为准，并在 provenance 中同时保存任务身份与解析后的实体身份；如果一条任务指向多个用户，则 Adapter 直接报错。
+任务去重键为 $(domain, user\_id, instruction)$。键相同且动作完全一致的记录折叠；同键但动作冲突的记录整体拒绝。用户状态从对应领域的用户数据库读取。若参考调用显式指向唯一且不同的用户，实体身份以调用目标为准。
 
 \subsubsection{BFCL：多轮边界与函数类作用域}
 
-BFCL 以任务 ID 连接 question 和 possible answer。两侧 ID 集必须完全相同，重复 ID 或单侧缺失都会使转换失败。\code{possible\_answer.ground\_truth} 是按轮组织的函数调用字符串；Adapter 使用表达式模式的 AST 解析函数名、位置参数和关键字参数，不允许字典展开、未知参数或重复赋值。解析后的调用被扁平化，同时记录每一轮结束时的累计调用数，因此公共 Builder 可以顺序处理调用，又不会丢失原始轮次。
+BFCL 以任务 ID 连接问题和参考答案。两侧 ID 集必须完全相同，重复 ID 或单侧缺失都会使转换失败。参考答案是按轮组织的函数调用字符串；适配器使用表达式模式的语法树解析函数名和参数，不允许字典展开、未知参数或重复赋值。解析后的调用被扁平化，同时记录每一轮结束时的累计调用数，因此公共构建器可以顺序处理调用，又不会丢失原始轮次。
 
-工具可见范围由 \code{involved\_classes} 决定。Adapter 只合并这些函数类的文档；若两个可见类对同名函数给出不同 schema，该名称被标记为歧义，不参与静默覆盖。\code{initial\_config} 原样进入 source state，供后续环境恢复和档案构造使用。它描述整个任务的初态，而不是某个单独轮次的输入。
+工具可见范围由涉及的 API 类决定。适配器只合并这些函数类的文档；若两个可见类对同名函数给出不同定义，该名称被标记为歧义，不参与静默覆盖。初始配置原样进入源状态，供后续环境恢复和档案构造使用。它描述整个任务的初态，而不是某个单独轮次的输入。
 
 \subsubsection{API-Bank：请求—结果绑定}
 
-API-Bank 的工具 schema 从 \code{apis/} 下的 Python class 静态恢复。Adapter 读取类级 \code{description}、\code{input\_parameters} 和 \code{output\_parameters}，并根据 \code{call()} 函数签名区分必填参数。对话只接受角色为 User、AI 或 API 的 JSONL 行，其中只有显式 API 行进入参考调用。文件名和 AI 自然语言回复均不用于猜测工具调用。
+API-Bank 的工具定义从 API 源码静态恢复。适配器读取类级描述、输入输出参数，并根据调用函数签名区分必填参数。对话只接受角色为 User、AI 或 API 的记录行，其中只有显式 API 行进入参考调用。文件名和 AI 自然语言回复均不用于猜测工具调用。
 
-每条 API 行必须同时给出 \code{param\_dict} 和 recorded \code{result}。安全类型规范化后，请求参数应与 \code{result.input} 的键和值一致，\code{result.exception} 必须为空，且参数仍需通过原生 schema。Level-2 还维护 ToolSearcher 已暴露工具集合：除 ToolSearcher 本身外，后续调用只有在之前的搜索结果中出现过才被接受。同一对话的 API 行按原顺序聚合为 $C_c$，User 行则确定 turn boundaries；原始请求和结果的摘要写入 provenance，便于检查聚合是否改变记录。
+每条 API 行必须同时给出请求参数和记录的返回结果。安全类型规范化后，请求参数应与结果中的输入键和值一致，异常必须为空，且参数仍需通过原生定义。Level-2 还维护 ToolSearcher 已暴露工具集合：除 ToolSearcher 本身外，后续调用只有在之前的搜索结果中出现过才被接受。同一对话的 API 行按原顺序聚合为参考调用序列，User 行确定轮次边界。
 
 \subsubsection{AppWorld：HTTP 日志到工具调用}
 
-AppWorld 的方案日志记录 HTTP method、URL 和 request data，而工具文档使用带占位符的 path template。Adapter 以 method 与路径模板进行唯一匹配，将 URL 中的路径参数按 schema 恢复为整数、数值、布尔值或字符串，再与 request data 合并。找不到路由、匹配多个路由或合并参数不符合 schema 时，任务均被拒绝。
+AppWorld 的方案日志记录 HTTP 方法、URL 和请求数据，而工具文档使用带占位符的路径模板。适配器以方法与路径模板进行唯一匹配，将 URL 中的路径参数按定义恢复为整数、数值、布尔值或字符串，再与请求数据合并。找不到路由、匹配多个路由或合并参数不符合定义时，任务均被拒绝。
 
-当前任务可见工具取 \code{required\_apis.json} 与方案日志实际调用工具的并集。指令与任务用户来自 \code{specs.json}，private/public task data 进入 source state，并保留各自来源。\code{ground\_truth/api\_calls.json} 提供的是上游方案执行日志；Adapter 只恢复调用，不在转换阶段启动 AppWorld。独立环境执行及最终状态判断在评测阶段进行，避免把“日志成功解析”误写成“本项目已经执行”。
+当前任务可见工具取所需 API 与方案日志实际调用工具的并集。指令与任务用户来自任务规格文件，私有和公开任务数据进入源状态。方案 API 日志提供的是上游执行记录；适配器只恢复调用，不在转换阶段启动 AppWorld 环境。独立环境执行及最终状态判断在评测阶段进行。
 
-\subsection{SourceRules 与来源契约}
+\subsection{来源规则与来源契约}
 
-格式差异由 Adapter 处理，构造政策差异则集中在 \code{SourceRules}。每个来源注册一份契约，声明参考调用的 origin、role、可见工具依据、应出现的来源检查项以及是否包含轮次边界。Builder 在渲染报告时写入这些声明，Validator 再与注册值逐项比较，因此修改 Adapter 的解释口径会成为可检测的协议变化。
+格式差异由适配器处理，构造政策差异则集中在来源规则中。每个来源注册一份契约，声明参考调用的来源角色、可见工具依据、应出现的来源检查项以及是否包含轮次边界。构建器在渲染报告时写入这些声明，校验器再与注册值逐项比较，因此修改适配器的解释口径会成为可检测的协议变化。
 
-\code{SourceRules} 还提供三类来源专属函数：选择档案模板、从结构化状态提取字段，以及把工具归类为 internal、service provider、bank 或 public audience。与解析相关的事实留在 Adapter，与隐私构造相关的政策留在 SourceRules，二者没有通过大量条件分支混入公共 Builder。
+来源规则还提供三类来源专属函数：选择档案模板、从结构化状态提取字段，以及把工具归类为内部、服务提供方、银行或公开受众。与解析相关的事实留在适配器，与隐私构造相关的政策留在来源规则，二者没有通过大量条件分支混入公共构建器。
 
-\subsection{保守失败与 Reference 完整性}
+\subsection{失败处理与参考完整性}
 
-适配阶段采用拒绝优先的策略。无法唯一确定工具、参数与 schema 不一致、来源身份冲突或请求—结果无法绑定时，不修写 reference，也不根据常识补齐调用。另有一类问题只能在原生环境中发现，例如工具返回“商品不存在”或业务状态不允许当前操作。这些任务仍可由 Adapter 忠实解析，但发布政策根据锁定的执行证据将其排除，并在 conversion report 中逐条记录 case ID 和原始错误。
+适配阶段采用拒绝优先的策略。无法唯一确定工具、参数与定义不一致、来源身份冲突或请求—结果无法绑定时，不修改参考调用，也不根据常识补齐。另有一类问题只能在原生环境中发现，例如工具返回"商品不存在"或业务状态不允许当前操作。这些任务仍可由适配器忠实解析，但发布政策根据锁定的执行证据将其排除，并在转换报告中逐条记录任务标识和原始错误。
 
-发布链在参考序列前增加一次 \code{LoadEntityProfile}，因此链长为
+发布链在参考序列前增加一次加载用户档案的操作，因此链长为
 
 \begin{equation}
 L(c)=1+|C_c|.
 \end{equation}
 
-这里的 $C_c$ 始终是完整保留的来源序列。任务书中的 5/7 链形可以从 $|C_c|\in\{4,6\}$ 的任务派生，但不作为 Adapter 的截断规则。否则，格式要求会反过来改变来源证据，尤其会丢失 BFCL 的多轮调用和 AppWorld 的长执行日志。
+这里的 $C_c$ 始终是完整保留的来源序列。任务书中的 5/7 链形可以从 $|C_c|\in\{4,6\}$ 的任务派生，但不作为适配器的截断规则。

@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{14}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -86,23 +86,5 @@ Edoardo Debenedetti, Jie Zhang, Mislav Balunovic, Luca Beurer-Kellner, Marc Fisc
 Qiaoyuan Zheng, Yiqu Yang, Qi~Gao, and Imanol Schlag.
 \newblock {POLAR-Bench}: A diagnostic benchmark for privacy-utility trade-offs in {LLM} agents, 2026.
 \newblock URL \url{https://arxiv.org/abs/2605.19127}.
-
-\bibitem[Brooks et~al.(2017)Brooks, Garcia, Lefkovitz, Lightman, and Nadeau]{nist2017privacyengineering}
-Sean Brooks, Michael Garcia, Naomi Lefkovitz, Suzanne Lightman, and Ellen Nadeau.
-\newblock An introduction to privacy engineering and risk management in federal systems.
-\newblock Technical Report NISTIR 8062, National Institute of Standards and Technology, 2017.
-\newblock URL \url{https://doi.org/10.6028/NIST.IR.8062}.
-
-\bibitem[{National Institute of Standards and Technology}(2020)]{nist2020privacyframework}
-{National Institute of Standards and Technology}.
-\newblock Nist privacy framework: A tool for improving privacy through enterprise risk management, version 1.0.
-\newblock Technical report, National Institute of Standards and Technology, 2020.
-\newblock URL \url{https://www.nist.gov/privacy-framework/privacy-framework}.
-
-\bibitem[{Organisation for Economic Co-operation and Development}(2013)]{oecd2013privacy}
-{Organisation for Economic Co-operation and Development}.
-\newblock The oecd privacy framework.
-\newblock Technical report, Organisation for Economic Co-operation and Development, 2013.
-\newblock URL \url{https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0188}.
 
 \end{thebibliography}

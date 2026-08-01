@@ -2,7 +2,7 @@ PWD /Users/zjn/Desktop/科研实习/new/report
 INPUT /Users/zjn/Library/TinyTeX/texmf.cnf
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/web2c/texmf.cnf
 INPUT /Users/zjn/Library/TinyTeX/texmf-var/web2c/xetex/xelatex.fmt
-INPUT /Users/zjn/Desktop/科研实习/new/report/main.tex
+INPUT main.tex
 OUTPUT main.log
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/ctexart.cls
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/ctexart.cls
