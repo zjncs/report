@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 03:08
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 03:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**main.tex
-(./main.tex
+**/Users/zjn/Desktop/科研实习/new/report/main.tex
+(/Users/zjn/Desktop/科研实习/new/report/main.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-05-26>
 (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/ctexart.cls (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctexbackend.cfg
@@ -285,32 +285,49 @@ File: zhnumber-utf8.cfg 2022/07/14 v3.0 Chinese numerals with UTF8 encoding
 File: ctex-scheme-chinese-article.def 2022/07/14 v2.5.10 Chinese scheme for article (CTEX)
  (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctex-name-utf8.cfg
 File: ctex-name-utf8.cfg 2022/07/14 v2.5.10 Caption with encoding UTF-8 (CTEX)
-)) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-fandol.def
-File: ctex-fontset-fandol.def 2022/07/14 v2.5.10 Fandol fonts definition (CTEX)
+)) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-mac.def
+File: ctex-fontset-mac.def 2022/07/14 v2.5.10 macOS fonts definition (CTEX)
+ (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-macold.def
+File: ctex-fontset-macold.def 2022/07/14 v2.5.10 macOS fonts definition for Yosemite or earlier version (CTEX)
 
 Package fontspec Info: 
 (fontspec)             Script 'CJK' not explicitly supported within font
-(fontspec)             'FandolSong-Regular'. Check the typeset output, and if
-(fontspec)             it is okay then ignore this warning. Otherwise a
-(fontspec)             different font should be chosen.
+(fontspec)             'STSong'. Check the typeset output, and if it is okay
+(fontspec)             then ignore this warning. Otherwise a different font
+(fontspec)             should be chosen.
 
 
 Package fontspec Info: 
-(fontspec)             Font family 'FandolSong-Regular(0)' created for font
-(fontspec)             'FandolSong-Regular' with options
-(fontspec)             [Script={CJK},Extension={.otf},BoldFont={FandolSong-Bold},ItalicFont={FandolKai-Regular}].
+(fontspec)             Could not resolve font "STKaiti/B" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "STHeiti/I" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "STSong/BI" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Font family 'STSong(0)' created for font 'STSong' with
+(fontspec)             options
+(fontspec)             [Script={CJK},BoldFont={STHeiti},ItalicFont={STKaiti}].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"[FandolSong-Regular.otf]/OT:script=hani;language=dflt;"
+(fontspec)             <->"STSong/OT:script=hani;language=dflt;"
 (fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->"[FandolSong-Bold.otf]/OT:script=hani;language=dflt;"
+(fontspec)             <->"STHeiti/OT:script=hani;language=dflt;"
 (fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->"[FandolKai-Regular.otf]/OT:script=hani;language=dflt;"
+(fontspec)             <->"STKaiti/OT:script=hani;language=dflt;"
 
-)) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctex.cfg
+))) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctex.cfg
 File: ctex.cfg 2022/07/14 v2.5.10 Configuration file (CTEX)
 ) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2026/03/07 v6.0 Page Geometry
@@ -1232,9 +1249,24 @@ File: figures/rplbench_pipeline.png Graphic file (type bmp)
 
 Package fontspec Info: 
 (fontspec)             Script 'CJK' not explicitly supported within font
-(fontspec)             'FandolFang-Regular'. Check the typeset output, and if
-(fontspec)             it is okay then ignore this warning. Otherwise a
-(fontspec)             different font should be chosen.
+(fontspec)             'STFangsong'. Check the typeset output, and if it is
+(fontspec)             okay then ignore this warning. Otherwise a different
+(fontspec)             font should be chosen.
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "STFangsong/BI" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "STFangsong/B" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "STFangsong/I" (it probably
+(fontspec)             doesn't exist).
 
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: TU).
@@ -1242,15 +1274,14 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 Package fontspec Info: 
-(fontspec)             Font family 'FandolFang-Regular(0)' created for font
-(fontspec)             'FandolFang-Regular' with options
-(fontspec)             [Script={CJK},Extension={.otf}].
+(fontspec)             Font family 'STFangsong(0)' created for font
+(fontspec)             'STFangsong' with options [Script={CJK}].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"[FandolFang-Regular.otf]/OT:script=hani;language=dflt;"
+(fontspec)             <->"STFangsong/OT:script=hani;language=dflt;"
 
  [4] [5] [6]
 Overfull \hbox (5.72334pt too wide) in paragraph at lines 212--212
@@ -1263,8 +1294,8 @@ Overfull \hbox (3.77133pt too wide) in paragraph at lines 216--216
  []
 
 [7]) (./manuscript/sections/04_adapter.tex [8] [9] [10]) (./manuscript/sections/05_formalization.tex [11]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
- [12] [13] [14]) (./manuscript/sections/06_privacy_construction.tex [15] (./tables/filtering_reasons.tex)) (./manuscript/sections/07_implementation_reproducibility.tex [16] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 35.
+ [12] [13] [14]) (./manuscript/sections/06_privacy_construction.tex (./tables/filtering_reasons.tex) [15]) (./manuscript/sections/07_implementation_reproducibility.tex [16] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
@@ -1283,12 +1314,12 @@ L3 programming layer <2022/08/05>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 41724 strings out of 469784
- 937116 string characters out of 5467188
- 1614486 words of memory out of 5000000
- 69911 multiletter control sequences out of 15000+600000
- 641073 words of font info for 133 fonts, out of 8000000 for 9000
+ 41730 strings out of 469784
+ 931301 string characters out of 5467188
+ 1608262 words of memory out of 5000000
+ 69902 multiletter control sequences out of 15000+600000
+ 641113 words of font info for 138 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 102i,13n,112p,1190b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,13n,114p,1225b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.xdv (24 pages, 682472 bytes).
+Output written on main.xdv (24 pages, 680620 bytes).

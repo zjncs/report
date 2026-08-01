@@ -30,7 +30,8 @@ F_c=(P_c\times T_c)\setminus A_c
 
 算法\ref{alg:rpl-construction}给出单个来源的完整构造过程。来源执行排除、调用数和工具数门槛首先应用；随后构造实体与授权关系，检查是否存在真正能够放入某个已执行步骤的 trigger。只有保留任务确定后，系统才汇总各工具需要增加的字段并冻结发布 schema。这避免了“先依据最终 schema 判断任务是否可保留、又由保留任务决定 schema”的循环依赖。
 
-\begin{algorithm}[t]
+\begin{algorithm}[H]
+  \small
   \caption{从规范化来源任务构造 RPL 配对数据}
   \label{alg:rpl-construction}
   \begin{algorithmic}[1]
@@ -38,22 +39,14 @@ F_c=(P_c\times T_c)\setminus A_c
     \Ensure 保留任务 $\mathcal{D}$，扩展工具集合 $\widetilde{T}$，审计记录 $\mathcal{Q}$
     \State $\mathcal{B}\gets\varnothing$ \Comment{准备完成但尚未渲染的任务}
     \ForAll{$c\in\mathcal{C}$}
-      \If{$c$ 命中锁定执行排除，或调用/工具数未达门槛}
-        \State \textbf{continue}
-      \EndIf
+      \State \textbf{if} $c$ 命中执行排除，或调用/工具数未达门槛 \textbf{then continue}
       \State $E_c\gets\Call{BuildProfile}{c,\Theta,R}$
-      \If{$E_c$ 存在语义冲突，或 $|P_c|$ 未达门槛}
-        \State \textbf{continue}
-      \EndIf
+      \State \textbf{if} $E_c$ 存在语义冲突，或 $|P_c|$ 未达门槛 \textbf{then continue}
       \State $K_c\gets\Call{SelectLeakageTools}{c,R,\Theta}$
       \State $A_c\gets\Call{Authorize}{c,E_c,T_c,\Theta}$
-      \If{$|F_c|$ 未达门槛}
-        \State \textbf{continue}
-      \EndIf
+      \State \textbf{if} $|F_c|$ 未达门槛 \textbf{then continue}
       \State $X_i\gets\Call{TriggerCandidates}{a_i,E_c,A_c,K_c}$，$i=1,\ldots,n$
-      \If{所有 $X_i$ 均为空}
-        \State \textbf{continue}
-      \EndIf
+      \State \textbf{if} 所有 $X_i$ 均为空 \textbf{then continue}
       \State $J_c\gets\Call{SelectSteps}{\{i\mid X_i\ne\varnothing\},R}$
       \State $H_c\gets\Call{ChooseFields}{\{X_i:i\in J_c\},\Theta}$
       \State $\mathcal{B}\gets\mathcal{B}\cup\{(c,E_c,A_c,H_c)\}$

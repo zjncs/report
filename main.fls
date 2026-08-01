@@ -2,7 +2,7 @@ PWD /Users/zjn/Desktop/科研实习/new/report
 INPUT /Users/zjn/Library/TinyTeX/texmf.cnf
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/web2c/texmf.cnf
 INPUT /Users/zjn/Library/TinyTeX/texmf-var/web2c/xetex/xelatex.fmt
-INPUT main.tex
+INPUT /Users/zjn/Desktop/科研实习/new/report/main.tex
 OUTPUT main.log
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/ctexart.cls
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/ctexart.cls
@@ -60,8 +60,11 @@ INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/scheme/ctex-scheme-ch
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctex-name-utf8.cfg
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctex-name-utf8.cfg
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-fandol.def
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-fandol.def
+INPUT /System/Library/Fonts/Menlo.ttc
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-mac.def
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-mac.def
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-macold.def
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-macold.def
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctex.cfg
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/ctex/config/ctex.cfg
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
