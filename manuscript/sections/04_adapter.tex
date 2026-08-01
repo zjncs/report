@@ -24,7 +24,7 @@ Level-1 的 visible tools 是对话中显式 API records 使用的工具；Level
 
 adapter 读取 \code{ground\_truth/api\_calls.json}，以 HTTP method 与 URL path template 唯一映射到 standard API docs。URL path 中的参数按 schema 恢复类型，再与 request data 合并并验证。visible tools 定义为 required APIs 与 observed calls 的并集。
 
-AppWorld reference 来自上游 solution execution log，但本项目没有再次启动环境。因而 source evidence 可以写入 \code{upstream\_solution\_execution\_log}，公开 verification 仍保持 \code{environment\_executed=false} 和 \code{final\_state\_verified=false}。上游 \code{number | integer | string} 类型被保存为有序 union，validator 接受其中任一 JSON 类型；数字答案既不转成字符串，也不再造成 case 删除。
+AppWorld reference 来自上游 solution execution log。Adapter 转换阶段不启动 AppWorld 环境，因而 source evidence 可以写入 \code{upstream\_solution\_execution\_log}，公开 verification 仍保持 \code{environment\_executed=false} 和 \code{final\_state\_verified=false}；独立评测阶段另行执行参考调用并检查最终状态。上游 \code{number | integer | string} 类型被保存为有序 union，validator 接受其中任一 JSON 类型；数字答案既不转成字符串，也不再造成 case 删除。
 
 \subsection{为何不固定 4/6 次调用}
 
