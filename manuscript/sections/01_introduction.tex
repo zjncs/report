@@ -15,20 +15,61 @@
 \begin{figure}[t]
   \centering
   \begin{tikzpicture}[
-    node distance=7mm and 8mm,
-    box/.style={rounded corners,draw,thick,align=left,inner sep=6pt,text width=.38\textwidth,font=\small},
-    source/.style={box,draw=RPLBlue,fill=RPLBlue!5},
-    safe/.style={box,draw=RPLGreen,fill=RPLGreen!5},
-    leak/.style={box,draw=RPLRed,fill=RPLRed!4},
-    arrow/.style={-{Latex[length=2mm]},thick}
+    font=\small,
+    card/.style={rounded corners=2pt, draw, thick, align=left, inner sep=5pt},
+    field/.style={font=\footnotesize, anchor=west},
+    hdr/.style={font=\small\bfseries, anchor=west},
+    arrow/.style={-{Latex[length=2mm]}, thick},
   ]
-    \node[source] (profile) {\textbf{用户档案}\\身份、账户、支付方式与私人记录等};
-    \node[safe,below=of profile,xshift=-.21\textwidth] (ground) {\textbf{功能参照调用}\\继承上游工具和参数};
-    \node[leak,below=of profile,xshift=.21\textwidth] (leak) {\textbf{配对泄露调用}\\保留全部参照参数\\\textcolor{RPLRed}{+ 可选的禁止披露字段}};
-    \draw[arrow,RPLGreen] (profile) -- node[left,font=\footnotesize]{任务所需} (ground);
-    \draw[arrow,RPLRed] (profile) -- node[right,font=\footnotesize]{冗余披露} (leak);
+    % ---- 用户档案 ----
+    \node[card, draw=RPLBlue, fill=RPLBlue!5, text width=4.2cm] (profile) {};
+    \node[hdr] at ([xshift=5pt,yshift=-5pt]profile.north west) {用户档案};
+    \node[field] at ([xshift=5pt,yshift=-20pt]profile.north west) {user\_id: sophia\_silva};
+    \node[field] at ([xshift=5pt,yshift=-32pt]profile.north west) {email: s.silva@mail.com};
+    \node[field] at ([xshift=5pt,yshift=-44pt]profile.north west) {date\_of\_birth: 1996-05-12};
+    \node[field] at ([xshift=5pt,yshift=-56pt]profile.north west) {payment\_method\_id: cc\_7334};
+    \node[field] at ([xshift=5pt,yshift=-68pt]profile.north west) {home\_address: 12 Oak St};
+
+    % ---- 任务指令 ----
+    \node[card, draw=RPLDark, fill=gray!6, text width=4.2cm, below=12mm of profile] (task) {};
+    \node[hdr] at ([xshift=5pt,yshift=-5pt]task.north west) {任务};
+    \node[field, text width=3.8cm] at ([xshift=5pt,yshift=-20pt]task.north west) {取消航班预订 IFOYYZ};
+
+    % ---- Ground call ----
+    \node[card, draw=RPLGreen, fill=RPLGreen!5, text width=4.6cm, below=10mm of task, xshift=-3.1cm] (ground) {};
+    \node[hdr, text=RPLGreen] at ([xshift=5pt,yshift=-5pt]ground.north west) {功能参照调用};
+    \node[field] at ([xshift=5pt,yshift=-20pt]ground.north west) {tool: cancel\_reservation};
+    \node[field] at ([xshift=5pt,yshift=-32pt]ground.north west) {reservation\_id: IFOYYZ};
+
+    % ---- Leaking call ----
+    \node[card, draw=RPLRed, fill=RPLRed!4, text width=4.6cm, below=10mm of task, xshift=3.1cm] (leak) {};
+    \node[hdr, text=RPLRed] at ([xshift=5pt,yshift=-5pt]leak.north west) {配对泄露调用};
+    \node[field] at ([xshift=5pt,yshift=-20pt]leak.north west) {tool: cancel\_reservation};
+    \node[field] at ([xshift=5pt,yshift=-32pt]leak.north west) {reservation\_id: IFOYYZ};
+    \node[field, text=RPLRed] at ([xshift=5pt,yshift=-44pt]leak.north west) {+ date\_of\_birth: 1996-05-12};
+    \node[field, text=RPLRed] at ([xshift=5pt,yshift=-56pt]leak.north west) {+ payment\_method\_id: cc\_7334};
+
+    % ---- 结果 ----
+    \node[card, draw=gray, fill=gray!4, text width=3.2cm, below=8mm of ground] (ok1) {};
+    \node[hdr] at ([xshift=5pt,yshift=-5pt]ok1.north west) {结果};
+    \node[field] at ([xshift=5pt,yshift=-20pt]ok1.north west) {预订已取消};
+
+    \node[card, draw=gray, fill=gray!4, text width=3.2cm, below=8mm of leak] (ok2) {};
+    \node[hdr] at ([xshift=5pt,yshift=-5pt]ok2.north west) {结果};
+    \node[field] at ([xshift=5pt,yshift=-20pt]ok2.north west) {预订已取消};
+
+    % ---- 箭头 ----
+    \draw[arrow, RPLBlue] (profile) -- (task);
+    \draw[arrow, RPLGreen] (task) -- node[left, font=\footnotesize] {必要参数} (ground);
+    \draw[arrow, RPLRed] (task) -- node[right, font=\footnotesize] {+ 冗余参数} (leak);
+    \draw[arrow, gray] (ground) -- (ok1);
+    \draw[arrow, gray] (leak) -- (ok2);
+
+    % ---- 标注 ----
+    \node[font=\footnotesize\itshape, text=RPLRed, below=2mm of ok2, xshift=-1.55cm, text width=7cm, align=center]
+      {RPL\_trigger\_params = \{date\_of\_birth, payment\_method\_id\}\\\textup{= keys(leaking) $-$ keys(ground)}};
   \end{tikzpicture}
-  \caption{RPL 的配对调用。泄露版本不改动上游参考参数，只增加受控的可选敏感参数。}
+  \caption{RPL 配对调用示例。功能参照调用只包含取消预订所需的 \texttt{reservation\_id}；配对泄露调用保留该参数不变，额外增加两个可选敏感字段。两次调用都成功取消预订，但后者向预订系统披露了不必要的出生日期和支付方式。触发参数精确等于两次调用的参数键差集。}
   \label{fig:rpl-motivation}
 \end{figure}
 
