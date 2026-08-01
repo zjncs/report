@@ -1,0 +1,118 @@
+\begin{thebibliography}{19}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Debenedetti et~al.(2024)Debenedetti, Zhang, Balunovic, Beurer-Kellner, Fischer, and Tram\`er]{debenedetti2024agentdojo}
+Edoardo Debenedetti, Jie Zhang, Mislav Balunovic, Luca Beurer-Kellner, Marc Fischer, and Florian Tram\`er.
+\newblock {AgentDojo}: A dynamic environment to evaluate prompt injection attacks and defenses for {LLM} agents.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~37, 2024.
+\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html}.
+
+\bibitem[Nissenbaum(2004)]{nissenbaum2004contextual}
+Helen Nissenbaum.
+\newblock Privacy as contextual integrity.
+\newblock \emph{Washington Law Review}, 79\penalty0 (1):\penalty0 119--158, 2004.
+\newblock URL \url{https://digitalcommons.law.uw.edu/wlr/vol79/iss1/10/}.
+
+\bibitem[Mireshghallah et~al.(2024)Mireshghallah, Kim, Zhou, Tsvetkov, Sap, Shokri, and Choi]{mireshghallah2024confaide}
+Niloofar Mireshghallah, Hyunwoo Kim, Xuhui Zhou, Yulia Tsvetkov, Maarten Sap, Reza Shokri, and Yejin Choi.
+\newblock Can {LLM}s keep a secret? testing privacy implications of language models via contextual integrity theory.
+\newblock In \emph{International Conference on Learning Representations}, 2024.
+\newblock URL \url{https://proceedings.iclr.cc/paper_files/paper/2024/hash/08305d8b2ddab98932c163ea73df065f-Abstract-Conference.html}.
+
+\bibitem[Shao et~al.(2024)Shao, Li, Shi, Liu, and Yang]{shao2024privacylens}
+Yijia Shao, Tianshi Li, Weiyan Shi, Yanchen Liu, and Diyi Yang.
+\newblock {PrivacyLens}: Evaluating privacy norm awareness of language models in action.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~37, pages 89373--89407, 2024.
+\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2024/hash/a2a7e58309d5190082390ff10ff3b2b8-Abstract-Datasets_and_Benchmarks_Track.html}.
+
+\bibitem[Hu et~al.(2026)Hu, Liu, Meng, and Zhao]{hu2026toolprivacybench}
+Shijing Hu, Liang Liu, Zhu Meng, and Zhicheng Zhao.
+\newblock Toolprivacybench: Benchmarking purpose-bound privacy in tool-using llm agents, 2026.
+\newblock URL \url{https://arxiv.org/abs/2606.28061}.
+
+\bibitem[Ngong et~al.(2026)Ngong, Murugesan, Kadhe, Weisz, Dhurandhar, and Ramamurthy]{ngong2026agentscope}
+Ivoline~C. Ngong, Keerthiram Murugesan, Swanand Kadhe, Justin~D. Weisz, Amit Dhurandhar, and Karthikeyan~Natesan Ramamurthy.
+\newblock {AgentSCOPE}: Evaluating contextual privacy across agentic workflows, 2026.
+\newblock URL \url{https://arxiv.org/abs/2603.04902}.
+
+\bibitem[Wang et~al.(2025)Wang, Yu, Liu, Qin, Zhang, Lin, Zhang, and Rajmohan]{wang2025privacyinaction}
+Shouju Wang, Fenglin Yu, Xirui Liu, Xiaoting Qin, Jue Zhang, Qingwei Lin, Dongmei Zhang, and Saravan Rajmohan.
+\newblock Privacy in action: Towards realistic privacy mitigation and evaluation for {LLM}-powered agents, 2025.
+\newblock URL \url{https://arxiv.org/abs/2509.17488}.
+
+\bibitem[Li et~al.(2023)Li, Zhao, Yu, Song, Li, Yu, Li, Huang, and Li]{li2023apibank}
+Minghao Li, Yingxiu Zhao, Bowen Yu, Feifan Song, Hangyu Li, Haiyang Yu, Zhoujun Li, Fei Huang, and Yongbin Li.
+\newblock {API-Bank}: A comprehensive benchmark for tool-augmented {LLM}s.
+\newblock In \emph{Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing}, pages 3102--3116, 2023.
+\newblock \doi{10.18653/v1/2023.emnlp-main.187}.
+\newblock URL \url{https://aclanthology.org/2023.emnlp-main.187/}.
+
+\bibitem[Patil et~al.(2025)Patil, Mao, Yan, Ji, Suresh, Stoica, and Gonzalez]{patil2025bfcl}
+Shishir~G Patil, Huanzhi Mao, Fanjia Yan, Charlie Cheng-Jie Ji, Vishnu Suresh, Ion Stoica, and Joseph~E. Gonzalez.
+\newblock The berkeley function calling leaderboard ({BFCL}): From tool use to agentic evaluation of large language models.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine Learning}, volume 267 of \emph{Proceedings of Machine Learning Research}, pages 48371--48392. PMLR, 2025.
+\newblock URL \url{https://proceedings.mlr.press/v267/patil25a.html}.
+
+\bibitem[Yao et~al.(2025)Yao, Shinn, Razavi, and Narasimhan]{yao2025taubench}
+Shunyu Yao, Noah Shinn, Pedram Razavi, and Karthik Narasimhan.
+\newblock {$\tau$-bench}: A benchmark for tool-agent-user interaction in real-world domains.
+\newblock In \emph{International Conference on Learning Representations}, pages 9965--10017, 2025.
+\newblock URL \url{https://proceedings.iclr.cc/paper_files/paper/2025/hash/1b126cc38b8638e07bef37e7b2bb72bf-Abstract-Conference.html}.
+
+\bibitem[Trivedi et~al.(2024)Trivedi, Khot, Hartmann, Manku, Dong, Li, Gupta, Sabharwal, and Balasubramanian]{trivedi2024appworld}
+Harsh Trivedi, Tushar Khot, Mareike Hartmann, Ruskin Manku, Vinty Dong, Edward Li, Shashank Gupta, Ashish Sabharwal, and Niranjan Balasubramanian.
+\newblock {AppWorld}: A controllable world of apps and people for benchmarking interactive coding agents.
+\newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}, pages 16022--16076, 2024.
+\newblock \doi{10.18653/v1/2024.acl-long.850}.
+\newblock URL \url{https://aclanthology.org/2024.acl-long.850/}.
+
+\bibitem[Lu et~al.(2025)Lu, Holleis, Zhang, Aumayer, Nan, Bai, Ma, Ma, Li, Yin, Wang, and Pang]{lu2025toolsandbox}
+Jiarui Lu, Thomas Holleis, Yizhe Zhang, Bernhard Aumayer, Feng Nan, Haoping Bai, Shuang Ma, Shen Ma, Mengyu Li, Guoli Yin, Zirui Wang, and Ruoming Pang.
+\newblock {ToolSandbox}: A stateful, conversational, interactive evaluation benchmark for {LLM} tool use capabilities.
+\newblock In \emph{Findings of the Association for Computational Linguistics: NAACL 2025}, pages 1160--1183, 2025.
+\newblock \doi{10.18653/v1/2025.findings-naacl.65}.
+\newblock URL \url{https://aclanthology.org/2025.findings-naacl.65/}.
+
+\bibitem[Tamber et~al.(2026)Tamber, Puri, Brunet, Taslakian, Lin, and Gella]{tamber2026privacyalign}
+Manveer~Singh Tamber, Abhay Puri, Marc-Etienne Brunet, Perouz Taslakian, Jimmy Lin, and Spandana Gella.
+\newblock {PrivacyAlign}: Contextual privacy alignment for {LLM} agents, 2026.
+\newblock URL \url{https://arxiv.org/abs/2606.21710}.
+
+\bibitem[Qiao et~al.(2025)Qiao, Liu, Yang, Zhou, and Hu]{qiao2025topbench}
+Yuxuan Qiao, Dongqin Liu, Hongchang Yang, Wei Zhou, and Songlin Hu.
+\newblock Agent tools orchestration leaks more: Dataset, benchmark, and mitigation, 2025.
+\newblock URL \url{https://arxiv.org/abs/2512.16310}.
+
+\bibitem[Zheng et~al.(2026)Zheng, Yang, Gao, and Schlag]{zheng2026polarbench}
+Qiaoyuan Zheng, Yiqu Yang, Qi~Gao, and Imanol Schlag.
+\newblock {POLAR-Bench}: A diagnostic benchmark for privacy-utility trade-offs in {LLM} agents, 2026.
+\newblock URL \url{https://arxiv.org/abs/2605.19127}.
+
+\bibitem[Gupta et~al.(2026)Gupta, Mohammadi~Sepahvand, Kumar, Subakan, Gella, No\"el, Taslakian, Bagdasarian, and Zantedeschi]{gupta2026pisas}
+Shubham Gupta, Nazanin Mohammadi~Sepahvand, Abhinav Kumar, Cem Subakan, Spandana Gella, Pierre-Andr\'e No\"el, Perouz Taslakian, Eugene Bagdasarian, and Valentina Zantedeschi.
+\newblock {PiSAs}: Benchmarking contextual integrity in multi-user agentic systems, 2026.
+\newblock URL \url{https://arxiv.org/abs/2607.05318}.
+
+\bibitem[Brooks et~al.(2017)Brooks, Garcia, Lefkovitz, Lightman, and Nadeau]{nist2017privacyengineering}
+Sean Brooks, Michael Garcia, Naomi Lefkovitz, Suzanne Lightman, and Ellen Nadeau.
+\newblock An introduction to privacy engineering and risk management in federal systems.
+\newblock Technical Report NISTIR 8062, National Institute of Standards and Technology, 2017.
+\newblock URL \url{https://doi.org/10.6028/NIST.IR.8062}.
+
+\bibitem[{National Institute of Standards and Technology}(2020)]{nist2020privacyframework}
+{National Institute of Standards and Technology}.
+\newblock Nist privacy framework: A tool for improving privacy through enterprise risk management, version 1.0.
+\newblock Technical report, National Institute of Standards and Technology, 2020.
+\newblock URL \url{https://www.nist.gov/privacy-framework/privacy-framework}.
+
+\bibitem[{Organisation for Economic Co-operation and Development}(2013)]{oecd2013privacy}
+{Organisation for Economic Co-operation and Development}.
+\newblock The oecd privacy framework.
+\newblock Technical report, Organisation for Economic Co-operation and Development, 2013.
+\newblock URL \url{https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0188}.
+
+\end{thebibliography}
