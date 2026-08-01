@@ -22,7 +22,7 @@
 
 当任务包含多次工具交互时，最终回复也不足以代表完整隐私结果。AgentSCOPE 使用 Privacy Flow Graph 追踪信息在用户、智能体、工具和接收者之间的传播，表明即使最终回复没有显示敏感值，中间工具请求仍可能已经越过了信息边界\citep{ngong2026agentscope}。本文不试图复制完整的信息流图，而是选择其中一个可精确观察的边界：智能体发往工具的参数。这一选择引出了两项设计：保留完整参考轨迹，以呈现字段在不同步骤中的用途变化；同时在同一步内对照功能参考调用与泄露调用，将差异限定在新增敏感参数上。
 
-\subsection{ToolPrivacyBench 与公开基准改编}
+\subsection{ToolPrivacyBench}
 
 \ToolPrivacyBench 是本文数据改编思路的直接来源。该工作以 purpose-bound 和 need-to-know 为核心，为每条任务建立私有信息原子与字段—工具授权关系，再利用后端审计日志检查智能体是否将禁止披露的信息传给工具\citep{hu2026toolprivacybench}。其 2{,}150 条任务中，1{,}000 条改编自 BFCL、AppWorld、$\tau$-bench 和 API-Bank，表明现有功能基准可以作为隐私评测的工作流骨架。该工作还以源调用数、不同工具数、私有信息量和 forbidden 机会等条件筛选任务，并将任务成功与隐私披露分开计量。
 
