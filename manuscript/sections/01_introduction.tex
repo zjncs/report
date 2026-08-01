@@ -1,13 +1,14 @@
 \section{引言}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.9\textwidth,trim=0 0 0 60,clip]{rpl_motivation.png}
-  \caption{RPL 配对调用示例。不泄露调用只包含取消预订所需的 \texttt{reservation\_id}；泄露调用保留该参数不变，额外增加两个可选敏感字段。两次调用都成功取消预订，但后者向预订系统披露了不必要的出生日期和支付方式。触发参数精确等于两次调用的参数键差集。}
-  \label{fig:rpl-motivation}
-\end{figure}
+
 
 智能体在调用工具完成任务时，参数会被传给外部服务并可能进入数据库或日志。一个容易被忽视的问题是：智能体可能正确完成了任务，却在可选参数中填入了当前操作并不需要的敏感信息。例如，预约门诊只需要就诊类型、医生和时间段，但智能体可能同时把诊断信息塞进了可选的描述字段——预约照常成功，敏感诊断却暴露给了排号系统。这种披露不是攻击者诱导的，也不影响任务完成，但它超出了当前操作的信息用途。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\textwidth,trim=0 110 0 0,clip]{rpl_motivation.png}
+  \caption{RPL 配对调用示例}
+  \label{fig:rpl-motivation}
+\end{figure}
 
 本文将这种现象称为\textbf{冗余参数泄露}（Redundant Parameter Leakage, RPL）：智能体在工具调用中填入了可以删除且不影响功能完成的敏感可选参数。它的核心度量是参数级过填率——智能体填了多少本不该传的敏感字段。
 
