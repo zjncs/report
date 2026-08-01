@@ -1,16 +1,14 @@
 \section{引言}
 
-智能体帮助用户取消一笔订单时，需要向订单系统传入订单编号。但如果它同时把用户的出生日期和支付卡号也填进了可选参数，订单一样能取消成功，敏感信息却已经发给了本不需要它的服务。这种披露既不是攻击者诱导的，也不影响任务完成——它只是智能体在拥有完整用户档案时，习惯性地多传了几个字段。
+智能体帮助用户取消一笔订单时，需要向订单系统传入订单编号。但如果它同时把用户的出生日期和支付卡号也填进了可选参数，订单一样能取消成功，敏感信息却已经发给了本不需要它的服务。这种披露既不是攻击者诱导的，也不影响任务完成——它只是智能体在拥有完整用户档案时，多传了几个字段。
 
-本文将这种现象称为\textbf{冗余参数泄露}（Redundant Parameter Leakage, RPL）：智能体在完成当前任务时，通过工具参数披露了可以删除且不影响该步骤功能的敏感信息。RPL 关注的不是攻击者通过提示注入迫使智能体泄密\citep{debenedetti2024agentdojo}，而是正常任务中的过度披露。它也不同于一般的参数错误：工具选择、必填参数和最终状态都可以是正确的，问题仅在于调用中出现了不必要的敏感参数。
+本文将这种现象称为\textbf{冗余参数泄露}（Redundant Parameter Leakage, RPL）。它与提示注入攻击不同\citep{debenedetti2024agentdojo}：后者是外部攻击者试图改变智能体行为，前者发生在正常的、功能正确的任务执行中。它也不是参数填错——工具选对了、必填参数齐全、最终状态也正确，问题只是调用里多了几个本可删掉的敏感参数。
 
-这一问题与隐私研究中的"情境"和"目的"密切相关。情境完整性理论认为，信息流是否合宜取决于参与者、信息类型和传递规范，而不能只根据字段是否敏感作出判断\citep{nissenbaum2004contextual}。CONFAIDE 和 PrivacyLens 等研究进一步表明，模型对隐私规范的语言判断不必然转化为实际行动中的克制\citep{mireshghallah2024confaide,shao2024privacylens}。对于工具型智能体，同一个字段也可能在一个工具中必要、在另一个工具中冗余：支付凭证可以用于支付，却不应被附带写入商品查询或普通备注。
+隐私研究早已指出，信息是否可以披露不能只看字段是否敏感，还要看它流向谁、为了什么目的\citep{nissenbaum2004contextual}。同一个电话号码，通知工具可能需要，但查询工具不需要。CONFAIDE 和 PrivacyLens 等工作进一步发现，模型嘴上说知道隐私规范，手上却可能照做不误\citep{mireshghallah2024confaide,shao2024privacylens}。\ToolPrivacyBench 把这一思路带进工具调用场景，发现任务完成率和隐私合规并不是一回事\citep{hu2026toolprivacybench}。AgentSCOPE 追踪信息在用户、智能体和工具之间的传播路径\citep{ngong2026agentscope}，Privacy in Action 关注动态工具生态中的判断与行动差距\citep{wang2025privacyinaction}。这些工作说明，只看最终回答或任务是否完成，不足以发现执行过程中的参数级泄露。
 
-\ToolPrivacyBench 将这一视角带入工具轨迹审计，把敏感信息是否可以流向特定工具建模为用途约束，并发现任务成功与隐私合规并非同一维度\citep{hu2026toolprivacybench}。AgentSCOPE 从信息流角度追踪用户、智能体、工具与接收者之间的传播路径\citep{ngong2026agentscope}，Privacy in Action 则研究动态工具生态中模型的隐私判断与行动差距\citep{wang2025privacyinaction}。这些工作共同说明，只检查最终回答，或者只检查任务是否完成，无法覆盖智能体执行过程中的参数级披露。
+但要把现有工具调用任务改造成能评测 RPL 的数据，并不容易。$\tau$-bench、BFCL、API-Bank 和 AppWorld 四个基准各自保存参考调用的方式不同：有的是任务动作，有的是多轮对话，有的是逐条 API 记录，有的是通过环境验证的执行日志。它们对用户身份、工具可见范围和轨迹完整性的表达也不一样。如果转换时直接把这些记录都叫"标准答案"，不仅会丢掉来源信息，还可能把一条参考路径误当成唯一解或最短路径。
 
-然而，将现有工具调用任务转化为可复现的 RPL 数据并不是一次简单的格式转换。不同来源提供的参考证据并不相同：有的给出用于描述目标状态的任务动作，有的给出多轮参考调用，有的保存逐次 API 请求与结果，有的提供通过环境验证的方案执行记录。它们对用户身份、可见工具、轨迹完整性和最终状态的表达方式也各不相同。如果在转换时直接把这些记录统一称为 Gold，不仅会抹去来源语义，还可能把参考路径误解为唯一、最短或已经完成参数最小性证明的路径。
-
-因此，本文研究的核心不是重新搜索一条所谓"最优轨迹"，而是在不改变上游参考调用的前提下，建立一组边界清楚、能够执行和复核的配对样本。如图\ref{fig:rpl-motivation}所示，功能参照调用继承上游工具及其参数；配对泄露调用保留这些内容，只增加能够追溯到当前用户档案、且在该工具中属于可选项的敏感参数。两者的差异由此集中在"是否发生冗余披露"，而不会与工具选择错误或必填参数缺失混在一起。
+本文的做法是：不改变上游参考调用的任何参数，只在此基础上构造一个"多传了敏感字段"的对照版本。如图\ref{fig:rpl-motivation}所示，两条调用使用同一工具、同一必填参数，唯一区别是后者增加了若干可选的敏感字段。这样，隐私泄露就与工具选择错误、必填参数缺失等功能问题分离开来，差异精确落在多出来的参数上。
 
 \begin{figure}[t]
   \centering
@@ -37,13 +35,13 @@
 
     % ---- Ground call ----
     \node[card, draw=RPLGreen, fill=RPLGreen!5, text width=4.6cm, below=10mm of task, xshift=-3.1cm] (ground) {};
-    \node[hdr, text=RPLGreen] at ([xshift=5pt,yshift=-5pt]ground.north west) {功能参照调用};
+    \node[hdr, text=RPLGreen] at ([xshift=5pt,yshift=-5pt]ground.north west) {不泄露调用};
     \node[field] at ([xshift=5pt,yshift=-20pt]ground.north west) {tool: cancel\_reservation};
     \node[field] at ([xshift=5pt,yshift=-32pt]ground.north west) {reservation\_id: IFOYYZ};
 
     % ---- Leaking call ----
     \node[card, draw=RPLRed, fill=RPLRed!4, text width=4.6cm, below=10mm of task, xshift=3.1cm] (leak) {};
-    \node[hdr, text=RPLRed] at ([xshift=5pt,yshift=-5pt]leak.north west) {配对泄露调用};
+    \node[hdr, text=RPLRed] at ([xshift=5pt,yshift=-5pt]leak.north west) {泄露调用};
     \node[field] at ([xshift=5pt,yshift=-20pt]leak.north west) {tool: cancel\_reservation};
     \node[field] at ([xshift=5pt,yshift=-32pt]leak.north west) {reservation\_id: IFOYYZ};
     \node[field, text=RPLRed] at ([xshift=5pt,yshift=-44pt]leak.north west) {+ date\_of\_birth: 1996-05-12};
@@ -69,25 +67,25 @@
     \node[font=\footnotesize\itshape, text=RPLRed, below=2mm of ok2, xshift=-1.55cm, text width=7cm, align=center]
       {RPL\_trigger\_params = \{date\_of\_birth, payment\_method\_id\}\\\textup{= keys(leaking) $-$ keys(ground)}};
   \end{tikzpicture}
-  \caption{RPL 配对调用示例。功能参照调用只包含取消预订所需的 \texttt{reservation\_id}；配对泄露调用保留该参数不变，额外增加两个可选敏感字段。两次调用都成功取消预订，但后者向预订系统披露了不必要的出生日期和支付方式。触发参数精确等于两次调用的参数键差集。}
+  \caption{RPL 配对调用示例。不泄露调用只包含取消预订所需的 \texttt{reservation\_id}；泄露调用保留该参数不变，额外增加两个可选敏感字段。两次调用都成功取消预订，但后者向预订系统披露了不必要的出生日期和支付方式。触发参数精确等于两次调用的参数键差集。}
   \label{fig:rpl-motivation}
 \end{figure}
 
 围绕这一目标，本文回答三个问题：
 
 \begin{enumerate}[label=\textbf{RQ\arabic*:}]
-  \item 如何在保留来源语义的同时，将四种异构基准统一为可审计的任务、工具、实体和调用表示？
-  \item 如何保证敏感字段属于正确用户，并使新增泄露参数满足"模式中存在、当前调用可选、取值有来源"三个条件？
-  \item 如何区分来源一致性、可执行性与最终状态正确性，从而避免把一种验证证据夸大为完整的 Gold 证明？
+  \item 如何把四个结构各异的基准统一成同一套可审计的任务、工具、用户档案和调用表示，同时不丢失来源差异？
+  \item 怎样保证每个泄露参数确实来自当前用户、在工具中是可选的、并且不影响原有调用？
+  \item 如何区分"调用和源数据一致""调用能跑通""最终状态正确"这三种不同程度的验证，避免把一种证据当成完整证明？
 \end{enumerate}
 
 本文的主要贡献如下：
 
 \begin{enumerate}
-  \item 提出参数级冗余泄露的配对评测形式，使功能参照调用与泄露调用只在可选敏感参数上产生可计算的差异。
-  \item 分析四个公开工具调用基准的原始任务和验证机制，并据此设计保留来源差异的适配与审计流程。
-  \item 构建包含 328 条任务的 RPL 数据，逐条提供工具模式、用户实体、功能参照调用、配对泄露调用和来源证据。
-  \item 将结构校验、来源重放、环境执行和最终状态验证分层报告，并明确上游参考调用、确定性授权规则及合成可选参数的适用边界。
+  \item 提出冗余参数泄露的配对构造方法：每步提供不泄露和泄露两个调用版本，差异只落在多出的可选敏感参数上，可以精确计算。
+  \item 分析 $\tau$-bench、BFCL、API-Bank 与 AppWorld 的原始任务结构和验证机制，设计保留来源差异的适配与审计流程。
+  \item 构建包含 328 条任务的 RPL 数据，逐条提供工具定义、用户档案、配对调用和来源证据。
+  \item 分层报告结构校验、源重放、环境执行和最终状态验证的结果，并明确哪些是已验证的、哪些仍不是定论。
 \end{enumerate}
 
-本文不宣称已经获得人工业务授权意义上的最终 Gold，而是提供一个透明、保守、可重复运行的参数级隐私评测基础。下文依次介绍相关研究、源基准、数据构造、验证结果与局限。
+本文不宣称已经获得人工业务授权意义上的最终标准答案，而是提供一个透明、保守、可重复运行的参数级隐私评测基础。下文依次介绍相关研究、源基准、数据构造、验证结果与局限。
