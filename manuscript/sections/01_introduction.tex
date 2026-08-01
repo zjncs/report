@@ -1,16 +1,18 @@
 \section{引言}
 
-大型语言模型智能体通过调用外部工具来完成搜索、支付、订单管理和通信等任务。每一次工具调用都会把参数传给外部服务，这些参数可能进入数据库、日志或第三方系统。因此，"任务成功"并不等于"披露恰当"：智能体可能正确地修改了一笔订单，却在可选的备注字段中顺手填入了用户的账户余额或私人偏好。删掉这些信息并不影响任务完成，但敏感数据已经越过了当前用途的边界。
+大型语言模型正在从对话系统演变为能够调用外部工具、读取环境状态并连续采取行动的智能体。API-Bank 将工具学习拆分为检索、规划与调用三个环节\citep{li2023apibank}；BFCL 进一步考察函数选择、参数生成以及多轮状态变化\citep{patil2025bfcl}；$\tau$-bench 把用户交互、领域规则和数据库状态纳入统一环境\citep{yao2025taubench}；AppWorld 则以可执行的日常应用和程序化状态测试评估跨应用任务\citep{trivedi2024appworld}。这些工作推动了工具调用评测从“能否生成一个函数调用”走向“能否在真实约束下完成一项任务”。
 
-本文将这种现象称为\textbf{冗余参数泄露}（Redundant Parameter Leakage, RPL）。它不同于对抗场景下的提示注入\citep{debenedetti2024agentdojo}：RPL 发生在正常的、功能正确的任务执行中，智能体并非被攻击者诱导，而是在拥有完整用户档案时，习惯性地把任务并不需要的敏感信息填入了工具的可选参数。这种过度披露是隐蔽的——工具调用本身是成功的，最终状态也是正确的，唯一的区别只是多了几个本可删除的参数。
+工具能力的扩展也改变了隐私问题的形态。在普通对话中，模型输出主要面向用户；在工具调用过程中，参数还会被发送给应用、写入数据库或保存在服务日志中。一次功能正确的调用因此仍可能包含不恰当的信息。例如，取消订单可能需要订单编号，却不需要用户的病史；发送公开通知可能需要正文，却不需要账户余额。即便这些字段在工具模式中是可选的、服务端也能够正常接收，披露行为仍然超出了当前操作的目的。
 
-现有工具调用基准为研究 RPL 提供了良好的任务骨架，但它们都不直接评测隐私披露。$\tau$-bench 在航空与零售环境中评估多轮工具-用户交互和最终数据库状态\citep{yao2025taubench}，但其奖励函数只比对写操作结果，身份认证等读操作不进入奖励，跳过认证也能获得满分。BFCL 覆盖单轮、并行和多轮函数调用\citep{patil2025bfcl}，但仅检查"调用是否正确"，不检查"调用是否该发生"。API-Bank 评估工具检索、规划和调用\citep{li2023apibank}，其对话大量涉及密码、薪资和健康信息，却不评测工具链中的隐私风险。AppWorld 通过可执行应用和状态测试评估跨应用任务\citep{trivedi2024appworld}，但其状态测试只关注任务目标和附带数据库改动，对"把不需要的敏感字段塞进可选参数"这类隐蔽泄露是盲区。
+本文将这种现象称为\textbf{冗余参数泄露}（Redundant Parameter Leakage, RPL）：智能体在完成当前任务时，通过工具参数披露了可以删除且不影响该步骤功能的敏感信息。RPL 关注的不是攻击者通过提示注入迫使智能体泄密\citep{debenedetti2024agentdojo}，而是正常任务中的过度披露。它也不同于一般的参数错误：工具选择、必填参数和最终状态都可以是正确的，问题仅在于调用中出现了不必要的敏感参数。
 
-\ToolPrivacyBench 首次将用途限制引入工具轨迹审计，指出任务成功与隐私合规是两个独立维度\citep{hu2026toolprivacybench}。它在 $\tau$-bench、BFCL、API-Bank 和 AppWorld 的工作流上构建了 1{,}000 条改编 case，通过 mock 后端执行智能体并审计其工具调用参数。然而，\ToolPrivacyBench 的隐私泄露是\emph{被动观察}智能体执行行为得到的——它依赖智能体在实际执行中主动把多余信息写入参数，而非构造确定性的泄露参照。\ToolPrivacyBench 也没有公开其逐 case 的源映射数据，使得独立复现其 1{,}000 条数据存在困难。
+这一问题与隐私研究中的“情境”和“目的”密切相关。情境完整性理论认为，信息流是否合宜取决于参与者、信息类型和传递规范，而不能只根据字段是否敏感作出判断\citep{nissenbaum2004contextual}。CONFAIDE 和 PrivacyLens 等研究进一步表明，模型对隐私规范的语言判断不必然转化为实际行动中的克制\citep{mireshghallah2024confaide,shao2024privacylens}。对于工具型智能体，同一个字段也可能在一个工具中必要、在另一个工具中冗余：支付凭证可以用于支付，却不应被附带写入商品查询或普通备注。
 
-本文关注一个更基础的问题：如何把四个锁定的公开基准稳定地转换为同一套可审计的 RPL 评测契约，同时确保转换过程没有改变上游标准调用。与 \ToolPrivacyBench 不同，本文\emph{主动构造}配对调用——每一步保留上游 reference 调用作为不泄露参照，并构造一个仅在可选参数中增加敏感字段的泄露参照，两者的参数键差集即为 RPL 触发参数。这样可以把隐私过度披露与工具选择错误、漏填必填参数等功能错误精确分离。
+\ToolPrivacyBench 将这一视角带入工具轨迹审计，把敏感信息是否可以流向特定工具建模为用途约束，并发现任务成功与隐私合规并非同一维度\citep{hu2026toolprivacybench}。AgentSCOPE 从信息流角度追踪用户、智能体、工具与接收者之间的传播路径\citep{ngong2026agentscope}，Privacy in Action 则研究动态工具生态中模型的隐私判断与行动差距\citep{wang2025privacyinaction}。这些工作共同说明，只检查最终回答，或者只检查任务是否完成，无法覆盖智能体执行过程中的参数级披露。
 
-图\ref{fig:rpl-motivation}给出评测对象。标准调用和泄露调用使用同一工具，并保持所有 source reference 参数不变；唯一差异是后者增加 optional carrier。这样可把隐私过度披露与工具选择错误、漏填必填参数等功能错误分离。
+然而，将现有工具调用任务转化为可复现的 RPL 数据并不是一次简单的格式转换。四个源基准提供的参考证据并不相同：$\tau$-bench 给出用于描述目标状态的任务动作，BFCL 给出多轮参考调用，API-Bank 保存逐次 API 请求与结果，AppWorld 则提供通过环境验证的方案执行记录。它们对用户身份、可见工具、轨迹完整性和最终状态的表达方式也各不相同。如果在转换时直接把这些记录统一称为 Gold，不仅会抹去来源语义，还可能把参考路径误解为唯一、最短或已经完成参数最小性证明的路径。
+
+因此，本文研究的核心不是重新搜索一条所谓“最优轨迹”，而是在不改变上游参考调用的前提下，建立一组边界清楚、能够执行和复核的配对样本。如图\ref{fig:rpl-motivation}所示，功能参照调用继承上游工具及其参数；配对泄露调用保留这些内容，只增加能够追溯到当前用户档案、且在该工具中属于可选项的敏感参数。两者的差异由此集中在“是否发生冗余披露”，而不会与工具选择错误或必填参数缺失混在一起。
 
 \begin{figure}[t]
   \centering
@@ -22,23 +24,31 @@
     leak/.style={box,draw=RPLRed,fill=RPLRed!4},
     arrow/.style={-{Latex[length=2mm]},thick}
   ]
-    \node[source] (profile) {\textbf{任务档案}\\订单号、支付方式、余额、私人偏好等};
-    \node[safe,below=of profile,xshift=-.21\textwidth] (gold) {\textbf{源 reference 调用}\\保留权威参数};
-    \node[leak,below=of profile,xshift=.21\textwidth] (leak) {\textbf{参考泄露调用}\\保留全部 reference 参数\\\textcolor{RPLRed}{+ 同名 optional forbidden 字段}};
-    \draw[arrow,RPLGreen] (profile) -- node[left,font=\footnotesize]{必要披露} (gold);
+    \node[source] (profile) {\textbf{用户档案}\\身份、账户、支付方式与私人记录等};
+    \node[safe,below=of profile,xshift=-.21\textwidth] (ground) {\textbf{功能参照调用}\\继承上游工具和参数};
+    \node[leak,below=of profile,xshift=.21\textwidth] (leak) {\textbf{配对泄露调用}\\保留全部参照参数\\\textcolor{RPLRed}{+ 可选的禁止披露字段}};
+    \draw[arrow,RPLGreen] (profile) -- node[left,font=\footnotesize]{任务所需} (ground);
     \draw[arrow,RPLRed] (profile) -- node[right,font=\footnotesize]{冗余披露} (leak);
   \end{tikzpicture}
-  \caption{RPL 的配对调用。泄露版本不修改任何源 reference 值，只增加受控 optional 参数。}
+  \caption{RPL 的配对调用。泄露版本不改动上游参考参数，只增加受控的可选敏感参数。}
   \label{fig:rpl-motivation}
 \end{figure}
 
-本文贡献如下：
+围绕这一目标，本文回答三个问题：
 
-\begin{enumerate}
-  \item 定义冗余参数泄露（RPL）的形式化契约：每步提供不泄露与泄露两个参照调用，触发参数精确等于两者的参数键差集，且每个触发参数必须在工具 schema 中存在、标记为 optional、取值可追溯到当前用户档案。
-  \item 基于 $\tau$-bench、BFCL、API-Bank 与 AppWorld 的锁定版本构建 328 条 RPL 任务，保留完整 source reference，并通过独立校验器和源重放审计验证全部 ground calls 与锁定源逐项一致。
-  \item 在原生环境中执行全部 328 条 release-call 序列和 147 条 AppWorld 官方方案，321 条通过最终状态验证；将 16 条包含原生业务错误的 $\tau$-bench reference 保守过滤而非静默改写。
-  \item 明确区分 source replay、环境执行和最终状态验证三类证据，披露 synthetic carrier、reference-argument matching 启发式规则与档案补全的影响，不将参照调用冒充全局最小路径。
+\begin{enumerate}[label=\textbf{RQ\arabic*:}]
+  \item 如何在保留来源语义的同时，将四种异构 benchmark 统一为可审计的任务、工具、实体和调用表示？
+  \item 如何保证敏感字段属于正确用户，并使新增泄露参数满足“模式中存在、当前调用可选、取值有来源”三个条件？
+  \item 如何区分来源一致性、可执行性与最终状态正确性，从而避免把一种验证证据夸大为完整的 Gold 证明？
 \end{enumerate}
 
-本文定位为数据集构建和工程审计研究。双人盲审工具已经就绪，但在两名独立 reviewer 提交前不报告人工一致性，也不把程序规则描述为人工金标准。
+本文的主要贡献如下：
+
+\begin{enumerate}
+  \item 提出参数级冗余泄露的配对评测形式，使功能参照调用与泄露调用只在可选敏感参数上产生可计算的差异。
+  \item 分析 $\tau$-bench、BFCL、API-Bank 与 AppWorld 的原始任务和验证机制，并据此设计保留来源差异的适配与审计流程。
+  \item 构建包含 328 条任务的 RPL 数据，逐条提供工具模式、用户实体、功能参照调用、配对泄露调用和来源证据。
+  \item 将结构校验、来源重放、环境执行和最终状态验证分层报告，并明确上游参考调用、确定性授权规则及合成可选参数的适用边界。
+\end{enumerate}
+
+本文不宣称已经获得人工业务授权意义上的最终 Gold，而是提供一个透明、保守、可重复运行的参数级隐私评测基础。下文依次介绍相关研究、源基准、数据构造、验证结果与局限。

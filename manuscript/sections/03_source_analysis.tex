@@ -1,10 +1,44 @@
-\section{源数据分析}
+\section{源基准及其适配依据}
 
-本文使用锁定 revision 的 $\tau$-bench、BFCL、API-Bank 与 AppWorld。四者分别提供正式 test split 的 typed task actions、多轮 possible answers、Level-1/Level-2 结构化 API 对话记录和上游 solution execution logs。表\ref{tab:source-characteristics}总结源规模与可利用证据。
+本文选择 $\tau$-bench、BFCL、API-Bank 和 AppWorld，并不是因为四者的数据格式相似，而是因为它们分别覆盖用户交互、通用函数调用、工具检索与跨应用执行等典型任务形态。更重要的是，它们都提供了可追溯的调用证据。不过，这些证据在原论文中的含义并不相同。本节先回到各基准的任务设计和评测方法，再说明本文可以从中继承什么、不能据此声称什么。
+
+\subsection{\texorpdfstring{$\tau$-bench}{tau-bench}：目标动作与最终数据库状态}
+
+$\tau$-bench 面向航空和零售客服，正式测试集包含 115 条零售任务和 50 条航空任务\citep{yao2025taubench}。智能体需要在与用户的多轮交流中调用领域工具，并遵守退款、改签、身份核验等业务规则。其主要评测信号不是逐字匹配一条固定轨迹，而是比较执行后的数据库状态，并结合任务要求检查最终回复。论文采用 pass$^k$ 衡量智能体在重复试验中的稳定成功率。
+
+源文件中的 \code{actions} 为本文提供了结构化的参考动作和参数，但它们不是完整的用户—智能体对话轨迹。由于原评测允许实际智能体通过不同交互过程达到目标状态，这些动作也不能自动解释为唯一或全局最短的解决方案。因此，本文将其角色记录为“源参考动作”，通过源重放和环境状态检查确认其可用性，而不追加最小性声明。
+
+$\tau$-bench 的优势在于用户、订单、航班、地址和支付方式都保存在结构化数据库中，用户身份可以由任务标识和数据库记录交叉核对。与此同时，真实执行也揭示出 16 条源参考序列包含上游业务错误。本文没有修补这些序列后继续发布，而是将其保守过滤，从而避免生成一个已经偏离上游证据的“改良答案”。
+
+\subsection{BFCL：多轮参考调用与状态检查}
+
+BFCL 覆盖单轮、并行、多语言和多轮函数调用，论文报告的完整集合包含 5{,}551 个问题—函数—答案样本\citep{patil2025bfcl}。其中，多轮部分围绕八组状态化 API 构造 1{,}000 条查询，并设置 base、缺失参数、缺失函数和长上下文等变体。评测既使用状态检查判断环境是否达到目标，也使用响应检查约束只读任务或必要的中间调用，因此并非简单地逐项比较一个字符串答案。
+
+本文使用锁定来源中的 200 条 base 多轮任务。其 \code{possible_answer} 保存逐轮参考调用，\code{initial_config} 提供可恢复的初始状态。对于会修改状态的任务，其他调用顺序可能同样正确；对于查询型任务，响应检查又会对必要步骤提出更强约束。基于这一差异，本文保留原有轮次边界和参考顺序，将其称为“源参考调用”，而不把 \code{possible_answer} 解释为经过全量消融的最短 Gold。
+
+BFCL 对数据适配的主要挑战不是语法，而是语义对齐：相同字符串可能在不同 API 类中表示密码、访问令牌、股票代码或普通文本，用户指令中的身份也可能与某个默认 profile 冲突。因此，实体提取不能依靠全局关键词猜测。本文只接受能够由 API 类、参数名、初始状态和指令身份共同支持的字段映射；不能确定时放弃该字段或过滤任务。
+
+\subsection{API-Bank：逐次请求记录与工具检索}
+
+API-Bank 将评测任务分为直接调用、检索后调用以及规划—检索—调用三个层级。原论文在 73 个 API 上标注 400 条候选对话，经过质量控制后保留 314 条评测对话和 753 次 API 调用\citep{li2023apibank}。与只提供函数答案的静态数据不同，API-Bank 为调用记录保存请求参数和返回结果，并在工具未知时要求先通过 ToolSearcher 检索。
+
+本文使用上游仓库中格式稳定的 214 条 Level-1 对话和 50 条 Level-2 对话，共 264 条源记录。Adapter 只读取显式 API 行中的结构化 \code{param_dict} 和 recorded result，并验证 Level-2 中工具是否已被先前的 ToolSearcher 暴露。Level-3 样例没有与上述两层相同的结构化执行契约，因而没有为了增加数量而与其混合。
+
+这里的参考证据粒度是“单次 API 请求—结果”。将同一对话中的多次 API 行连接为一个调用序列，是本文为形成统一评测样本所作的适配，而不是 API-Bank 原论文提供的对话级最终状态证明。由此产生的 7 条发布任务可以证明请求记录与上游一致、调用可执行，但不声称具有与 AppWorld 相同强度的最终数据库 oracle。
+
+\subsection{AppWorld：验证方案与多解任务}
+
+AppWorld 构建了 9 个日常应用、457 个 API 和 750 条跨应用任务，并用可重置数据库和程序化单元测试评估智能体\citep{trivedi2024appworld}。评测器比较执行前后的数据库差异，既检查目标变化，也检查不应发生的附带变化。这一机制不要求模型复现某条固定方案，因而能够容纳多种正确路径。
+
+本文使用其中 147 条同时具备任务、方案 API 日志和可执行验证条件的记录。上游 validation solution 的作用是证明任务可解并为数据生成提供参考执行；论文并未把它定义为规范路径或参数最小性证明。本文因此同时重放发布调用和上游方案，并分别记录执行成功与最终状态验证结果。二者通过同一评测器，只能说明它们满足任务目标，不能推出两条轨迹等价、唯一或最短。
+
+\subsection{统一表示之前的证据分层}
+
+表\ref{tab:source-characteristics}总结本文实际读取的锁定数据及 Adapter 结果。四个来源最终都会转化为统一调用对象，但统一表示不改变原始证据角色：$\tau$-bench 的 actions 是目标参考动作，BFCL 的 possible answers 是多轮参考调用，API-Bank 提供逐次请求记录，AppWorld 则提供通过其验证流程的方案日志。
 
 \begin{table}[t]
   \centering
-  \caption{四个来源与完整 reference 转换结果。Adapter 接受表示调用被成功解析，并通过该来源规定的 schema、结构和可见性检查。}
+  \caption{四个来源的任务规模与可利用证据。Adapter 接受表示调用能够按该来源的结构、模式和工具可见性规则无损解析。}
   \label{tab:source-characteristics}
   \scriptsize
   \begin{tabularx}{\textwidth}{L{1.55cm}L{1.35cm}L{1.35cm}L{1.45cm}L{1.05cm}Y}
@@ -15,31 +49,31 @@
   \end{tabularx}
 \end{table}
 
-$\tau$-bench 正式 \code{tasks\_test.py} 中有 165 个 typed task，其中一条完全重复，得到 164 个唯一 case；完整 reference calls 为 0--20。BFCL 的 200 个 base case 为 2--10 次调用，其中一个 source reference 参数与函数文档类型冲突，因此 199 个通过 adapter。API-Bank 提供 214 个 Level-1 given-description 对话和 50 个 Level-2 ToolSearcher 对话；adapter 只读取显式 \code{role=API} 的 \code{param\_dict} 与 recorded result，264 个对话中 244 个成功通过 adapter 的 schema、结构和 ToolSearcher 时序可见性检查。其余 20 个分别因缺少可用的 user/API 序列（3 个）、request/result/schema 键不对齐（8 个）或工具未被先前 ToolSearcher 暴露（9 个）而拒绝。成功记录包含 478 次 source calls，其中 64 个参数值按 schema 确定性规范化；未解析 AI 文本，也不修补未能对齐的对话。AppWorld 有 147 个带 API 日志的 task；其 \code{supervisor.complete\_task.answer} 使用 number/integer/string union。本文将 union 保留为有序 JSON type 数组，因此 147 个 task 全部无损通过 adapter。
+这种区分直接决定了本文的验证口径。来源重放回答“输出调用是否仍与锁定来源一致”；环境执行回答“调用能否在相应实现中运行”；最终状态验证回答“运行结果是否满足来源任务的状态判据”。三种证据可以同时存在，也可以只具备前两种，任何一种都不自动证明参数已经达到业务意义上的最小集合。
 
-图\ref{fig:source-call-distribution}展示 adapter-accepted case 的完整 reference 长度。绿色虚线表示至少四次源调用门槛，而不是目标长度。AppWorld 的长执行日志使正式链长最高达到 245；主流程不为满足 5/7 而截断。
+\subsection{从源任务到发布任务}
+
+图\ref{fig:source-call-distribution}给出 Adapter 接受任务的完整参考调用长度。绿色虚线表示“至少四次源调用”的来源门槛，而不是要求将轨迹截成固定长度。特别是 AppWorld 含有较长的执行日志；本文保留完整来源轨迹，避免为迎合统一长度而删除中间步骤。
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=.91\textwidth]{source_call_distribution.pdf}
-  \caption{四个来源的完整 reference-call 分布。绿色虚线为至少四次源调用门槛。}
+  \caption{四个来源中 Adapter 接受任务的完整参考调用长度分布。绿色虚线表示来源门槛。}
   \label{fig:source-call-distribution}
 \end{figure}
 
-四源的 reference 证据强度并不相同。$\tau$-bench actions 和 BFCL possible answers 是上游指定的参考调用；API-Bank 的每个 API row 绑定了记录的请求与结果，但把同一 JSONL 对话内的 API rows 聚合成一条 reference sequence 是本项目的设计；AppWorld 文件进一步来自上游 solution execution log。本文只在 source trace 中保留这种差异，不把它自动升级为本项目独立环境执行或 final-state verification。
-
-图\ref{fig:bfcl-normalization}比较各来源 adapter-accepted 与最终发布数量。BFCL 的主要后续损失来自完整 reference 没有实际执行受控 carrier。API-Bank 的 244 个 adapter-accepted 对话中，231 个不足四次调用，余下 13 个中又有 6 个未达 forbidden-pair 门槛，最终保留 7 个。AppWorld 的 147 个 adapter-accepted task 全部通过公共硬门槛。
+表\ref{tab:adapter-funnel}和图\ref{fig:bfcl-normalization}展示了后续筛选。$\tau$-bench 从 165 条源任务中去除一条完全重复记录，164 条进入 Adapter；其中 16 条在原生环境中暴露业务错误并被提前排除，余下记录中有 68 条达到来源门槛，7 条没有可用 carrier，最终发布 61 条。BFCL 的 200 条 base 任务中，一条源参数与函数文档类型冲突；后续任务主要因参考调用没有实际使用受控 carrier 而减少。API-Bank 的主要损失来自调用长度：244 条 Adapter 接受对话中有 231 条不足四次调用。AppWorld 的 147 条候选任务全部达到当前公共门槛。
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=.72\textwidth]{bfcl_normalization.pdf}
-  \caption{四个来源 adapter-accepted case 与最终发布 case 的数量差异。}
+  \caption{四个来源中 Adapter 接受任务与最终发布任务的数量差异。}
   \label{fig:bfcl-normalization}
 \end{figure}
 
 \begin{table}[t]
   \centering
-  \caption{从源记录到发布数据的漏斗。解析失败包括无法形成 source-call 序列、schema 无法无损对齐或违反源工具可见性的 case。}
+  \caption{从源记录到发布数据的筛选漏斗。“解析失败”包括无法形成结构化调用序列、模式无法无损对齐或违反来源工具可见性。}
   \label{tab:adapter-funnel}
   \small
   \begin{tabular}{lrrrrrr}
@@ -49,3 +83,5 @@ $\tau$-bench 正式 \code{tasks\_test.py} 中有 165 个 typed task，其中一�
     \input{../tables/adapter_funnel.tex}
   \end{tabular}
 \end{table}
+
+最终发布数量分别为 $\tau$-bench 61 条、BFCL 113 条、API-Bank 7 条和 AppWorld 147 条。它们与 \ToolPrivacyBench 论文中的 170、443、10 和 377 并不直接可比：两项工作使用的上游 revision、候选子集、载体条件和环境验证合同不同。数量差异因此不能简单归因于某一个筛选阈值，也不意味着较多或较少的样本天然更正确。对本文而言，首要目标是每一条发布记录都能解释其来源、身份、工具模式和验证证据。
