@@ -481,6 +481,8 @@ INPUT ./manuscript/sections/05_formalization.tex
 INPUT ./manuscript/sections/05_formalization.tex
 INPUT ./manuscript/sections/05_formalization.tex
 INPUT manuscript/sections/05_formalization.tex
+INPUT ./figures/rpl_construction.png
+INPUT ./figures/rpl_construction.png
 INPUT ./manuscript/sections/06_privacy_construction.tex
 INPUT ./manuscript/sections/06_privacy_construction.tex
 INPUT ./manuscript/sections/06_privacy_construction.tex

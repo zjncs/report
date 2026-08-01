@@ -101,6 +101,15 @@ f\notin\operatorname{NativeParams}(t_i)
 
 \subsection{工具定义扩展与配对调用}
 
+图~\ref{fig:rpl-construction} 以 $\tau$-bench 的取消预订为例，展示了从源参考调用到配对调用的完整构造过程。源调用只包含预订编号；档案提供出生日期和支付方式等敏感字段；授权判定发现这些字段在参考参数中没有出现，标记为禁止；触发选择从中选出两个字段；最终生成功能调用和泄露调用两个版本。
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=.95\textwidth,trim=0 0 0 30,clip]{rpl_construction.png}
+  \caption{配对调用构造流程。源参考调用经过档案提取、授权判定和触发选择，生成功能调用与泄露调用两个版本，差异精确落在新增的可选敏感参数上。}
+  \label{fig:rpl-construction}
+\end{figure}
+
 完成所有任务的触发参数计划后，系统按工具汇总被选字段，为相应工具增加同名、同类型且非必填的参数。原生参数及必填状态保持不变；如果某字段已经是原生参数或原生必填参数，构造立即拒绝。对步骤 $i$ 选择字段集合 $H_i\subseteq X_i$，功能调用和泄露调用分别为
 
 \begin{align}
