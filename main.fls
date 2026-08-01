@@ -1,4 +1,4 @@
-PWD /Users/zjn/Desktop/科研实习/new/rplbench-builder/paper
+PWD /Users/zjn/Desktop/科研实习/new/report
 INPUT /Users/zjn/Library/TinyTeX/texmf.cnf
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/web2c/texmf.cnf
 INPUT /Users/zjn/Library/TinyTeX/texmf-var/web2c/xetex/xelatex.fmt
@@ -444,6 +444,8 @@ INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/ms
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
+INPUT ./figures/rplbench_pipeline.png
+INPUT ./figures/rplbench_pipeline.png
 INPUT ./manuscript/sections/02_background_toolprivacybench.tex
 INPUT ./manuscript/sections/02_background_toolprivacybench.tex
 INPUT ./manuscript/sections/02_background_toolprivacybench.tex
