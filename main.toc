@@ -1,0 +1,79 @@
+\contentsline {section}{\numberline {1}引言}{3}{section.1}%
+\contentsline {section}{\numberline {2}文献综述}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}从函数匹配到可执行任务}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}情境与用途约束下的隐私}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}从隐私判断到行动与轨迹}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}ToolPrivacyBench}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}相邻风险与本文边界}{6}{subsection.2.5}%
+\contentsline {section}{\numberline {3}源基准及其适配依据}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}$\tau $-bench}{6}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}任务结构与评测机制}{6}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}适配依据}{6}{subsubsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.2}BFCL}{7}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}任务结构与评测机制}{7}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}适配依据}{7}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}API-Bank}{8}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}任务结构与评测机制}{8}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}适配依据}{8}{subsubsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.4}AppWorld}{8}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}任务结构与评测机制}{8}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}适配依据}{9}{subsubsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.5}证据分层与统一表示}{9}{subsection.3.5}%
+\contentsline {section}{\numberline {4}源调用的适配与统一表示}{10}{section.4}%
+\contentsline {subsection}{\numberline {4.1}适配器的职责边界}{10}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}统一任务对象}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}四类来源的规范化方法}{11}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}$\tau $-bench：受限语法树解析}{11}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}BFCL：多轮边界与函数类作用域}{12}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}API-Bank：请求—结果绑定}{12}{subsubsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.4}AppWorld：HTTP 日志到工具调用}{12}{subsubsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.4}来源规则与来源契约}{12}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}失败处理与参考完整性}{13}{subsection.4.5}%
+\contentsline {section}{\numberline {5}RPL 配对数据构造算法}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}问题定义}{13}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}端到端流程}{13}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}实体档案构造}{14}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}基于来源参数证据的授权}{14}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}从禁止边到可执行触发参数}{15}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}工具定义扩展与配对调用}{15}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}保留条件}{16}{subsection.5.7}%
+\contentsline {section}{\numberline {6}档案、载体与筛选}{16}{section.6}%
+\contentsline {subsection}{\numberline {6.1}任务独立档案}{16}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}载体工具选择}{17}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}筛选漏斗}{17}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}发布策略与验证状态}{18}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}自主设计选择}{18}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}与原论文的规模对照}{18}{subsection.6.6}%
+\contentsline {section}{\numberline {7}实现与可复现性}{18}{section.7}%
+\contentsline {subsection}{\numberline {7.1}系统结构}{18}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}发布文件}{19}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}独立验证}{19}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}复现命令}{19}{subsection.7.4}%
+\contentsline {section}{\numberline {8}数据分析与验证结果}{19}{section.8}%
+\contentsline {subsection}{\numberline {8.1}规模与链长}{19}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}隐私关系与档案来源}{20}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}源重放与独立验证}{20}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}语义门禁与人工复核}{21}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}设计敏感性}{21}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}评测协议}{22}{subsection.8.6}%
+\contentsline {section}{\numberline {9}案例分析}{22}{section.9}%
+\contentsline {subsection}{\numberline {9.1}$\tau $-bench：取消与查询预订}{22}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}BFCL：交易工作流}{22}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}API-Bank：结构化账户对话}{23}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}AppWorld：长执行日志}{23}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Schema 冲突案例}{23}{subsection.9.5}%
+\contentsline {section}{\numberline {10}局限性}{23}{section.10}%
+\contentsline {subsection}{\numberline {10.1}载体参数是合成扩展}{23}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}参考调用的局限}{23}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}环境验证的范围}{24}{subsection.10.3}%
+\contentsline {subsection}{\numberline {10.4}档案补全改变上下文}{24}{subsection.10.4}%
+\contentsline {subsection}{\numberline {10.5}任务书链长解释}{24}{subsection.10.5}%
+\contentsline {subsection}{\numberline {10.6}来源特定偏差}{24}{subsection.10.6}%
+\contentsline {subsection}{\numberline {10.7}确定性规则与人工复核}{24}{subsection.10.7}%
+\contentsline {subsection}{\numberline {10.8}领域与伦理}{24}{subsection.10.8}%
+\contentsline {section}{\numberline {11}结论}{24}{section.11}%
+\contentsline {section}{\numberline {A}交付文件示例}{26}{section.A}%
+\contentsline {subsection}{\numberline {A.1}任务链（\texttt {tau\_bench\_rpl\_chains.jsonl}）}{26}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}用户档案（\texttt {tau\_bench\_entities.jsonl}）}{27}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}工具定义（\texttt {tau\_bench\_tools.json} 片段）}{27}{subsection.A.3}%
+\contentsline {subsection}{\numberline {A.4}转换报告（\texttt {conversion\_report.json} 片段）}{28}{subsection.A.4}%

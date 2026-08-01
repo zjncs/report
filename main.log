@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 04:16
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 04:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1239,18 +1239,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 ) [1
 
-]
-No file main.toc.
-\tf@toc=\write4
-\openout4 = `main.toc'.
-
-[1] (./manuscript/sections/00_abstract.tex) (./manuscript/sections/01_introduction.tex
-File: figures/rpl_motivation.png Graphic file (type bmp)
-<figures/rpl_motivation.png>
- [2]
-File: figures/rplbench_pipeline.png Graphic file (type bmp)
-<figures/rplbench_pipeline.png>
-) (./manuscript/sections/02_background_toolprivacybench.tex [3] [4]) (./manuscript/sections/03_source_analysis.tex
+] (./main.toc [1]
 
 Package fontspec Info: 
 (fontspec)             Script 'CJK' not explicitly supported within font
@@ -1288,7 +1277,17 @@ Package fontspec Info:
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
 (fontspec)             <->"STFangsong/OT:script=hani;language=dflt;"
 
- [5] [6] [7]
+)
+\tf@toc=\write4
+\openout4 = `main.toc'.
+
+ [2] (./manuscript/sections/00_abstract.tex) (./manuscript/sections/01_introduction.tex
+File: figures/rpl_motivation.png Graphic file (type bmp)
+<figures/rpl_motivation.png>
+ [3]
+File: figures/rplbench_pipeline.png Graphic file (type bmp)
+<figures/rplbench_pipeline.png>
+) (./manuscript/sections/02_background_toolprivacybench.tex [4] [5]) (./manuscript/sections/03_source_analysis.tex [6] [7] [8]
 Overfull \hbox (5.72334pt too wide) in paragraph at lines 212--212
  [][]\TU/lmr/m/n/8 SimpleNote 
  []
@@ -1298,22 +1297,22 @@ Overfull \hbox (3.77133pt too wide) in paragraph at lines 216--216
  [][]\TU/lmr/m/n/8 FileSystem 
  []
 
-) (./manuscript/sections/04_adapter.tex [8] [9] [10] [11]) (./manuscript/sections/05_formalization.tex
+) (./manuscript/sections/04_adapter.tex [9] [10] [11] [12]) (./manuscript/sections/05_formalization.tex
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 33.
- [12] [13]
+ [13] [14]
 File: figures/rpl_construction.png Graphic file (type bmp)
 <figures/rpl_construction.png>
- [14]) (./manuscript/sections/06_privacy_construction.tex [15] (./tables/filtering_reasons.tex) [16]) (./manuscript/sections/07_implementation_reproducibility.tex [17] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
+ [15]) (./manuscript/sections/06_privacy_construction.tex [16] (./tables/filtering_reasons.tex) [17]) (./manuscript/sections/07_implementation_reproducibility.tex [18] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 20.
-) (./manuscript/sections/08_evaluation.tex (./tables/dataset_statistics.tex) [18]
+) (./manuscript/sections/08_evaluation.tex (./tables/dataset_statistics.tex) [19]
 File: figures/data_composition.pdf Graphic file (type pdf)
 <use figures/data_composition.pdf>
- (./tables/privacy_statistics.tex) (./tables/validation_statistics.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) [19] (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) [20]) (./manuscript/sections/09_case_studies.tex [21]) (./manuscript/sections/10_limitations_ethics.tex [22]) (./manuscript/sections/11_conclusion.tex [23]) (./main.bbl) (./manuscript/sections/12_appendix.tex [24]
+ (./tables/privacy_statistics.tex) (./tables/validation_statistics.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) [20] (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) [21]) (./manuscript/sections/09_case_studies.tex [22]) (./manuscript/sections/10_limitations_ethics.tex [23]) (./manuscript/sections/11_conclusion.tex [24]) (./main.bbl) (./manuscript/sections/12_appendix.tex [25]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 8.
 
@@ -1321,33 +1320,19 @@ Underfull \hbox (badness 1348) in paragraph at lines 10--11
 \TU/STSong(0)/m/n/10.95 以 下 是 一 条 完 整 任 务 链 的 \TU/lmr/m/n/10.95 JSON \TU/STSong(0)/m/n/10.95 表 示。|  步 骤 \TU/lmr/m/n/10.95 0 \TU/STSong(0)/m/n/10.95 为 档 案 加 载，|  步 骤 \TU/lmr/m/n/10.95 1 \TU/STSong(0)/m/n/10.95 的 泄 露 调 用 新 增 了
  []
 
-(/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2025/11/14 1.11b listings language file
-) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang2.sty
-File: lstlang2.sty 2025/11/14 1.11b listings language file
-) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang3.sty
-File: lstlang3.sty 2025/11/14 1.11b listings language file
-)
-
-! Package Listings Error: Couldn't load requested language.
-
-See the Listings package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.12 ...uage=json,basicstyle=\ttfamily\scriptsize]
-                                                  
-The following languages weren't loadable:
-    ,json$
-This may cause errors in the sequel.
-
- 
+[26] [27]) [28] (./main.aux)
+ ***********
+LaTeX2e <2026-06-01>
+L3 programming layer <2022/08/05>
+ ***********
+ ) 
 Here is how much of TeX's memory you used:
- 41744 strings out of 469784
- 932013 string characters out of 5467188
- 1601861 words of memory out of 5000000
- 69906 multiletter control sequences out of 15000+600000
+ 41874 strings out of 469784
+ 933992 string characters out of 5467188
+ 1757047 words of memory out of 5000000
+ 70041 multiletter control sequences out of 15000+600000
  639560 words of font info for 131 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 102i,13n,114p,1190b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
-Output written on main.xdv (25 pages, 642740 bytes).
+ 102i,13n,114p,1190b,1824s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on main.xdv (29 pages, 841020 bytes).
