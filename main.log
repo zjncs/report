@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 03:07
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 03:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1253,11 +1253,6 @@ Package fontspec Info:
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:script=hani;language=dflt;"
 
  [4] [5] [6]
-Overfull \hbox (5.76134pt too wide) in paragraph at lines 206--206
- [][]\TU/lmr/m/n/9 Supervisor 
- []
-
-
 Overfull \hbox (5.72334pt too wide) in paragraph at lines 212--212
  [][]\TU/lmr/m/n/8 SimpleNote 
  []
@@ -1265,11 +1260,6 @@ Overfull \hbox (5.72334pt too wide) in paragraph at lines 212--212
 
 Overfull \hbox (3.77133pt too wide) in paragraph at lines 216--216
  [][]\TU/lmr/m/n/8 FileSystem 
- []
-
-
-Overfull \hbox (33.73221pt too wide) in paragraph at lines 231--231
- [][]\TU/lmtt/m/n/9 api_docs/standard/*.json 
  []
 
 [7]) (./manuscript/sections/04_adapter.tex [8] [9] [10]) (./manuscript/sections/05_formalization.tex [11]
@@ -1295,10 +1285,10 @@ L3 programming layer <2022/08/05>
 Here is how much of TeX's memory you used:
  41724 strings out of 469784
  937116 string characters out of 5467188
- 1614487 words of memory out of 5000000
+ 1614486 words of memory out of 5000000
  69911 multiletter control sequences out of 15000+600000
  641073 words of font info for 133 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  102i,13n,112p,1190b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.xdv (24 pages, 682480 bytes).
+Output written on main.xdv (24 pages, 682472 bytes).
