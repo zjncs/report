@@ -1,48 +1,9 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
-
-\bibitem[Debenedetti et~al.(2024)Debenedetti, Zhang, Balunovic, Beurer-Kellner, Fischer, and Tram\`er]{debenedetti2024agentdojo}
-Edoardo Debenedetti, Jie Zhang, Mislav Balunovic, Luca Beurer-Kellner, Marc Fischer, and Florian Tram\`er.
-\newblock {AgentDojo}: A dynamic environment to evaluate prompt injection attacks and defenses for {LLM} agents.
-\newblock In \emph{Advances in Neural Information Processing Systems}, volume~37, 2024.
-\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html}.
-
-\bibitem[Nissenbaum(2004)]{nissenbaum2004contextual}
-Helen Nissenbaum.
-\newblock Privacy as contextual integrity.
-\newblock \emph{Washington Law Review}, 79\penalty0 (1):\penalty0 119--158, 2004.
-\newblock URL \url{https://digitalcommons.law.uw.edu/wlr/vol79/iss1/10/}.
-
-\bibitem[Mireshghallah et~al.(2024)Mireshghallah, Kim, Zhou, Tsvetkov, Sap, Shokri, and Choi]{mireshghallah2024confaide}
-Niloofar Mireshghallah, Hyunwoo Kim, Xuhui Zhou, Yulia Tsvetkov, Maarten Sap, Reza Shokri, and Yejin Choi.
-\newblock Can {LLM}s keep a secret? testing privacy implications of language models via contextual integrity theory.
-\newblock In \emph{International Conference on Learning Representations}, 2024.
-\newblock URL \url{https://proceedings.iclr.cc/paper_files/paper/2024/hash/08305d8b2ddab98932c163ea73df065f-Abstract-Conference.html}.
-
-\bibitem[Shao et~al.(2024)Shao, Li, Shi, Liu, and Yang]{shao2024privacylens}
-Yijia Shao, Tianshi Li, Weiyan Shi, Yanchen Liu, and Diyi Yang.
-\newblock {PrivacyLens}: Evaluating privacy norm awareness of language models in action.
-\newblock In \emph{Advances in Neural Information Processing Systems}, volume~37, pages 89373--89407, 2024.
-\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2024/hash/a2a7e58309d5190082390ff10ff3b2b8-Abstract-Datasets_and_Benchmarks_Track.html}.
-
-\bibitem[Hu et~al.(2026)Hu, Liu, Meng, and Zhao]{hu2026toolprivacybench}
-Shijing Hu, Liang Liu, Zhu Meng, and Zhicheng Zhao.
-\newblock Toolprivacybench: Benchmarking purpose-bound privacy in tool-using llm agents, 2026.
-\newblock URL \url{https://arxiv.org/abs/2606.28061}.
-
-\bibitem[Ngong et~al.(2026)Ngong, Murugesan, Kadhe, Weisz, Dhurandhar, and Ramamurthy]{ngong2026agentscope}
-Ivoline~C. Ngong, Keerthiram Murugesan, Swanand Kadhe, Justin~D. Weisz, Amit Dhurandhar, and Karthikeyan~Natesan Ramamurthy.
-\newblock {AgentSCOPE}: Evaluating contextual privacy across agentic workflows, 2026.
-\newblock URL \url{https://arxiv.org/abs/2603.04902}.
-
-\bibitem[Wang et~al.(2025)Wang, Yu, Liu, Qin, Zhang, Lin, Zhang, and Rajmohan]{wang2025privacyinaction}
-Shouju Wang, Fenglin Yu, Xirui Liu, Xiaoting Qin, Jue Zhang, Qingwei Lin, Dongmei Zhang, and Saravan Rajmohan.
-\newblock Privacy in action: Towards realistic privacy mitigation and evaluation for {LLM}-powered agents, 2025.
-\newblock URL \url{https://arxiv.org/abs/2509.17488}.
 
 \bibitem[Li et~al.(2023)Li, Zhao, Yu, Song, Li, Yu, Li, Huang, and Li]{li2023apibank}
 Minghao Li, Yingxiu Zhao, Bowen Yu, Feifan Song, Hangyu Li, Haiyang Yu, Zhoujun Li, Fei Huang, and Yongbin Li.
@@ -77,10 +38,43 @@ Jiarui Lu, Thomas Holleis, Yizhe Zhang, Bernhard Aumayer, Feng Nan, Haoping Bai,
 \newblock \doi{10.18653/v1/2025.findings-naacl.65}.
 \newblock URL \url{https://aclanthology.org/2025.findings-naacl.65/}.
 
+\bibitem[Nissenbaum(2004)]{nissenbaum2004contextual}
+Helen Nissenbaum.
+\newblock Privacy as contextual integrity.
+\newblock \emph{Washington Law Review}, 79\penalty0 (1):\penalty0 119--158, 2004.
+\newblock URL \url{https://digitalcommons.law.uw.edu/wlr/vol79/iss1/10/}.
+
+\bibitem[Mireshghallah et~al.(2024)Mireshghallah, Kim, Zhou, Tsvetkov, Sap, Shokri, and Choi]{mireshghallah2024confaide}
+Niloofar Mireshghallah, Hyunwoo Kim, Xuhui Zhou, Yulia Tsvetkov, Maarten Sap, Reza Shokri, and Yejin Choi.
+\newblock Can {LLM}s keep a secret? testing privacy implications of language models via contextual integrity theory.
+\newblock In \emph{International Conference on Learning Representations}, 2024.
+\newblock URL \url{https://proceedings.iclr.cc/paper_files/paper/2024/hash/08305d8b2ddab98932c163ea73df065f-Abstract-Conference.html}.
+
+\bibitem[Shao et~al.(2024)Shao, Li, Shi, Liu, and Yang]{shao2024privacylens}
+Yijia Shao, Tianshi Li, Weiyan Shi, Yanchen Liu, and Diyi Yang.
+\newblock {PrivacyLens}: Evaluating privacy norm awareness of language models in action.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~37, pages 89373--89407, 2024.
+\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2024/hash/a2a7e58309d5190082390ff10ff3b2b8-Abstract-Datasets_and_Benchmarks_Track.html}.
+
 \bibitem[Tamber et~al.(2026)Tamber, Puri, Brunet, Taslakian, Lin, and Gella]{tamber2026privacyalign}
 Manveer~Singh Tamber, Abhay Puri, Marc-Etienne Brunet, Perouz Taslakian, Jimmy Lin, and Spandana Gella.
 \newblock {PrivacyAlign}: Contextual privacy alignment for {LLM} agents, 2026.
 \newblock URL \url{https://arxiv.org/abs/2606.21710}.
+
+\bibitem[Hu et~al.(2026)Hu, Liu, Meng, and Zhao]{hu2026toolprivacybench}
+Shijing Hu, Liang Liu, Zhu Meng, and Zhicheng Zhao.
+\newblock Toolprivacybench: Benchmarking purpose-bound privacy in tool-using llm agents, 2026.
+\newblock URL \url{https://arxiv.org/abs/2606.28061}.
+
+\bibitem[Ngong et~al.(2026)Ngong, Murugesan, Kadhe, Weisz, Dhurandhar, and Ramamurthy]{ngong2026agentscope}
+Ivoline~C. Ngong, Keerthiram Murugesan, Swanand Kadhe, Justin~D. Weisz, Amit Dhurandhar, and Karthikeyan~Natesan Ramamurthy.
+\newblock {AgentSCOPE}: Evaluating contextual privacy across agentic workflows, 2026.
+\newblock URL \url{https://arxiv.org/abs/2603.04902}.
+
+\bibitem[Wang et~al.(2025)Wang, Yu, Liu, Qin, Zhang, Lin, Zhang, and Rajmohan]{wang2025privacyinaction}
+Shouju Wang, Fenglin Yu, Xirui Liu, Xiaoting Qin, Jue Zhang, Qingwei Lin, Dongmei Zhang, and Saravan Rajmohan.
+\newblock Privacy in action: Towards realistic privacy mitigation and evaluation for {LLM}-powered agents, 2025.
+\newblock URL \url{https://arxiv.org/abs/2509.17488}.
 
 \bibitem[Qiao et~al.(2025)Qiao, Liu, Yang, Zhou, and Hu]{qiao2025topbench}
 Yuxuan Qiao, Dongqin Liu, Hongchang Yang, Wei Zhou, and Songlin Hu.
