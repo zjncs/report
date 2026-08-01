@@ -28,7 +28,7 @@ $\tau$-bench 面向航空和零售客服场景\citep{yao2025taubench}。每个�
     % --- 上层：原 benchmark 结构 ---
     \node[userbox] (user) {用户模拟器};
     \node[agentbox, below=6mm of user] (agent) {Agent};
-    \node[box, draw=RPLBlue, fill=RPLBlue!3, text width=1.4cm, left=6mm of agent] (policy) {领域政策};
+    \node[box, draw=RPLBlue, fill=RPLBlue!3, text width=1.4cm, left=6mm of agent] (policy) {领域};
     \node[dbbox, below=6mm of agent] (db) {数据库工具};
     \node[evalbox, below=5mm of db] (eval) {评测};
     \node[font=\footnotesize, below=0mm of eval, text width=3cm, align=center] {DB 状态 + 输出检查};
@@ -60,9 +60,9 @@ $\tau$-bench 面向航空和零售客服场景\citep{yao2025taubench}。每个�
 
 \subsubsection{适配依据}
 
-本文锁定版本的 \code{tasks\_test.py} 提供了比原论文标注更完整的 typed reference sequence：其中不仅包含写操作，还包含查询（如 \code{get\_user\_details}、\code{get\_reservation\_details}）、搜索（如 \code{search\_direct\_flight}）和计算（如 \code{calculate}）等中间步骤。本文将这些读、写和计算步骤统一作为源参考动作，通过源重放和环境状态检查确认可用性。由于原评测允许智能体通过不同交互过程达到目标状态，这些动作不能自动解释为唯一或最短解，本文不追加最小性声明。
+本文采用的 \code{tasks\_test.py} 提供了完整的 typed reference sequence：其中不仅包含写操作，还包含查询（如 \code{get\_user\_details}、\code{get\_reservation\_details}）、搜索（如 \code{search\_direct\_flight}）和计算（如 \code{calculate}）等中间步骤。本文将这些读、写和计算步骤统一作为源参考动作，通过源重放和环境状态检查确认可用性。
 
-$\tau$-bench 的用户、订单和支付方式都保存在结构化数据库中，用户身份可以由任务标识和数据库记录交叉核对，适合提取用户档案。部分源参考序列在原生执行中会暴露业务错误（如查询不存在的商品、对非已交付订单执行换货），本文对这些序列采取保守过滤而非修补。
+$\tau$-bench 的用户、订单和支付方式都保存在结构化数据库中，用户身份可以由任务标识和数据库记录交叉核对，适合提取用户档案。部分源参考序列在原生执行中会暴露业务错误（如查询不存在的商品、对非已交付订单执行换货），本文对这些序列采取保守过滤。
 
 \subsection{BFCL}
 
@@ -70,8 +70,7 @@ $\tau$-bench 的用户、订单和支付方式都保存在结构化数据库中�
 
 BFCL 是一个综合性函数调用基准，覆盖单轮、并行、多语言和多轮场景\citep{patil2025bfcl}。其多轮部分围绕八组状态化 API（交易、旅行、文件系统、消息、工单等）构造任务，每条任务包含一个多轮查询序列和对应的参考调用轨迹。一个用户轮次（turn）中可能包含多个工具调用步骤（step），参考轨迹按轮次组织但保留轮内多调用结构。多轮数据有四个变体：base 是标准多轮任务；miss\_param 故意省略参数以测试追问能力；miss\_func 移除函数以测试澄清能力；long\_context 加长上下文以测试长程准确性。
 
-每条任务的数据结构包括：\code{question}（多轮用户查询）、\code{possible\_answer}（逐轮参考调用）、\code{initial\_config}（初始状态，如预认证会话、账户余额）和 \code{involved\_classes}（涉及的 API 类）。评测同时使用 state-based checker 检查最终系统状态是否匹配，以及 response-based checker 检查产生请求结果所必需的调用路径——后者尤其用于无法通过状态变化判断的只读任务。这不等价于对整条参考轨迹进行全局最小性证明。
-
+每条任务的数据结构包括：\code{question}（多轮用户查询）、\code{possible\_answer}（逐轮参考调用）、\code{initial\_config}（初始状态，如预认证会话、账户余额）和 \code{involved\_classes}（涉及的 API 类）。评测同时使用 state-based checker 检查最终系统状态是否匹配，以及 response-based checker 检查产生请求结果所必需的调用路径——后者尤其用于无法通过状态变化判断的只读任务。
 \begin{figure}[t]
   \centering
   \begin{tikzpicture}[
@@ -113,7 +112,7 @@ BFCL 是一个综合性函数调用基准，覆盖单轮、并行、多语言和
 
 \subsubsection{适配依据}
 
-本文使用 200 条 base 多轮任务。\code{possible\_answer} 保存逐轮参考调用，\code{initial\_config} 提供可恢复的初始状态。对于会修改状态的任务，其他调用顺序可能同样正确；对于查询型任务，响应检查会对必要步骤提出更强约束。本文保留原有轮次边界和参考顺序，将其称为“源参考调用”，不把 \code{possible\_answer} 解释为经过全量消融的最短 Gold。
+本文使用 200 条 base 多轮任务。\code{possible\_answer} 保存逐轮参考调用，\code{initial\_config} 提供可恢复的初始状态。对于会修改状态的任务，其他调用顺序可能同样正确；对于查询型任务，响应检查会对必要步骤提出更强约束。
 
 BFCL 的主要适配挑战是语义对齐：相同字符串可能在不同 API 类中表示密码、访问令牌、股票代码或普通文本，用户指令中的身份也可能与某个默认 profile 冲突。本文只接受能够由 API 类、参数名、初始状态和指令身份共同支持的字段映射；不能确定时放弃该字段或过滤任务。
 
@@ -174,7 +173,7 @@ API-Bank 将工具调用能力分为三个递进层级\citep{li2023apibank}。Le
 
 本文使用 214 条 Level-1 对话和 50 条 Level-2 对话，共 264 条源记录。Adapter 只读取显式 API 行中的结构化 \code{param\_dict} 和 recorded result，并验证 Level-2 中工具是否已被先前的 ToolSearcher 暴露。Level-3 样例没有与上述两层相同的结构化执行契约，因此没有与其混合。
 
-这里的参考证据粒度是“单次 API 请求—结果”。将同一对话中的多次 API 行连接为一个调用序列，是本文为形成统一评测样本所作的适配，而非 API-Bank 原论文提供的对话级最终状态证明。适配后产生的任务可以证明请求记录与上游一致、调用可执行，但不声称具有与 AppWorld 相同强度的最终数据库 oracle。
+
 
 \subsection{AppWorld}
 
