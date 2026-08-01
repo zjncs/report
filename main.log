@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 00:44
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 00:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1220,9 +1220,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
-) (./manuscript/sections/00_abstract.tex) (./manuscript/sections/01_introduction.tex [1
-
-]
+) (./manuscript/sections/00_abstract.tex) (./manuscript/sections/01_introduction.tex
 File: figures/rpl_motivation.png Graphic file (type bmp)
 <figures/rpl_motivation.png>
 
@@ -1248,7 +1246,9 @@ Package fontspec Info:
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:script=hani;language=dflt;"
 
-) (./manuscript/sections/02_background_toolprivacybench.tex [2] [3]) (./manuscript/sections/03_source_analysis.tex [4] (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) [5]
+ [1
+
+]) (./manuscript/sections/02_background_toolprivacybench.tex [2] [3]) (./manuscript/sections/03_source_analysis.tex [4] (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) [5]
 File: figures/source_call_distribution.pdf Graphic file (type pdf)
 <use figures/source_call_distribution.pdf>
 File: figures/bfcl_normalization.pdf Graphic file (type pdf)
@@ -1280,4 +1280,4 @@ Here is how much of TeX's memory you used:
  36 hyphenation exceptions out of 8191
  102i,12n,118p,1190b,1254s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.xdv (18 pages, 481540 bytes).
+Output written on main.xdv (18 pages, 479308 bytes).
