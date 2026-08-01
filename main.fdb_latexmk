@@ -1,18 +1,18 @@
 # Fdb version 4
-["bibtex main"] 1785612390.5092 "main.aux" "main.bbl" "main" 1785612901.7095 0
+["bibtex main"] 1785613439.85134 "main.aux" "main.bbl" "main" 1785613445.96603 0
   "./literature/references.bib" 1785589512.37631 15919 4cd66eda0e65feeef667af477b6cbabe ""
   "/Users/zjn/Library/TinyTeX/texmf-dist/bibtex/bst/natbib/unsrtnat.bst" 1233624470 24550 a41a6405f4de768c43e871d9fbce2bc8 ""
-  "main.aux" 1785612896.76676 18364 a02b6885a279d1a2506b2d172d3a4478 "xelatex"
+  "main.aux" 1785613441.08676 18370 d7d0dfef6a75400ab5c61daec20a0a91 "xelatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["xdvipdfmx"] 1785612896.85365 "main.xdv" "main.pdf" "main" 1785612901.71127 0
-  "main.xdv" 1785612896.76759 544488 8c1f8dc5200a5ab8448d8666c4fa2c05 "xelatex"
+["xdvipdfmx"] 1785613441.1688 "main.xdv" "main.pdf" "main" 1785613445.96784 0
+  "main.xdv" 1785613441.08759 611124 beebae6e32385f4725daf01826003d59 "xelatex"
   (generated)
   "main.pdf"
   (rewritten before read)
-["xelatex"] 1785612895.44051 "main.tex" "main.xdv" "main" 1785612901.70959 0
+["xelatex"] 1785613439.87256 "main.tex" "main.xdv" "main" 1785613445.9661 0
   "/System/Library/Fonts/Menlo.ttc" 1782354543 2156036 ec05dfca6821d85440da0899493002c3 ""
   "/Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -253,8 +253,8 @@
   "figures/data_composition.pdf" 1785589512.3716 18472 e18324baaf9f3da18b9db0889fab155d ""
   "figures/rpl_motivation.png" 1785603449.79005 1031758 bd7f4affddcb5816d1bb5f62c39f7013 ""
   "figures/rplbench_pipeline.png" 1785604557.2895 1084637 594b982a781d7cd0bc055147d38daef2 ""
-  "main.aux" 1785612896.76676 18364 a02b6885a279d1a2506b2d172d3a4478 "xelatex"
-  "main.bbl" 1785612390.52581 6667 5790f6e032f9cc3442d2a72761dc26ed "bibtex main"
+  "main.aux" 1785613441.08676 18370 d7d0dfef6a75400ab5c61daec20a0a91 "xelatex"
+  "main.bbl" 1785613439.8701 6667 5790f6e032f9cc3442d2a72761dc26ed "bibtex main"
   "main.tex" 1785611488.90986 4129 a25f1f107174c69b5f5cf1393521638d ""
   "manuscript/sections/00_abstract.tex" 1785611011.45641 1321 3ebbd128c25f214890e7b314152f8def ""
   "manuscript/sections/01_introduction.tex" 1785611011.45784 3837 1abf8a7dff9d89457379e5a36bacca5f ""
@@ -262,12 +262,12 @@
   "manuscript/sections/03_source_analysis.tex" 1785612877.21229 20568 5f9760b33c5a8bef520388cccb7c5720 ""
   "manuscript/sections/04_adapter.tex" 1785612145.79566 10277 8eb4db7f8a0491b66060a9a5f60bb85e ""
   "manuscript/sections/05_formalization.tex" 1785612210.21554 9194 44c8dead260661b7d58fbfff9adc4e37 ""
-  "manuscript/sections/06_privacy_construction.tex" 1785612255.12261 3401 29796038d7f88cc7e9d61b903ebe434e ""
+  "manuscript/sections/06_privacy_construction.tex" 1785613306.54958 6270 1a7ab7070291b8f6326be8977682b286 ""
   "manuscript/sections/07_implementation_reproducibility.tex" 1785612280.85246 2309 33f79b7a223c10d728d3c34589b192b8 ""
-  "manuscript/sections/08_evaluation.tex" 1785612310.17459 4856 6513d10cdaa2f832493aebf1d33d13e4 ""
-  "manuscript/sections/09_case_studies.tex" 1785612334.73345 2486 0ae558f30d607624a75cdb6accd2f3dd ""
-  "manuscript/sections/10_limitations_ethics.tex" 1785612356.18739 2276 910a0134d7a38af94f175f61a2f84492 ""
-  "manuscript/sections/11_conclusion.tex" 1785612377.58804 790 389d7c5f3fec0c1dc70ea1e8c176f4b3 ""
+  "manuscript/sections/08_evaluation.tex" 1785613344.42889 7790 bf17a4c0848979db8d3bbf1856a4ee99 ""
+  "manuscript/sections/09_case_studies.tex" 1785613376.44455 5058 465b7c59d2bf3c6b82d7d2837f901dfa ""
+  "manuscript/sections/10_limitations_ethics.tex" 1785613403.81129 3778 b53ff4c2ae6185b1592adebc1cdd9cd4 ""
+  "manuscript/sections/11_conclusion.tex" 1785613425.85324 1504 f558fee75a756be602e51164686d287f ""
   "tables/dataset_statistics.tex" 1785589512.39863 243 7180a87a6b8972864ca7200e0a4962e7 ""
   "tables/design_sensitivity.tex" 1785589512.39885 167 65ff7f1fc69c4689fd5a30da1d355fe4 ""
   "tables/environment_validation.tex" 1785589512.41256 390 29e8c19780e19a35b384485b7f7dcac2 ""
