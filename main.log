@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 02:42
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 02:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1252,29 +1252,54 @@ Package fontspec Info:
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:script=hani;language=dflt;"
 
-
-Overfull \hbox (9.30751pt too wide) in paragraph at lines 74--74
- [][]\TU/lmr/m/n/9 possible_answer 
+ [5]
+Overfull \hbox (46.94174pt too wide) in paragraph at lines 89--89
+ [][]\TU/lmtt/m/n/9 BFCL_v4_multi_turn_base.json 
  []
 
-[5] [6]
-Overfull \hbox (2.91632pt too wide) in paragraph at lines 163--163
+
+Overfull \hbox (46.94174pt too wide) in paragraph at lines 90--90
+ [][]\TU/lmtt/m/n/9 possible_answer/...base.json 
+ []
+
+
+Overfull \hbox (12.64275pt too wide) in paragraph at lines 90--90
+ []\TU/lmr/m/n/9 ground_truth[turn][call] 
+ []
+
+
+Overfull \hbox (37.49174pt too wide) in paragraph at lines 91--91
+ [][]\TU/lmtt/m/n/9 multi_turn_func_doc/*.json 
+ []
+
+[6]
+Overfull \hbox (5.76134pt too wide) in paragraph at lines 207--207
  [][]\TU/lmr/m/n/9 Supervisor 
  []
 
 
-Overfull \hbox (12.37778pt too wide) in paragraph at lines 169--169
+Overfull \hbox (1.4978pt too wide) in paragraph at lines 211--211
+ [][]\TU/lmr/m/n/9 Amazon 
+ []
+
+
+Overfull \hbox (15.2228pt too wide) in paragraph at lines 213--213
  [][]\TU/lmr/m/n/9 SimpleNote 
  []
 
 
-Overfull \hbox (1.63179pt too wide) in paragraph at lines 170--170
+Overfull \hbox (4.4768pt too wide) in paragraph at lines 214--214
  [][]\TU/lmr/m/n/9 Splitwise 
  []
 
 
-Overfull \hbox (10.23578pt too wide) in paragraph at lines 173--173
+Overfull \hbox (13.0808pt too wide) in paragraph at lines 217--217
  [][]\TU/lmr/m/n/9 FileSystem 
+ []
+
+
+Overfull \hbox (33.73221pt too wide) in paragraph at lines 232--232
+ [][]\TU/lmtt/m/n/9 api_docs/standard/*.json 
  []
 
 [7]) (./manuscript/sections/04_adapter.tex [8] [9]) (./manuscript/sections/05_formalization.tex [10]) (./manuscript/sections/06_privacy_construction.tex (./tables/filtering_reasons.tex) [11]) (./manuscript/sections/07_implementation_reproducibility.tex [12] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -1284,10 +1309,10 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 44.
-) (./manuscript/sections/08_evaluation.tex (./tables/dataset_statistics.tex)
+) (./manuscript/sections/08_evaluation.tex (./tables/dataset_statistics.tex) [13]
 File: figures/data_composition.pdf Graphic file (type pdf)
 <use figures/data_composition.pdf>
- (./tables/privacy_statistics.tex) (./tables/validation_statistics.tex) [13] (./tables/environment_validation.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) [14] (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex)) (./manuscript/sections/09_case_studies.tex [15]) (./manuscript/sections/10_limitations_ethics.tex [16] [17] [18]) (./manuscript/sections/11_conclusion.tex) (./main.bbl [19
+ (./tables/privacy_statistics.tex) (./tables/validation_statistics.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) [14] (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex)) (./manuscript/sections/09_case_studies.tex [15] [16]) (./manuscript/sections/10_limitations_ethics.tex [17] [18]) (./manuscript/sections/11_conclusion.tex) (./main.bbl [19
 
 ]) [20] (./main.aux)
  ***********
@@ -1296,12 +1321,12 @@ L3 programming layer <2022/08/05>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 41560 strings out of 469784
- 930864 string characters out of 5467188
- 1611330 words of memory out of 5000000
- 69749 multiletter control sequences out of 15000+600000
+ 41577 strings out of 469784
+ 931860 string characters out of 5467188
+ 1607652 words of memory out of 5000000
+ 69766 multiletter control sequences out of 15000+600000
  641057 words of font info for 131 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 102i,12n,112p,1190b,1254s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,12n,112p,1190b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.xdv (20 pages, 553004 bytes).
+Output written on main.xdv (20 pages, 574352 bytes).
