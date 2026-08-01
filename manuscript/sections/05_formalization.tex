@@ -66,7 +66,7 @@ F_c=(P_c\times T_c)\setminus A_c
 
 \subsection{实体档案构造}
 
-档案构造依次使用三层证据。第一层是来源专属的结构化提取，例如 $\tau$-bench 用户数据库中的姓名、完整地址、出生日期与支付方式，以及 AppWorld 的 supervisor 和任务私有数据。第二层扫描 source state 与参考调用的标量叶节点，仅在参数名属于字段别名且语义检查通过时接收候选值。第三层是在来源字段不足以达到配置门槛时生成确定性补全值。
+档案构造依次使用三层证据。第一层是来源专属的结构化提取，例如 $\tau$-bench 用户数据库中的姓名、完整地址、出生日期与支付方式。第二层扫描 source state 与参考调用的标量叶节点，仅在参数名属于字段别名且语义检查通过时接收候选值；AppWorld 的 supervisor、private data 和 public data 在这一层保留各自路径。第三层是在来源字段不足以达到配置门槛时生成确定性补全值。
 
 每个候选字段都保存 provenance。来源值记录具体状态路径或 \code{source\_reference\_call:<index>:<tool>:<path>}；生成值标记为 \code{generated:deterministic:*}。字段还具有 persistent 或 task scope：前者以可验证的用户身份作为稳定种子，使同一来源用户在不同任务中获得一致补全；后者以 source case ID 为种子，只在当前任务内稳定。BFCL 的多个服务使用彼此独立的局部账号，缺少跨服务身份连接时，算法改用任务种子并移除通用 \code{user\_id}，不把某个服务的局部 ID 冒充为全局身份。
 

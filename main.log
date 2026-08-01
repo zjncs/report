@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 03:03
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 03:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1302,25 +1302,33 @@ Overfull \hbox (33.73221pt too wide) in paragraph at lines 231--231
  [][]\TU/lmtt/m/n/9 api_docs/standard/*.json 
  []
 
-[7]) (./manuscript/sections/04_adapter.tex [8]
-! Undefined control sequence.
-\Url Error ->\url used in a moving argument. 
-                                             
-l.36 ...ceCase}，通过版本锁定后才进入公共构造流程；隐私规则不进入 Adapter。}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+[7]) (./manuscript/sections/04_adapter.tex [8] [9] [10]) (./manuscript/sections/05_formalization.tex [11]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 34.
+ [12] [13] [14]) (./manuscript/sections/06_privacy_construction.tex [15] (./tables/filtering_reasons.tex)) (./manuscript/sections/07_implementation_reproducibility.tex [16] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 44.
+) (./manuscript/sections/08_evaluation.tex (./tables/dataset_statistics.tex) [17]
+File: figures/data_composition.pdf Graphic file (type pdf)
+<use figures/data_composition.pdf>
+ (./tables/privacy_statistics.tex) (./tables/validation_statistics.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) [18] (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex)) (./manuscript/sections/09_case_studies.tex [19] [20]) (./manuscript/sections/10_limitations_ethics.tex [21] [22]) (./manuscript/sections/11_conclusion.tex) (./main.bbl [23
 
- 
+]) [24] (./main.aux)
+ ***********
+LaTeX2e <2026-06-01>
+L3 programming layer <2022/08/05>
+ ***********
+ ) 
 Here is how much of TeX's memory you used:
- 41208 strings out of 469784
- 922174 string characters out of 5467188
- 1417766 words of memory out of 5000000
- 69459 multiletter control sequences out of 15000+600000
- 641041 words of font info for 129 fonts, out of 8000000 for 9000
+ 41724 strings out of 469784
+ 937116 string characters out of 5467188
+ 1614495 words of memory out of 5000000
+ 69911 multiletter control sequences out of 15000+600000
+ 641073 words of font info for 133 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 102i,11n,112p,1190b,1140s stack positions out of 10000i,1000n,20000p,200000b,200000s
-Output written on main.xdv (8 pages, 249120 bytes).
+ 102i,13n,112p,1190b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on main.xdv (24 pages, 682440 bytes).

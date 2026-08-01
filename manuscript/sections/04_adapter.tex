@@ -33,7 +33,7 @@ Adapter 是一个确定性的源格式解析器。它接收锁定的 benchmark �
     \draw[arrow, dashed] (adapter) -- (contract);
     \draw[arrow, dashed] (contract) -- (case);
   \end{tikzpicture}
-  \caption{Adapter 边界。上游文件先被解析为保留来源语义的 \code{SourceCase}，通过版本锁定后才进入公共构造流程；隐私规则不进入 Adapter。}
+  \caption{Adapter 边界。上游文件先被解析为保留来源语义的 \texttt{SourceCase}，通过版本锁定后才进入公共构造流程；隐私规则不进入 Adapter。}
   \label{fig:adapter-boundary}
 \end{figure}
 
@@ -47,7 +47,7 @@ S_c=(d_c,x_c,C_c,T_c,U_c,M_c),
 
 其中 $d_c$ 是来源内的任务域，$x_c$ 是用户指令，$C_c=(a_1,\ldots,a_n)$ 是按来源顺序恢复的参考调用，$T_c$ 是该任务可见的工具集合，$U_c$ 是可用于恢复用户或环境状态的结构化数据，$M_c$ 保存文件、索引和来源角色等追溯信息。调用 $a_i=(t_i,g_i)$ 由规范工具名 $t_i$ 和参数映射 $g_i$ 组成。
 
-代码中的 \code{SourceCase}、\code{SourceTrace}、\code{NormalizedCall} 和 \code{NormalizedTool} 分别承载这些信息。表\ref{tab:adapter-interface}列出公共 Builder 实际依赖的字段。这里的“统一”仅指访问接口一致，不把不同来源的参考证据解释成相同强度的 Gold。
+代码中的 \code{SourceCase}、\code{SourceTrace}、\code{NormalizedCall} 和 \code{NormalizedTool} 分别承载这些信息。表\ref{tab:adapter-interface}列出公共 Builder 实际依赖的字段。这里的”统一”仅指访问接口一致。
 
 \begin{table}[t]
   \centering
