@@ -1,0 +1,170 @@
+% τ-bench 结构图
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={rounded corners=2pt, draw, thick, align=center, inner sep=4pt, minimum height=7mm},
+    userbox/.style={box, draw=RPLBlue, fill=RPLBlue!5, text width=2.8cm},
+    agentbox/.style={box, draw=RPLGreen, fill=RPLGreen!5, text width=2.8cm},
+    dbbox/.style={box, draw=gray, fill=gray!8, text width=2.8cm},
+    evalbox/.style={box, draw=RPLOrange, fill=RPLOrange!8, text width=2.8cm},
+    arrow/.style={-{Latex[length=2mm]}, thick},
+    biarrow/.style={{Latex[length=2mm]}-{Latex[length=2mm]}, thick},
+  ]
+    % User Simulator
+    \node[userbox] (user) {用户模拟器\\\footnotesize 指令对 Agent 不可见};
+    % Agent
+    \node[agentbox, below=10mm of user] (agent) {Agent};
+    % Database
+    \node[dbbox, below=10mm of agent] (db) {数据库\\\footnotesize 用户·订单·航班·支付};
+    % Policy
+    \node[box, draw=RPLBlue, fill=RPLBlue!3, text width=1.8cm, left=8mm of agent] (policy) {领域政策};
+    % Evaluation
+    \node[evalbox, below=8mm of db] (eval) {评测};
+    \node[font=\footnotesize, below=1mm of eval, text width=4cm, align=center]
+      {DB 状态匹配 + 输出检查\\pass$^k$ 一致性};
+
+    % Arrows
+    \draw[biarrow] (user) -- node[right, font=\footnotesize] {对话} (agent);
+    \draw[arrow] (agent) -- node[right, font=\footnotesize] {工具调用} (db);
+    \draw[arrow] (policy) -- (agent);
+    \draw[arrow] (db) -- (eval);
+  \end{tikzpicture}
+  \caption{$\tau$-bench 任务结构。Agent 与用户模拟器对话，调用数据库工具完成客服任务，评测比较最终数据库状态和回复内容。}
+  \label{fig:tau-structure}
+\end{figure}
+
+% BFCL 结构图
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={rounded corners=2pt, draw, thick, align=center, inner sep=4pt, minimum height=7mm},
+    turnbox/.style={box, draw=RPLBlue, fill=RPLBlue!5, text width=3.2cm},
+    callbox/.style={box, draw=gray, fill=gray!8, text width=2cm, font=\footnotesize},
+    evalbox/.style={box, draw=RPLOrange, fill=RPLOrange!8, text width=3.2cm},
+    arrow/.style={-{Latex[length=2mm]}, thick},
+  ]
+    % Turn 1
+    \node[turnbox] (t1) {Turn 1};
+    \node[callbox, below=3mm of t1] (c1a) {tool\_call 1};
+    \node[callbox, below=1mm of c1a] (c1b) {tool\_call 2};
+    % Turn 2
+    \node[turnbox, right=12mm of t1] (t2) {Turn 2};
+    \node[callbox, below=3mm of t2] (c2a) {tool\_call 1};
+    % Turn N
+    \node[turnbox, right=12mm of t2] (tn) {Turn N};
+    \node[font=\footnotesize, below=3mm of tn] (cdn) {$\vdots$};
+
+    % 右侧数据
+    \node[box, draw=RPLGreen, fill=RPLGreen!5, text width=2.2cm, right=10mm of tn] (ic) {\footnotesize initial\_config};
+    \node[box, draw=RPLGreen, fill=RPLGreen!5, text width=2.2cm, below=2mm of ic] (cls) {\footnotesize involved\_classes};
+    \node[box, draw=RPLGreen, fill=RPLGreen!5, text width=2.2cm, below=2mm of cls] (pa) {\footnotesize possible\_answer};
+
+    % Evaluation
+    \node[evalbox, below=12mm of c1b] (eval) {评测};
+    \node[font=\footnotesize, below=1mm of eval, text width=4.5cm, align=center]
+      {state checker + response checker};
+
+    % Arrows
+    \draw[arrow] (t1) -- (t2);
+    \draw[arrow] (t2) -- (tn);
+    \draw[arrow, dashed] (ic) -- (tn);
+    \draw[arrow, dashed] (pa) -- (c1a);
+    \draw[arrow] (c1b) -- (eval);
+  \end{tikzpicture}
+  \caption{BFCL 多轮任务结构。每个用户轮次可包含多个工具调用步骤，possible\_answer 提供逐轮参考调用，评测同时检查状态和调用路径。}
+  \label{fig:bfcl-structure}
+\end{figure}
+
+% API-Bank 结构图
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={rounded corners=2pt, draw, thick, align=center, inner sep=4pt, minimum height=8mm},
+    l1box/.style={box, draw=RPLGreen, fill=RPLGreen!5, text width=3.5cm},
+    l2box/.style={box, draw=RPLBlue, fill=RPLBlue!5, text width=3.5cm},
+    l3box/.style={box, draw=RPLOrange, fill=RPLOrange!8, text width=3.5cm},
+    dbbox/.style={box, draw=gray, fill=gray!8, text width=4cm},
+    evalbox/.style={box, draw=RPLOrange, fill=RPLOrange!8, text width=4cm},
+    arrow/.style={-{Latex[length=2mm]}, thick},
+  ]
+    % Three levels
+    \node[l1box] (l1) {Level 1: 直接调用\\\footnotesize API 已知 $\to$ 填参 $\to$ 执行};
+    \node[l2box, below=6mm of l1] (l2) {Level 2: 检索后调用\\\footnotesize ToolSearcher $\to$ 检索 $\to$ 调用};
+    \node[l3box, below=6mm of l2] (l3) {Level 3: 规划—检索—调用\\\footnotesize 多步规划 $\to$ 检索 $\to$ 调用};
+
+    % API pool
+    \node[dbbox, right=12mm of l2] (apis) {73 个真实 API\\\footnotesize 天气·账号·日程·健康·财务};
+    \node[font=\footnotesize, below=1mm of apis, text width=4cm, align=center]
+      {param\_dict $\to$ result};
+
+    % Evaluation
+    \node[evalbox, below=8mm of l3] (eval) {评测};
+    \node[font=\footnotesize, below=1mm of eval, text width=4.5cm, align=center]
+      {Accuracy (调用一致) + ROUGE-L (回复)\\\footnotesize 逐调用检查，非整任务 oracle};
+
+    % Arrows
+    \draw[arrow] (l1) -- (l2);
+    \draw[arrow] (l2) -- (l3);
+    \draw[arrow, dashed] (l1) -- (apis);
+    \draw[arrow, dashed] (l2) -- (apis);
+    \draw[arrow, dashed] (l3) -- (apis);
+    \draw[arrow] (l3) -- (eval);
+  \end{tikzpicture}
+  \caption{API-Bank 三级任务结构。从直接调用到检索后调用再到规划多步调用，难度递进。评测按逐调用一致性检查，不提供整对话最终状态 oracle。}
+  \label{fig:apibank-structure}
+\end{figure}
+
+% AppWorld 结构图
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={rounded corners=2pt, draw, thick, align=center, inner sep=3pt, minimum height=6mm},
+    agentbox/.style={box, draw=RPLGreen, fill=RPLGreen!5, text width=2cm},
+    appbox/.style={box, draw=RPLBlue, fill=RPLBlue!5, text width=1.3cm, font=\footnotesize},
+    helpbox/.style={box, draw=RPLBlue, fill=RPLBlue!10, text width=1.5cm, font=\footnotesize},
+    evalbox/.style={box, draw=RPLOrange, fill=RPLOrange!8, text width=4cm},
+    arrow/.style={-{Latex[length=2mm]}, thick},
+    biarrow/.style={{Latex[length=2mm]}-{Latex[length=2mm]}, thick},
+  ]
+    % Helper apps
+    \node[helpbox] (docs) {ApiDocs};
+    \node[helpbox, right=4mm of docs] (sup) {Supervisor};
+
+    % Agent
+    \node[agentbox, below=8mm of docs, xshift=8mm] (agent) {Agent};
+
+    % 9 apps in grid
+    \node[appbox, below=8mm of agent, xshift=-2.6cm] (gmail) {Gmail};
+    \node[appbox, right=2mm of gmail] (venmo) {Venmo};
+    \node[appbox, right=2mm of venmo] (amazon) {Amazon};
+    \node[appbox, right=2mm of amazon] (spotify) {Spotify};
+    \node[appbox, right=2mm of spotify] (note) {SimpleNote};
+    \node[appbox, below=2mm of gmail] (split) {Splitwise};
+    \node[appbox, right=2mm of split] (todo) {Todoist};
+    \node[appbox, right=2mm of todo] (phone) {Phone};
+    \node[appbox, right=2mm of phone] (fs) {FileSystem};
+
+    % Loop annotation
+    \node[font=\footnotesize\itshape, right=8mm of agent, text width=2.5cm, align=center]
+      {编写代码 $\to$ 执行 API\\$\to$ 观察结果 $\to$ 继续};
+
+    % Evaluation
+    \node[evalbox, below=6mm of todo, xshift=0.65cm] (eval) {评测};
+    \node[font=\footnotesize, below=1mm of eval, text width=4.5cm, align=center]
+      {DB diff: 期望变更 + 无附带损害\\QA 任务: 答案核对};
+
+    % Arrows
+    \draw[arrow, dashed] (docs) -- (agent);
+    \draw[arrow, dashed] (sup) -- (agent);
+    \draw[biarrow] (agent) -- (gmail);
+    \draw[biarrow] (agent) -- (spotify);
+    \draw[biarrow] (agent) -- (phone);
+    \draw[arrow] (split) -- (eval);
+  \end{tikzpicture}
+  \caption{AppWorld 任务结构。Agent 在 9 个应用和 2 个辅助应用组成的沙盒中，通过编写代码—执行—观察循环完成跨应用任务，评测基于数据库 diff 的程序化测试。}
+  \label{fig:appworld-structure}
+\end{figure}

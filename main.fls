@@ -462,6 +462,12 @@ INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
 INPUT ./manuscript/sections/04_adapter.tex
 INPUT ./manuscript/sections/04_adapter.tex
 INPUT ./manuscript/sections/04_adapter.tex
@@ -543,10 +549,4 @@ INPUT manuscript/sections/11_conclusion.tex
 INPUT ./main.bbl
 INPUT ./main.bbl
 INPUT main.bbl
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
-INPUT /Users/zjn/Library/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
 INPUT main.aux
