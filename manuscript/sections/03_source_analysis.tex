@@ -249,7 +249,7 @@ AppWorld 构建了 9 个日常应用（Gmail、Venmo、Amazon、Spotify、Simple
 
 \subsubsection{适配依据}
 
-本文使用 147 条同时具备任务、方案 API 日志（\code{ground\_truth/api\_calls.json}）和可执行验证条件的记录，全部来自 dev 和 train split。test\_normal 和 test\_challenge 的任务没有 \code{api\_calls.json}，只有 \code{answer.json} 和 \code{evaluation.py}，不提供标准调用序列。上游 validation solution 的作用是证明任务可解并为数据生成提供参考执行，论文并未把它定义为规范路径或参数最小性证明。
+本文使用 147 条同时具备任务、方案 API 日志（\code{ground\_truth/api\_calls.json}）和可执行验证条件的记录，全部来自 dev 和 train split。test\_normal 和 test\_challenge 的任务没有 \code{api\_calls.json}，只有 \code{answer.json} 和 \code{evaluation.py}，不提供标准调用序列。上游 validation solution 的作用是证明任务可解并为数据生成提供参考执行，
 
 AppWorld 的状态评测能够判断任务目标和数据库副作用，却不直接判断某个已传递参数是否符合当前用途。本文因此另行构造参数级配对调用；其中敏感 optional 参数属于本文的合成扩展，而非 AppWorld 原生接口。
 
@@ -274,4 +274,4 @@ AppWorld 的状态评测能够判断任务目标和数据库副作用，却不�
   \end{tabularx}
 \end{table}
 
-这种区分直接决定了本文的验证口径。来源重放回答“输出调用是否仍与锁定来源一致”；环境执行回答“调用能否在相应实现中运行”；最终状态验证回答“运行结果是否满足来源任务的状态判据”。三种证据可以同时存在，也可以只具备前两种，任何一种都不自动证明参数已经达到业务意义上的最小集合。
+这种区分直接决定了本文的验证口径。来源重放回答“输出调用是否仍与锁定来源一致”；环境执行回答“调用能否在相应实现中运行”；最终状态验证回答“运行结果是否满足来源任务的状态判据”。三种证据可以同时存在，也可以只具备前两种，

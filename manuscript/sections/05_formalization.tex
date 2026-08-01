@@ -1,55 +1,158 @@
-\section{任务与授权形式化}
+\section{RPL 配对数据构造算法}
 
-设规范 case 为
+Adapter 输出回答了“上游记录了什么”，核心构造算法进一步回答“在保持这些调用功能不变的条件下，哪些参数构成可控的冗余披露”。算法以一批通过来源锁定的 \code{SourceCase}、隐私字段配置和来源规则为输入，输出任务链、工具 schema、实体档案、转换报告及内部审计记录。整个过程不调用外部模型；字段选择、授权判定和步骤抽样都由确定性规则完成。
 
-\begin{equation}
-c=(x,C_c,T_c,S_c),
-\end{equation}
+\subsection{问题定义}
 
-其中 $x$ 是任务指令，$C_c=(a_1,\ldots,a_n)$ 是完整 source reference，$T_c$ 是当前 case 的公开 visible-tool 集合，$S_c$ 是源用户或初始状态。每个调用 $a_i=(t_i,g_i)$ 包含工具和 reference 参数映射。
-
-builder 为 case 构造 entity $E_c$。令 $P_c$ 为其中 tier 不低于 3 的具体隐私原子集合。授权矩阵定义为
+对任务 $c$，记其参考调用为
 
 \begin{equation}
-A_c:P_c\times T_c\rightarrow\{\mathrm{allowed},\mathrm{forbidden}\}.
+C_c=(a_1,\ldots,a_n),\qquad a_i=(t_i,g_i),
 \end{equation}
 
-对具体原子 $p=(f,v)$ 和工具 $t$，本文采用可重放的保守规则：
+其中 $t_i$ 为工具，$g_i$ 为来源参数映射。实体档案记为 $E_c$，字段 $f$ 的值和敏感等级分别为 $E_c[f]$ 与 $q_c(f)\in\{1,\ldots,5\}$。本文将等级不低于 3 的字段视为敏感字段：
 
 \begin{equation}
-A_c(p,t)=
-\begin{cases}
-\mathrm{allowed}, & v\text{ 精确出现在 }t\text{ 的 source reference 参数中};\\
-\mathrm{forbidden}, & \text{否则}.
-\end{cases}
+P_c=\{f\in\operatorname{keys}(E_c)\mid q_c(f)\ge 3\}.
 \end{equation}
 
-字符串比较忽略首尾空白和大小写；布尔值不会与数值 0/1 混同；短值不会通过任意自由文本子串获得 allowed 标签。该定义避免“同字段名但不同具体值”被误判为必要，例如 reference 使用 \code{symbol=TSLA} 时，档案中的 \code{AAPL} 仍是 forbidden。该规则只是一致、可重放的 authorization fallback，不证明 reference 参数全局最小。
-
-每个业务步骤的 ground call 直接等于源 $g_i$。对列入 carrier 白名单的工具，builder 可选择至多两个对该工具为 forbidden、且尚未出现在源参数中的敏感字段 $f_1,\ldots,f_m$（$1\le m\le2$）。冻结 schema 增加与这些 entity 字段同名、同类型的 optional 参数，并构造
+设 $T_c$ 为任务可见工具集合。授权关系 $A_c\subseteq P_c\times T_c$ 保存有来源参数证据的 allowed 边，其补集
 
 \begin{equation}
-\tilde{g}_i=g_i\cup\{f_j:E_c[f_j]\mid 1\le j\le m\}.
+F_c=(P_c\times T_c)\setminus A_c
 \end{equation}
 
-形式约束为
+定义为 forbidden 边。这里的 forbidden 表示“当前自动证据没有证明该具体值应发送给该工具”，属于保守的构造标签；它不是领域专家给出的最终业务授权结论。
+
+算法需要从 $C_c$ 中选择若干实际执行步骤，并为每一步生成一对调用：功能调用保持 $g_i$ 不变，泄露调用在其基础上加入少量 forbidden 敏感字段。两者使用同一工具，原参数和值完全相同，因此差异可以精确归因到新增参数。
+
+\subsection{端到端流程}
+
+算法\ref{alg:rpl-construction}给出单个来源的完整构造过程。来源执行排除、调用数和工具数门槛首先应用；随后构造实体与授权关系，检查是否存在真正能够放入某个已执行步骤的 trigger。只有保留任务确定后，系统才汇总各工具需要增加的字段并冻结发布 schema。这避免了“先依据最终 schema 判断任务是否可保留、又由保留任务决定 schema”的循环依赖。
+
+\begin{algorithm}[t]
+  \caption{从规范化来源任务构造 RPL 配对数据}
+  \label{alg:rpl-construction}
+  \begin{algorithmic}[1]
+    \Require 来源任务集合 $\mathcal{C}$，字段与筛选配置 $\Theta$，来源规则 $R$
+    \Ensure 保留任务 $\mathcal{D}$，扩展工具集合 $\widetilde{T}$，审计记录 $\mathcal{Q}$
+    \State $\mathcal{B}\gets\varnothing$ \Comment{准备完成但尚未渲染的任务}
+    \ForAll{$c\in\mathcal{C}$}
+      \If{$c$ 命中锁定执行排除，或调用/工具数未达门槛}
+        \State \textbf{continue}
+      \EndIf
+      \State $E_c\gets\Call{BuildProfile}{c,\Theta,R}$
+      \If{$E_c$ 存在语义冲突，或 $|P_c|$ 未达门槛}
+        \State \textbf{continue}
+      \EndIf
+      \State $K_c\gets\Call{SelectLeakageTools}{c,R,\Theta}$
+      \State $A_c\gets\Call{Authorize}{c,E_c,T_c,\Theta}$
+      \If{$|F_c|$ 未达门槛}
+        \State \textbf{continue}
+      \EndIf
+      \State $X_i\gets\Call{TriggerCandidates}{a_i,E_c,A_c,K_c}$，$i=1,\ldots,n$
+      \If{所有 $X_i$ 均为空}
+        \State \textbf{continue}
+      \EndIf
+      \State $J_c\gets\Call{SelectSteps}{\{i\mid X_i\ne\varnothing\},R}$
+      \State $H_c\gets\Call{ChooseFields}{\{X_i:i\in J_c\},\Theta}$
+      \State $\mathcal{B}\gets\mathcal{B}\cup\{(c,E_c,A_c,H_c)\}$
+    \EndFor
+    \State $\widetilde{T}\gets\Call{AugmentSchemas}{\mathcal{B},\Theta}$
+    \State $(\mathcal{D},\mathcal{Q})\gets\Call{RenderAndAudit}{\mathcal{B},\widetilde{T}}$
+    \State \Return $(\mathcal{D},\widetilde{T},\mathcal{Q})$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{实体档案构造}
+
+档案构造依次使用三层证据。第一层是来源专属的结构化提取，例如 $\tau$-bench 用户数据库中的姓名、完整地址、出生日期与支付方式，以及 AppWorld 的 supervisor 和任务私有数据。第二层扫描 source state 与参考调用的标量叶节点，仅在参数名属于字段别名且语义检查通过时接收候选值。第三层是在来源字段不足以达到配置门槛时生成确定性补全值。
+
+每个候选字段都保存 provenance。来源值记录具体状态路径或 \code{source\_reference\_call:<index>:<tool>:<path>}；生成值标记为 \code{generated:deterministic:*}。字段还具有 persistent 或 task scope：前者以可验证的用户身份作为稳定种子，使同一来源用户在不同任务中获得一致补全；后者以 source case ID 为种子，只在当前任务内稳定。BFCL 的多个服务使用彼此独立的局部账号，缺少跨服务身份连接时，算法改用任务种子并移除通用 \code{user\_id}，不把某个服务的局部 ID 冒充为全局身份。
+
+候选选择优先保留来源字段，然后在配置给定的字段顺序、数量上限和补全上限内增加生成字段。补全的目的只是形成可控的敏感信息上下文，不能被当作上游事实。所有生成字段都可以通过 provenance 从正式数据中识别，并可派生完全不含补全值的 source-only 子集。
+
+在档案进入授权计算前，确定性语义门禁检查已知歧义，包括 password 与 access token、sector 与股票代码、card number 与 payment-method ID、地址第一行与完整住址、公开帖子与私密文本、商品价格与交易总额，以及指令身份与状态身份冲突。门禁无法修复这些语义问题；检测到冲突时直接拒绝任务或放弃候选字段。
+
+\subsection{基于来源参数证据的授权}
+
+对于字段 $f$ 和工具 $t$，算法只查看该工具在当前参考序列中实际出现的参数。设 $\operatorname{Alias}(f)$ 为字段配置及来源规则允许的参数别名，$\operatorname{Args}_c(t)$ 为工具 $t$ 的全部参考参数。证据集合定义为
+
+\begin{equation}
+R_c(f,t)=\left\{\pi\;\middle|\;
+\begin{array}{l}
+\pi\text{ 是 }\operatorname{Args}_c(t)\text{ 中的标量参数路径},\\
+\operatorname{leaf}(\pi)\in\operatorname{Alias}(f),\\
+\operatorname{value}(\pi)\equiv E_c[f]
+\end{array}\right\}.
+\end{equation}
+
+比较关系 $\equiv$ 对字符串忽略首尾空白和大小写，对数值允许与其规范字符串表示匹配，但布尔值不与整数 0/1 混同。只有经过配置批准的自由文本参数可以使用子串证据，且敏感字符串长度至少为 4；短 ID 不会因为偶然出现在说明文本中获得授权。API-Bank 原生参数名 \code{token} 可作为 \code{access\_token} 的来源专属授权别名，但不会用于全局档案映射。
+
+最终授权为
+
+\begin{equation}
+(f,t)\in A_c\quad\Longleftrightarrow\quad R_c(f,t)\ne\varnothing.
+\end{equation}
+
+审计文件保存 allowed 边及其证据路径；未列出的 $P_c\times T_c$ 边构成 forbidden 补集。授权宇宙使用任务可见工具，而不只使用参考序列中实际调用的工具，因此可以表达“同一任务上下文中存在另一个不应接收该字段的工具”。另一方面，配对泄露只能发生在来源序列已经执行过的步骤上。这两个集合用途不同，不能把 forbidden 边数量直接理解为可执行泄露步骤数量。
+
+\subsection{从 Forbidden 边到可执行 Trigger}
+
+来源规则首先选择允许进行 benchmark schema 扩展的工具集合 $K_c$。$\tau$-bench 与 BFCL 使用显式工具白名单；API-Bank 选择带业务参数的外部工具并排除认证和元工具；AppWorld 使用单独冻结的来源白名单。对调用 $a_i=(t_i,g_i)$，可注入字段集合为
+
+\begin{equation}
+X_i=\left\{f\in P_c\;\middle|\;
+\begin{array}{l}
+t_i\in K_c,\ (f,t_i)\in F_c,\\
+f\notin\operatorname{keys}(g_i),\\
+f\notin\operatorname{NativeParams}(t_i)
+\end{array}\right\}.
+\end{equation}
+
+最后一个条件说明本文使用的是 benchmark-only schema 扩展：候选字段必须尚未存在于上游工具 schema。算法在筛选时依据固定的 $K_c$ 和原生 schema 判断 $X_i$，不依赖尚未生成的发布 schema。若所有 $X_i$ 为空，即使任务具有很多 forbidden 边，也无法形成本文定义的参数级配对样例，任务因此被过滤。
+
+对于保留步骤，字段按“在当前链中已使用次数更少、敏感等级更高、字段名字典序”排序，每步最多选择两个。该规则避免同一字段在长链中反复出现，同时保持结果确定。$\tau$-bench、BFCL 和 API-Bank 对所有 eligible steps 注入；AppWorld 日志显著更长，因此按 source case ID、步骤和工具名的稳定哈希无放回选择至多两个步骤，并优先覆盖不同工具。抽样不依赖运行时随机状态，相同输入始终得到同一计划。
+
+\subsection{Schema 扩展与配对调用}
+
+完成所有任务的 trigger 计划后，系统按工具汇总被选字段，为相应工具增加同名、同类型且 \code{required=false} 的参数。原生参数及 required 状态保持不变；如果某字段已经是原生参数或原生 required 参数，构造立即拒绝而不是覆盖。扩展来源在 conversion report 中统一标记为 \code{synthetic\_optional\_sensitive\_field\_parameters}，使使用者能够区分上游接口和本项目新增的评测面。
+
+对步骤 $i$ 选择字段集合 $H_i\subseteq X_i$，功能调用和泄露调用分别为
 
 \begin{align}
-\operatorname{keys}(\tilde{g}_i)-\operatorname{keys}(g_i)&=\mathrm{RPL\_trigger\_params},\\
-\forall k\in\operatorname{keys}(g_i),\quad \tilde{g}_i[k]&=g_i[k],\\
-\forall f\in\mathrm{RPL\_trigger\_params},\quad \tilde{g}_i[f]&=E_c[f].
+g_i^{\mathrm{func}}&=g_i,\\
+g_i^{\mathrm{leak}}&=g_i\cup\{f:E_c[f]\mid f\in H_i\}.
 \end{align}
 
-因此每个 trigger 参数精确对应一个敏感字段；不存在一个通用字符串参数同时编码多个隐私原子的情况。
+例如，来源调用仅包含 \code{reservation\_id} 时，泄露版本可以在扩展后的 optional 参数中加入 \code{date\_of\_birth}；工具、预订 ID 和其余参数均不改变。公开字段 \code{ground\_truth\_call} 保存 $g_i^{\mathrm{func}}$，沿用任务书命名；其准确含义仍是继承的功能参考调用，而非本文重新搜索得到的全局最优 Gold。
 
-case 只有在满足下列条件时保留：
+\begin{keybox}[配对构造的四个不变量]
+对每个业务步骤，Validator 可以仅依据发布文件重新计算以下条件：
+\begin{align}
+\operatorname{tool}(g_i^{\mathrm{func}})&=\operatorname{tool}(g_i^{\mathrm{leak}})=t_i,\\
+\forall k\in\operatorname{keys}(g_i),\quad g_i^{\mathrm{leak}}[k]&=g_i[k],\\
+\operatorname{keys}(g_i^{\mathrm{leak}})-\operatorname{keys}(g_i)&=H_i,\\
+\forall f\in H_i,\quad g_i^{\mathrm{leak}}[f]&=E_c[f].
+\end{align}
+同时，$H_i$ 中每个参数都必须是 tier-3+ 字段、对 $t_i$ 为 forbidden，并在发布工具 schema 中声明为 optional。
+\end{keybox}
+
+这些条件保证泄露调用是功能调用的严格超集，且每个 trigger 只对应一个实体字段。旧式做法把多个敏感值拼入一个通用文本参数，会使“新增了几个参数”和“泄露了几个字段”成为不同指标；同名字段扩展消除了这种结构歧义。
+
+\subsection{保留条件与结果解释}
+
+任务按固定顺序接受门禁，conversion report 记录首个失败原因：
 
 \begin{enumerate}
-  \item $|C_c|\ge 4$；
-  \item 源序列至少执行两个不同工具；
-  \item $|P_c|\ge 4$；
-  \item forbidden 字段--工具组合不少于 20；
-  \item 完整源序列中至少实际执行一个可新增的 optional carrier。
+  \item 来源 reference 不在锁定的原生执行排除表中；
+  \item $|C_c|\ge 4$，且至少调用两个不同工具；
+  \item 档案通过语义门禁，且 $|P_c|\ge 4$；
+  \item 参考序列至少调用一个来源规则允许的 carrier 工具；
+  \item $|F_c|\ge 20$；
+  \item 至少存在一个 $X_i\ne\varnothing$ 的可执行 trigger 步骤。
 \end{enumerate}
 
-链长不作为选择条件；它由 $1+|C_c|$ 派生。
+上述顺序既决定发布集合，也决定筛选统计的含义。例如，一个同时“调用不足”和“无 carrier”的任务只计入前者。第 6 节报告各来源在这一漏斗中的实际数量，并单独给出生成字段、schema 扩展和 trigger 规模。
+
+发布链在步骤 0 调用 \code{LoadEntityProfile}，随后完整复制 $C_c$。每个业务步骤的 \code{min\_necessary\_params} 被设为功能参考调用的参数键集合。这一字段表示“为了复现该来源调用而保留的参数”，并不证明每个参数都经过逐项消融；相应地，系统始终将 \code{minimality\_verified} 保持为 false。算法能够证明的是来源保真、schema 合法和配对差异精确，而不是参考路径唯一或参数集合全局最小。
