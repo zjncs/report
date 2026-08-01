@@ -1,8 +1,8 @@
 \section{引言}
 
-\begin{figure}[t]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=.9\textwidth]{rpl_motivation.png}
+  \includegraphics[width=.9\textwidth,trim=0 0 0 60,clip]{rpl_motivation.png}
   \caption{RPL 配对调用示例。不泄露调用只包含取消预订所需的 \texttt{reservation\_id}；泄露调用保留该参数不变，额外增加两个可选敏感字段。两次调用都成功取消预订，但后者向预订系统披露了不必要的出生日期和支付方式。触发参数精确等于两次调用的参数键差集。}
   \label{fig:rpl-motivation}
 \end{figure}
