@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 00:37
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 00:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1248,10 +1248,9 @@ Package fontspec Info:
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:script=hani;language=dflt;"
 
-) (./manuscript/sections/02_background_toolprivacybench.tex [2] [3]) (./manuscript/sections/03_source_analysis.tex [4] (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) (./tables/source_characteristics.tex)
+) (./manuscript/sections/02_background_toolprivacybench.tex [2] [3]) (./manuscript/sections/03_source_analysis.tex [4] (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) [5]
 File: figures/source_call_distribution.pdf Graphic file (type pdf)
 <use figures/source_call_distribution.pdf>
- [5]
 File: figures/bfcl_normalization.pdf Graphic file (type pdf)
 <use figures/bfcl_normalization.pdf>
  (./tables/adapter_funnel.tex)) (./manuscript/sections/04_adapter.tex [6] [7]) (./manuscript/sections/05_formalization.tex [8]) (./manuscript/sections/06_privacy_construction.tex [9] (./tables/filtering_reasons.tex)) (./manuscript/sections/07_implementation_reproducibility.tex [10] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -1273,12 +1272,12 @@ L3 programming layer <2022/08/05>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 41260 strings out of 469784
- 924599 string characters out of 5467188
- 1605588 words of memory out of 5000000
- 69442 multiletter control sequences out of 15000+600000
+ 41247 strings out of 469784
+ 923663 string characters out of 5467188
+ 1607101 words of memory out of 5000000
+ 69429 multiletter control sequences out of 15000+600000
  641033 words of font info for 128 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  102i,12n,118p,1190b,1254s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.xdv (18 pages, 491340 bytes).
+Output written on main.xdv (18 pages, 489012 bytes).
