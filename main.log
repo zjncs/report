@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 02:09
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.6.17)  2 AUG 2026 02:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1228,13 +1228,7 @@ File: figures/rpl_motivation.png Graphic file (type bmp)
 ]
 File: figures/rplbench_pipeline.png Graphic file (type bmp)
 <figures/rplbench_pipeline.png>
- [2]) (./manuscript/sections/02_background_toolprivacybench.tex [3]) (./manuscript/sections/03_source_analysis.tex [4] [5] [6] (./tables/source_characteristics.tex) (./tables/source_characteristics.tex) (./tables/source_characteristics.tex)
-File: figures/source_call_distribution.pdf Graphic file (type pdf)
-<use figures/source_call_distribution.pdf>
- [7]
-File: figures/bfcl_normalization.pdf Graphic file (type pdf)
-<use figures/bfcl_normalization.pdf>
- (./tables/adapter_funnel.tex)) (./manuscript/sections/04_adapter.tex
+ [2]) (./manuscript/sections/02_background_toolprivacybench.tex [3]) (./manuscript/sections/03_source_analysis.tex [4]
 
 Package fontspec Info: 
 (fontspec)             Script 'CJK' not explicitly supported within font
@@ -1258,31 +1252,31 @@ Package fontspec Info:
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
 (fontspec)             <->"[FandolFang-Regular.otf]/OT:script=hani;language=dflt;"
 
- [8]) (./manuscript/sections/05_formalization.tex [9]) (./manuscript/sections/06_privacy_construction.tex [10] (./tables/filtering_reasons.tex)) (./manuscript/sections/07_implementation_reproducibility.tex [11] [12] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
+ [5] [6]) (./manuscript/sections/04_adapter.tex [7]) (./manuscript/sections/05_formalization.tex [8]) (./manuscript/sections/06_privacy_construction.tex [9] (./tables/filtering_reasons.tex)) (./manuscript/sections/07_implementation_reproducibility.tex [10] (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (/Users/zjn/Library/TinyTeX/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 44.
-) (./manuscript/sections/08_evaluation.tex (./tables/dataset_statistics.tex)
+) (./manuscript/sections/08_evaluation.tex (./tables/dataset_statistics.tex) [11]
 File: figures/data_composition.pdf Graphic file (type pdf)
 <use figures/data_composition.pdf>
- (./tables/privacy_statistics.tex) (./tables/validation_statistics.tex) [13] (./tables/environment_validation.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) [14] (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex)) (./manuscript/sections/09_case_studies.tex [15]) (./manuscript/sections/10_limitations_ethics.tex [16] [17]) (./manuscript/sections/11_conclusion.tex) (./main.bbl [18
+ (./tables/privacy_statistics.tex) (./tables/validation_statistics.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) (./tables/environment_validation.tex) [12] (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex) (./tables/design_sensitivity.tex)) (./manuscript/sections/09_case_studies.tex [13] [14]) (./manuscript/sections/10_limitations_ethics.tex [15] [16]) (./manuscript/sections/11_conclusion.tex) (./main.bbl [17
 
-]) [19] (./main.aux)
+]) [18] (./main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2022/08/05>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 41245 strings out of 469784
- 923054 string characters out of 5467188
- 1604936 words of memory out of 5000000
- 69426 multiletter control sequences out of 15000+600000
- 641033 words of font info for 128 fonts, out of 8000000 for 9000
+ 41207 strings out of 469784
+ 921699 string characters out of 5467188
+ 1604489 words of memory out of 5000000
+ 69398 multiletter control sequences out of 15000+600000
+ 641041 words of font info for 129 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  102i,12n,112p,1190b,1254s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.xdv (19 pages, 500380 bytes).
+Output written on main.xdv (18 pages, 491268 bytes).

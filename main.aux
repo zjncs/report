@@ -34,13 +34,13 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}相邻风险与本文边界}{4}{subsection.2.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3}源基准及其适配依据}{4}{section.3}\protected@file@percent }
 \citation{patil2025bfcl}
-\citation{li2023apibank}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}$\tau $-bench}{5}{subsection.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}任务结构与评测机制}{5}{subsubsection.3.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}适配依据}{5}{subsubsection.3.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}BFCL}{5}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}任务结构与评测机制}{5}{subsubsection.3.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}适配依据}{5}{subsubsection.3.2.2}\protected@file@percent }
+\citation{li2023apibank}
 \citation{trivedi2024appworld}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}API-Bank}{6}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}任务结构与评测机制}{6}{subsubsection.3.3.1}\protected@file@percent }
@@ -48,73 +48,66 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}AppWorld}{6}{subsection.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}任务结构与评测机制}{6}{subsubsection.3.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}适配依据}{6}{subsubsection.3.4.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 四个来源的任务规模与可利用证据。Adapter 接受表示调用能够按该来源的结构、模式和工具可见性规则无损解析。}}{7}{table.caption.3}\protected@file@percent }
-\newlabel{tab:source-characteristics}{{1}{7}{四个来源的任务规模与可利用证据。Adapter 接受表示调用能够按该来源的结构、模式和工具可见性规则无损解析。}{table.caption.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 四个来源中 Adapter 接受任务的完整参考调用长度分布。绿色虚线表示来源门槛。}}{7}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:source-call-distribution}{{3}{7}{四个来源中 Adapter 接受任务的完整参考调用长度分布。绿色虚线表示来源门槛。}{figure.caption.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 四个源基准的任务结构与评测机制比较。}}{7}{table.caption.3}\protected@file@percent }
+\newlabel{tab:source-characteristics}{{1}{7}{四个源基准的任务结构与评测机制比较。}{table.caption.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}证据分层与统一表示}{7}{subsection.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}从源任务到发布任务}{7}{subsection.3.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces 四个来源中 Adapter 接受任务与最终发布任务的数量差异。}}{8}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:bfcl-normalization}{{4}{8}{四个来源中 Adapter 接受任务与最终发布任务的数量差异。}{figure.caption.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces 从源记录到发布数据的筛选漏斗。"解析失败"包括无法形成结构化调用序列、模式无法无损对齐或违反来源工具可见性。}}{8}{table.caption.6}\protected@file@percent }
-\newlabel{tab:adapter-funnel}{{2}{8}{从源记录到发布数据的筛选漏斗。"解析失败"包括无法形成结构化调用序列、模式无法无损对齐或违反来源工具可见性。}{table.caption.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}完整 Reference 适配方法}{8}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}职责边界}{8}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}$\tau $-bench}{9}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}BFCL}{9}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}API-Bank}{9}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}AppWorld}{9}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}为何不固定 4/6 次调用}{9}{subsection.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}任务与授权形式化}{10}{section.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 统一 builder 的筛选结果。Other privacy 汇总敏感字段不足、forbidden 不足和无可执行 trigger。}}{11}{table.caption.7}\protected@file@percent }
-\newlabel{tab:filtering-reasons}{{3}{11}{统一 builder 的筛选结果。Other privacy 汇总敏感字段不足、forbidden 不足和无可执行 trigger。}{table.caption.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}档案、Carrier 与筛选}{11}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}任务独立档案}{11}{subsection.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Per-source Carrier Policy}{11}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}筛选漏斗}{11}{subsection.6.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Release 策略与验证状态}{11}{subsection.6.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Release 文件与职责。}}{12}{table.caption.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}自主设计选择}{12}{subsection.6.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}实现与可复现性}{12}{section.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}代码结构}{12}{subsection.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Release 文件}{12}{subsection.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}独立验证}{12}{subsection.7.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 正式数据规模。5/7 子集只用于说明任务书固定形状的兼容规模。}}{13}{table.caption.9}\protected@file@percent }
-\newlabel{tab:dataset-statistics}{{5}{13}{正式数据规模。5/7 子集只用于说明任务书固定形状的兼容规模。}{table.caption.9}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 档案、授权和参考泄露规模。Schema 参数是 83 个实际 carrier 工具上冻结的 285 个 optional 扩展。}}{13}{table.caption.11}\protected@file@percent }
-\newlabel{tab:privacy-statistics}{{6}{13}{档案、授权和参考泄露规模。Schema 参数是 83 个实际 carrier 工具上冻结的 285 个 optional 扩展。}{table.caption.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}复现命令}{13}{subsection.7.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}数据分析与验证结果}{13}{section.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}规模与链长}{13}{subsection.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}隐私关系与档案来源}{13}{subsection.8.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 左：四源 profile provenance；右：allowed/forbidden 字段--工具关系。不同 visible-tool scope 使边数量不可直接解释为来源风险。}}{14}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:data-composition}{{5}{14}{左：四源 profile provenance；右：allowed/forbidden 字段--工具关系。不同 visible-tool scope 使边数量不可直接解释为来源风险。}{figure.caption.10}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 源输入重放和 package validator 结果。AppWorld 输入文件数包含非 Git task data 的逐文件哈希。}}{14}{table.caption.12}\protected@file@percent }
-\newlabel{tab:validation-statistics}{{7}{14}{源输入重放和 package validator 结果。AppWorld 输入文件数包含非 Git task data 的逐文件哈希。}{table.caption.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}源重放与独立验证}{14}{subsection.8.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}保守语义门禁与人工复核}{14}{subsection.8.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 四源环境执行证据。Release calls 与 official solution 是不同执行对象。}}{15}{table.caption.13}\protected@file@percent }
-\newlabel{tab:environment-validation}{{8}{15}{四源环境执行证据。Release calls 与 official solution 是不同执行对象。}{table.caption.13}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 完整性、5/7 格式兼容和 source-only profile 三种派生视图。}}{15}{table.caption.14}\protected@file@percent }
-\newlabel{tab:design-sensitivity}{{9}{15}{完整性、5/7 格式兼容和 source-only profile 三种派生视图。}{table.caption.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.5}设计敏感性}{15}{subsection.8.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}案例分析}{15}{section.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}$\tau $-bench：六步完整链}{15}{subsection.9.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}BFCL：交易工作流}{16}{subsection.9.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}API-Bank：结构化账户对话}{16}{subsection.9.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}AppWorld：长执行日志}{16}{subsection.9.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.5}Schema 冲突案例}{16}{subsection.9.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {10}局限性、有效性威胁与伦理边界}{16}{section.10}\protected@file@percent }
-\newlabel{sec:limitations}{{10}{16}{局限性、有效性威胁与伦理边界}{section.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Carrier 是合成扩展}{16}{subsection.10.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}Reference 不等于最小路径}{16}{subsection.10.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}完整 Reference 适配方法}{7}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}职责边界}{7}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}$\tau $-bench}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}BFCL}{7}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}API-Bank}{8}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}AppWorld}{8}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}为何不固定 4/6 次调用}{8}{subsection.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}任务与授权形式化}{8}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}档案、Carrier 与筛选}{9}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}任务独立档案}{9}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Per-source Carrier Policy}{9}{subsection.6.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces 统一 builder 的筛选结果。Other privacy 汇总敏感字段不足、forbidden 不足和无可执行 trigger。}}{10}{table.caption.4}\protected@file@percent }
+\newlabel{tab:filtering-reasons}{{2}{10}{统一 builder 的筛选结果。Other privacy 汇总敏感字段不足、forbidden 不足和无可执行 trigger。}{table.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}筛选漏斗}{10}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Release 策略与验证状态}{10}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}自主设计选择}{10}{subsection.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}实现与可复现性}{10}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}代码结构}{10}{subsection.7.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Release 文件与职责。}}{11}{table.caption.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Release 文件}{11}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}独立验证}{11}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}复现命令}{11}{subsection.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}数据分析与验证结果}{11}{section.8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces 正式数据规模。5/7 子集只用于说明任务书固定形状的兼容规模。}}{12}{table.caption.6}\protected@file@percent }
+\newlabel{tab:dataset-statistics}{{4}{12}{正式数据规模。5/7 子集只用于说明任务书固定形状的兼容规模。}{table.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces 左：四源 profile provenance；右：allowed/forbidden 字段--工具关系。不同 visible-tool scope 使边数量不可直接解释为来源风险。}}{12}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:data-composition}{{3}{12}{左：四源 profile provenance；右：allowed/forbidden 字段--工具关系。不同 visible-tool scope 使边数量不可直接解释为来源风险。}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}规模与链长}{12}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}隐私关系与档案来源}{12}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}源重放与独立验证}{12}{subsection.8.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 档案、授权和参考泄露规模。Schema 参数是 83 个实际 carrier 工具上冻结的 285 个 optional 扩展。}}{13}{table.caption.8}\protected@file@percent }
+\newlabel{tab:privacy-statistics}{{5}{13}{档案、授权和参考泄露规模。Schema 参数是 83 个实际 carrier 工具上冻结的 285 个 optional 扩展。}{table.caption.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 源输入重放和 package validator 结果。AppWorld 输入文件数包含非 Git task data 的逐文件哈希。}}{13}{table.caption.9}\protected@file@percent }
+\newlabel{tab:validation-statistics}{{6}{13}{源输入重放和 package validator 结果。AppWorld 输入文件数包含非 Git task data 的逐文件哈希。}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}保守语义门禁与人工复核}{13}{subsection.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.5}设计敏感性}{13}{subsection.8.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 四源环境执行证据。Release calls 与 official solution 是不同执行对象。}}{14}{table.caption.10}\protected@file@percent }
+\newlabel{tab:environment-validation}{{7}{14}{四源环境执行证据。Release calls 与 official solution 是不同执行对象。}{table.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 完整性、5/7 格式兼容和 source-only profile 三种派生视图。}}{14}{table.caption.11}\protected@file@percent }
+\newlabel{tab:design-sensitivity}{{8}{14}{完整性、5/7 格式兼容和 source-only profile 三种派生视图。}{table.caption.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}案例分析}{14}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}$\tau $-bench：六步完整链}{14}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}BFCL：交易工作流}{14}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}API-Bank：结构化账户对话}{14}{subsection.9.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}AppWorld：长执行日志}{15}{subsection.9.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.5}Schema 冲突案例}{15}{subsection.9.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}局限性、有效性威胁与伦理边界}{15}{section.10}\protected@file@percent }
+\newlabel{sec:limitations}{{10}{15}{局限性、有效性威胁与伦理边界}{section.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Carrier 是合成扩展}{15}{subsection.10.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}Reference 不等于最小路径}{15}{subsection.10.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}环境验证仍不等于最小性}{15}{subsection.10.3}\protected@file@percent }
 \citation{nist2017privacyengineering,nist2020privacyframework,oecd2013privacy}
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}环境验证仍不等于最小性}{17}{subsection.10.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.4}档案补全改变上下文}{17}{subsection.10.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.5}任务书链长解释}{17}{subsection.10.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.6}来源特定偏差}{17}{subsection.10.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.7}确定性规则与人工复核缺口}{17}{subsection.10.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.8}领域与伦理}{17}{subsection.10.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.4}档案补全改变上下文}{16}{subsection.10.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.5}任务书链长解释}{16}{subsection.10.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.6}来源特定偏差}{16}{subsection.10.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.7}确定性规则与人工复核缺口}{16}{subsection.10.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.8}领域与伦理}{16}{subsection.10.8}\protected@file@percent }
 \bibstyle{unsrtnat}
 \bibdata{literature/references}
 \bibcite{hu2026toolprivacybench}{{1}{2026}{{Hu et~al.}}{{Hu, Liu, Meng, and Zhao}}}
@@ -123,7 +116,7 @@
 \bibcite{li2023apibank}{{4}{2023}{{Li et~al.}}{{Li, Zhao, Yu, Song, Li, Yu, Li, Huang, and Li}}}
 \bibcite{trivedi2024appworld}{{5}{2024}{{Trivedi et~al.}}{{Trivedi, Khot, Hartmann, Manku, Dong, Li, Gupta, Sabharwal, and Balasubramanian}}}
 \bibcite{lu2025toolsandbox}{{6}{2025}{{Lu et~al.}}{{Lu, Holleis, Zhang, Aumayer, Nan, Bai, Ma, Ma, Li, Yin, Wang, and Pang}}}
-\@writefile{toc}{\contentsline {section}{\numberline {11}结论}{18}{section.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}结论}{17}{section.11}\protected@file@percent }
 \bibcite{nissenbaum2004contextual}{{7}{2004}{{Nissenbaum}}{{}}}
 \bibcite{mireshghallah2024confaide}{{8}{2024}{{Mireshghallah et~al.}}{{Mireshghallah, Kim, Zhou, Tsvetkov, Sap, Shokri, and Choi}}}
 \bibcite{shao2024privacylens}{{9}{2024}{{Shao et~al.}}{{Shao, Li, Shi, Liu, and Yang}}}
@@ -135,4 +128,4 @@
 \bibcite{nist2017privacyengineering}{{15}{2017}{{Brooks et~al.}}{{Brooks, Garcia, Lefkovitz, Lightman, and Nadeau}}}
 \bibcite{nist2020privacyframework}{{16}{2020}{{National Institute of Standards and Technology}}{{}}}
 \bibcite{oecd2013privacy}{{17}{2013}{{Organisation for Economic Co-operation and Development}}{{}}}
-\gdef \@abspage@last{19}
+\gdef \@abspage@last{18}
