@@ -1,0 +1,32 @@
+{"key":"hu2026toolprivacybench","grade":"A","verified":true,"role":"核心问题、数据构造与 RPL 定义","url":"https://arxiv.org/abs/2606.28061"}
+{"key":"yao2025taubench","grade":"A","verified":true,"role":"tau-bench 上游任务来源","url":"https://proceedings.iclr.cc/paper_files/paper/2025/hash/1b126cc38b8638e07bef37e7b2bb72bf-Abstract-Conference.html"}
+{"key":"patil2025bfcl","grade":"A","verified":true,"role":"BFCL 上游任务来源","url":"https://proceedings.mlr.press/v267/patil25a.html"}
+{"key":"shao2024privacylens","grade":"A","verified":true,"role":"行动场景中的隐私规范意识评测","url":"https://proceedings.neurips.cc/paper_files/paper/2024/hash/a2a7e58309d5190082390ff10ff3b2b8-Abstract-Datasets_and_Benchmarks_Track.html"}
+{"key":"mireshghallah2024confaide","grade":"A","verified":true,"role":"上下文完整性与 LLM 隐私","url":"https://proceedings.iclr.cc/paper_files/paper/2024/hash/08305d8b2ddab98932c163ea73df065f-Abstract-Conference.html"}
+{"key":"nissenbaum2004contextual","grade":"A","verified":true,"role":"上下文完整性理论基础","url":"https://digitalcommons.law.uw.edu/wlr/vol79/iss1/10/"}
+{"key":"trivedi2024appworld","grade":"B","verified":true,"role":"候选外部工作流来源","url":"https://aclanthology.org/2024.acl-long.850/"}
+{"key":"li2023apibank","grade":"B","verified":true,"role":"候选工具增强基准来源","url":"https://aclanthology.org/2023.emnlp-main.187/"}
+{"key":"lu2025toolsandbox","grade":"A","verified":true,"role":"第五源候选：状态化工具执行、用户模拟、工具 schema 和 milestone DAG；需解决非唯一 reference trajectory","url":"https://aclanthology.org/2025.findings-naacl.65/"}
+{"key":"farn2023tooltalk","grade":"A","verified":true,"role":"优先第五源候选：78 条对话、显式用户档案、gold API calls、模拟工具实现和 MIT 许可","url":"https://arxiv.org/abs/2311.10775","repository":"https://github.com/microsoft/ToolTalk"}
+{"key":"jang2025dicebench","grade":"A","verified":true,"role":"优先扩展源候选：1607 条多轮多方对话、gold calls/returns、公开 tool docs 和 MIT 许可","url":"https://aclanthology.org/2025.findings-acl.1375/","repository":"https://github.com/snuhcc/DICE-Bench"}
+{"key":"elder2026liveapibench","grade":"A","verified":true,"role":"大规模工具源候选：2500+ APIs、ground-truth sequences、verified answers 和 Apache-2.0 代码","url":"https://aclanthology.org/2026.eacl-long.143/","repository":"https://github.com/IBM/live-api-bench"}
+{"key":"huang2026crmarenapro","grade":"A","verified":true,"role":"隐私主题源候选：CRM schema、persona、多轮交互和 privacy_rejection；缺少固定 gold API trajectory 且为 CC BY-NC 4.0","url":"https://openreview.net/forum?id=EPlpe3Fx1x","repository":"https://github.com/SalesforceAIResearch/CRMArena"}
+{"key":"barres2025tau2bench","grade":"B","verified":true,"role":"tau 系列扩展：双控制/当前 tau3 环境、telecom 与 banking；与现有 tau-bench 同源，不算独立第五源","url":"https://arxiv.org/abs/2506.07982","repository":"https://github.com/sierra-research/tau2-bench"}
+{"key":"alkhouli2025confetti","grade":"B","verified":true,"role":"对话式 function-calling 候选：109 conversations、313 turns、86 APIs；off-policy 且无状态后端","url":"https://aclanthology.org/2025.acl-long.394/"}
+{"key":"kwak2025toolhaystack","grade":"B","verified":true,"role":"长期上下文工具调用候选，含跨 session 敏感字段；主要是目标调用恢复而非完整多步执行链","url":"https://arxiv.org/abs/2505.23662","repository":"https://github.com/bwookwak/ToolHaystack"}
+{"key":"chen2026appworldul","grade":"B","verified":true,"role":"AppWorld 用户在环扩展，516 tasks；与现有 AppWorld 同源且截至检索日未定位独立公开仓库","url":"https://arxiv.org/abs/2607.20536","status":"arXiv preprint"}
+{"key":"kaminski2026dynamicmcpbench","grade":"C","verified":true,"role":"live MCP framework；effect checkpoints 强，但动态 server 状态不利于固定可复现源锁定","url":"https://arxiv.org/abs/2607.20531","status":"arXiv preprint"}
+{"key":"zheng2026ebench","grade":"C","verified":true,"role":"323 个 state-changing product tasks 和数据库 diff；很新且截至检索日未定位公开资产","url":"https://arxiv.org/abs/2607.23722","status":"arXiv preprint"}
+{"key":"debenedetti2024agentdojo","grade":"B","verified":true,"role":"提示注入威胁模型对照","url":"https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html"}
+{"key":"wang2025privacyinaction","grade":"A","verified":true,"role":"将隐私规范评测扩展到动态 MCP/A2A agent 环境，并提供 mitigation 对照","url":"https://arxiv.org/abs/2509.17488","status":"arXiv preprint"}
+{"key":"qiao2025topbench","grade":"A","verified":true,"role":"多工具编排产生的组合推断泄露；与参数级直接披露形成关键机制对照","url":"https://arxiv.org/abs/2512.16310","status":"arXiv preprint"}
+{"key":"ngong2026agentscope","grade":"A","verified":true,"role":"逐 pipeline boundary 标注和审计 agentic workflow 隐私流，最接近轨迹级方法","url":"https://arxiv.org/abs/2603.04902","status":"arXiv preprint"}
+{"key":"zheng2026polarbench","grade":"A","verified":true,"role":"显式隐私政策下的 privacy-utility 诊断与第三方主动探测","url":"https://arxiv.org/abs/2605.19127","status":"arXiv preprint"}
+{"key":"tamber2026privacyalign","grade":"A","verified":true,"role":"以人类标注定义 agent 行动与工具调用中的上下文隐私规范","url":"https://arxiv.org/abs/2606.21710","status":"arXiv preprint"}
+{"key":"goel2026agentcibench","grade":"B","verified":true,"role":"跨应用 computer-use agent 的可执行 contextual-integrity 泄露评测","url":"https://arxiv.org/abs/2606.23189","status":"arXiv preprint"}
+{"key":"gupta2026pisas","grade":"B","verified":true,"role":"共享多用户 agent 系统中的跨用户数据 spill 与双重 CI 标注","url":"https://arxiv.org/abs/2607.05318","status":"arXiv preprint"}
+{"key":"alpay2026agentsecbench","grade":"B","verified":true,"role":"以 noninterference 和 channel closure 组织提示注入、检索保密与工具完整性","url":"https://arxiv.org/abs/2605.26269","status":"arXiv preprint"}
+{"key":"yu2026minim","grade":"B","verified":true,"role":"在 UI observation 离开设备前执行 task-conditioned minimal view，属于 mitigation 侧工作","url":"https://arxiv.org/abs/2606.13949","status":"arXiv preprint"}
+{"key":"nist2017privacyengineering","grade":"B","verified":true,"role":"隐私工程与风险管理","url":"https://doi.org/10.6028/NIST.IR.8062"}
+{"key":"nist2020privacyframework","grade":"B","verified":true,"role":"隐私风险管理框架","url":"https://www.nist.gov/privacy-framework/privacy-framework"}
+{"key":"oecd2013privacy","grade":"B","verified":true,"role":"目的限制与使用限制原则","url":"https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0188"}

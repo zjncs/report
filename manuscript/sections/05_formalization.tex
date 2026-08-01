@@ -1,0 +1,55 @@
+\section{任务与授权形式化}
+
+设规范 case 为
+
+\begin{equation}
+c=(x,C_c,T_c,S_c),
+\end{equation}
+
+其中 $x$ 是任务指令，$C_c=(a_1,\ldots,a_n)$ 是完整 source reference，$T_c$ 是当前 case 的公开 visible-tool 集合，$S_c$ 是源用户或初始状态。每个调用 $a_i=(t_i,g_i)$ 包含工具和 reference 参数映射。
+
+builder 为 case 构造 entity $E_c$。令 $P_c$ 为其中 tier 不低于 3 的具体隐私原子集合。授权矩阵定义为
+
+\begin{equation}
+A_c:P_c\times T_c\rightarrow\{\mathrm{allowed},\mathrm{forbidden}\}.
+\end{equation}
+
+对具体原子 $p=(f,v)$ 和工具 $t$，本文采用可重放的保守规则：
+
+\begin{equation}
+A_c(p,t)=
+\begin{cases}
+\mathrm{allowed}, & v\text{ 精确出现在 }t\text{ 的 source reference 参数中};\\
+\mathrm{forbidden}, & \text{否则}.
+\end{cases}
+\end{equation}
+
+字符串比较忽略首尾空白和大小写；布尔值不会与数值 0/1 混同；短值不会通过任意自由文本子串获得 allowed 标签。该定义避免“同字段名但不同具体值”被误判为必要，例如 reference 使用 \code{symbol=TSLA} 时，档案中的 \code{AAPL} 仍是 forbidden。该规则只是一致、可重放的 authorization fallback，不证明 reference 参数全局最小。
+
+每个业务步骤的 ground call 直接等于源 $g_i$。对列入 carrier 白名单的工具，builder 可选择至多两个对该工具为 forbidden、且尚未出现在源参数中的敏感字段 $f_1,\ldots,f_m$（$1\le m\le2$）。冻结 schema 增加与这些 entity 字段同名、同类型的 optional 参数，并构造
+
+\begin{equation}
+\tilde{g}_i=g_i\cup\{f_j:E_c[f_j]\mid 1\le j\le m\}.
+\end{equation}
+
+形式约束为
+
+\begin{align}
+\operatorname{keys}(\tilde{g}_i)-\operatorname{keys}(g_i)&=\mathrm{RPL\_trigger\_params},\\
+\forall k\in\operatorname{keys}(g_i),\quad \tilde{g}_i[k]&=g_i[k],\\
+\forall f\in\mathrm{RPL\_trigger\_params},\quad \tilde{g}_i[f]&=E_c[f].
+\end{align}
+
+因此每个 trigger 参数精确对应一个敏感字段；不存在一个通用字符串参数同时编码多个隐私原子的情况。
+
+case 只有在满足下列条件时保留：
+
+\begin{enumerate}
+  \item $|C_c|\ge 4$；
+  \item 源序列至少执行两个不同工具；
+  \item $|P_c|\ge 4$；
+  \item forbidden 字段--工具组合不少于 20；
+  \item 完整源序列中至少实际执行一个可新增的 optional carrier。
+\end{enumerate}
+
+链长不作为选择条件；它由 $1+|C_c|$ 派生。

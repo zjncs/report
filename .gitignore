@@ -1,0 +1,16 @@
+manuscript/*.aux
+manuscript/*.bbl
+manuscript/*.blg
+manuscript/*.fdb_latexmk
+manuscript/*.fls
+manuscript/*.log
+manuscript/*.out
+manuscript/*.synctex.gz
+manuscript/*.toc
+manuscript/*.xdv
+manuscript/main.pdf
+*.pyc
+__pycache__/
+.DS_Store
+literature/papers/*.pdf
+tmp/

@@ -1,0 +1,7 @@
+\section{结论}
+
+本文给出一套把公开多工具任务转换为 RPL 评测数据的可复现方法。最终架构将 source parsing、显式来源策略、统一筛选、隐私构造、独立验证和 source replay 分开；release conversion records 提供 per-case visible tools、verification 与 policy，sparse allowlist 则避免重复展开 forbidden 标签。参考 leaking call 中每个新增参数都与一个敏感 entity 字段同名、同值。
+
+基于锁定的 $\tau$-bench、BFCL、API-Bank 与 AppWorld，系统生成 328 条 source-reference 轨迹。全部 release ground calls 与锁定 reference 一致，四个数据包零错误验证。328 条 release calls 全部完成来源特定环境执行，其中 321 条通过最终状态验证，API-Bank 的 7 条明确记录为“已执行且逐步 checker 通过，但无整对话 oracle”；16 条包含原生业务错误的 $\tau$-bench reference 被保守过滤。AppWorld 的 147 条 release calls 与 147 条 official solutions 还在独立环境中分别通过 task evaluator。AppWorld union schema 被无损保留，泄露步骤通过 allowlist 与每链两步上限控制。固定 5/7 只保留 77 条，因此正式数据保留 5--245 的完整 reference 长度。
+
+项目把证据边界落实为可执行契约：source replay、release-call 执行、official-solution 执行和最终状态验证对象分别记录，\code{minimality\_verified=false} 明确保存；reference-argument matching 是可复现启发式规则，不是专家金标准。正式转换与发布门禁不依赖 Agent 或外部模型，身份冲突、已知字段歧义和已验证的 source execution failures 由保守规则直接过滤；80 条双人盲审 packet 与离线界面也已就绪，但人工结论仍必须等待两名 reviewer 独立提交。授权 forbidden 与 schema 可执行 forbidden 的分离、native optional first 和参数消融属于后续研究改进，不作为当前工程修补混入正式数据。

@@ -1,0 +1,41 @@
+\section{局限性、有效性威胁与伦理边界}
+\label{sec:limitations}
+
+\subsection{Carrier 是合成扩展}
+
+83 个实际 carrier 工具上的 285 个同名敏感字段参数均为 benchmark-only 扩展，不是四个来源的原生参数。它们解决参数级标签歧义，适合构造严格新增参数对照，但不能估计生产接口中的自然泄露机会。后续应建立原生 optional 参数子集并进行领域专家审核。
+
+\subsection{Reference 不等于最小路径}
+
+公开字段名沿用任务书的 \code{ground\_truth\_call}，但四个来源给出的证据并不自动证明路径或参数集合全局最小。当前 reference-argument matching 规则只把具体值是否出现在该工具 reference arguments 中作为 allowed 证据；它不能发现 reference 本身过度收集，也不能覆盖法规或隐含业务必要性。独立环境记录明确保存 \code{minimality\_verified=false}。
+
+\subsection{环境验证仍不等于最小性}
+
+328 条序列化 release calls 全部完成环境执行，其中 321 条通过原生最终状态检查，API-Bank 7 条因上游无聚合后整对话 oracle 而不判定；16 条包含原生业务错误的 $\tau$-bench reference 已被保守过滤。API-Bank 的逐步调用通过上游 API checker，但这不等价于整对话最终状态验证。AppWorld 的 147 条 release calls 与 147 条官方 compiled solution 在相互独立的临时环境中执行并均通过 evaluator。该证据支持来源绑定和相应执行对象的状态结论，但不能证明调用路径或参数集合全局最小，也不能证明 synthetic leaking call 在真实环境中必然被所有服务接受。环境证据位于独立 evaluation 层，不与转换报告混写。
+
+\subsection{档案补全改变上下文}
+
+2,280 个 profile fields 中有 307 个由程序确定性补全，来自 BFCL、API-Bank 与 AppWorld。虽然 provenance 明确披露，下游系统看到这些值后仍可能产生源任务没有的推断。实验应同时报告完整 profile 与 147 条无生成字段子集。
+
+\subsection{任务书链长解释}
+
+正式数据未强制 5/7 链长，而是保留完整 source reference。若只保留自然符合 5/7 的 case，328 条会降至 77 条，AppWorld 仅剩 3 条。若验收系统硬编码 5/7，应导出兼容子集，而不通过截断或伪造调用扩大规模。
+
+\subsection{来源特定偏差}
+
+API-Bank 的 visible scope 绑定在记录对话范围：Level-1 使用显式 API records，Level-2 还使用先前 ToolSearcher 结果；对话聚合则是本项目的设计。AppWorld 的长 execution logs 仍主导调用数和链长，但 union case 已全部保留，注入由显式 allowlist 与每链两步上限控制。跨来源比较仍必须按 source 分层，不能把 raw trigger 数解释为模型或数据集更不安全。
+
+\subsection{确定性规则与人工复核缺口}
+
+\code{leaking\_call} 是确定性参考，不是观察到的模型行为。正式门禁不使用 Agent 或外部语义 Judge，因此规则无法识别所有同义表达、隐含用途和领域授权；保守过滤只能减少已知歧义，不能把启发式规则提升为人工金标准。80 条复核 packet 仍必须由两名独立人类 reviewer 提交后才能计算可信一致性；在此之前不能声明人工授权标准。
+
+\subsection{领域与伦理}
+
+数据覆盖四个公开来源与多个应用领域。项目不主动收集现实个人数据；确定性补全值为虚构内容。数据适合研究用途限制与审计方法，不应直接用作现实用户授权政策或自动合规裁决。该边界与数据最小化、目的限制和可审计性原则一致\citep{nist2017privacyengineering,nist2020privacyframework,oecd2013privacy}。
+
+AppWorld protected data 的上游许可对公开再分发增加了加密要求。Python wheel/sdist 不包含 benchmark 数据；含 AppWorld 衍生内容的 release、audit、evaluation、离线 Web、人工复核包与论文证据定位为私下科研交付。若要公开发布，必须移除相应衍生内容或采用符合上游条款的加密分发流程。
+
+\clearpage
+\begin{warningbox}[结论范围]
+328 条 source replay、328 条 release-call 执行、其中 321 条 release 最终状态验证、147 条独立 AppWorld official-solution 执行与验证，以及四个零错误数据包，证明当前转换与研究工具满足既定工程规则；它们仍不能消除 synthetic carrier、非人工授权、generated profile fields、API-Bank 无整对话 oracle 与尚无人类一致性结果等限制。
+\end{warningbox}

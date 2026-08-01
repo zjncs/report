@@ -1,0 +1,37 @@
+\section{完整 Reference 适配方法}
+
+\subsection{职责边界}
+
+adapter 输出统一的 \code{SourceCase}：source case ID、domain、instruction、\code{SourceTrace}、case-visible tools、source state 和 provenance。\code{SourceTrace} 保存调用、origin、role、可选 turn boundaries、visible-tool basis 和已实际取得的 validation evidence。adapter 不接收隐私 policy，也不判断调用数、敏感字段或 carrier；所有公共门槛位于 builder。
+
+四个来源之所以共享后续流程，是因为交付 schema 和筛选门槛相同；它们对“reference 在哪里、工具如何可见、profile 如何提取”的解释并不相同，这些差异由 adapter 与显式 \code{SourceRules} 隔离。
+
+\subsection{\texorpdfstring{$\tau$-bench}{tau-bench}}
+
+任务和工具定义以 Python 源文件保存。adapter 使用 \code{ast.parse} 读取正式 \code{tasks\_test.py} 中的 \code{Task(...)} 和 \code{Action(...)}，并使用受限字面量解析工具信息，不导入或执行上游模块。airline 和 retail 工具增加领域命名空间。重复检测使用 $(domain,user\_id,instruction)$；相同 actions 折叠，冲突 actions 拒绝。每个 action 必须引用已知工具并符合 source schema。visible tools 来自 domain registry。
+
+\subsection{BFCL}
+
+BFCL question 与 possible answer 通过 ID 对齐。调用字符串解析为受限 \code{ast.Call}，随后依据当前 case 的 \code{involved\_classes} 建立可见 schema，并校验未知参数、重复参数、required 参数和类型。扁平 calls 进入公共 builder，但每个 possible-answer turn 的累计边界继续保存在 trace。一个 \code{close\_ticket.ticket\_id} 类型冲突 case 被拒绝。
+
+\subsection{API-Bank}
+
+adapter 从 \code{apis/} 的 Python class assignments 静态恢复工具描述和输入输出 schema，不执行上游代码；再读取 \code{lv1-lv2-samples/} 中 214 个 Level-1 given-description 对话和 50 个 Level-2 ToolSearcher 对话。只有结构化 \code{role=API} 记录会进入 reference；参数必须在 schema 指导的安全类型规范化后精确等于 recorded \code{result.input}，recorded exception 必须为 null。不从 AI 自然语言回复或文件名推断调用。
+
+Level-1 的 visible tools 是对话中显式 API records 使用的工具；Level-2 还要求每个工具在先前 \code{ToolSearcher} 结果中可见，并保留该记录范围。adapter 把同一 JSONL 对话中的 API rows 聚合成一条 source sequence，同时保留 user-turn boundaries 和 request/result digests。聚合是本项目的设计，不声称上游为整个对话提供了 final-state oracle。
+
+\subsection{AppWorld}
+
+adapter 读取 \code{ground\_truth/api\_calls.json}，以 HTTP method 与 URL path template 唯一映射到 standard API docs。URL path 中的参数按 schema 恢复类型，再与 request data 合并并验证。visible tools 定义为 required APIs 与 observed calls 的并集。
+
+AppWorld reference 来自上游 solution execution log，但本项目没有再次启动环境。因而 source evidence 可以写入 \code{upstream\_solution\_execution\_log}，公开 verification 仍保持 \code{environment\_executed=false} 和 \code{final\_state\_verified=false}。上游 \code{number | integer | string} 类型被保存为有序 union，validator 接受其中任一 JSON 类型；数字答案既不转成字符串，也不再造成 case 删除。
+
+\subsection{为何不固定 4/6 次调用}
+
+任务书字段示例要求最终链长 5 或 7，但参考方法只给出至少四次源调用门槛。将 5/7 写入 adapter 会按长度删除 $\tau$-bench/API-Bank 任务、截断 BFCL 请求，并严重截断 AppWorld 执行日志。因此本文采用
+
+\begin{equation}
+L(c)=1+|C_c|,
+\end{equation}
+
+其中 $C_c$ 是完整 retained source reference，额外一步为 \code{LoadEntityProfile}。固定 5/7 只作为可派生兼容子集统计，不改变主数据。

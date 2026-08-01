@@ -1,0 +1,13 @@
+{"section":"摘要与引言","claim":"工具调用成功与用途约束下的隐私合规是两个不同维度","citations":["hu2026toolprivacybench","shao2024privacylens"],"grade":"A","evidence":"工具隐私基准与行动场景隐私实验"}
+{"section":"背景与相关工作","claim":"tau-bench 和 BFCL 分别提供状态化业务任务与多轮函数调用轨迹","citations":["yao2025taubench","patil2025bfcl"],"grade":"A","evidence":"正式会议论文和锁定上游版本"}
+{"section":"背景与相关工作","claim":"API-Bank、AppWorld 和 ToolSandbox 扩展了工具检索、可执行应用和状态轨迹评测","citations":["li2023apibank","trivedi2024appworld","lu2025toolsandbox"],"grade":"A","evidence":"EMNLP、ACL 和 NAACL 正式论文"}
+{"section":"数据源扩展","claim":"ToolTalk 和 DICE-BENCH 提供显式 gold tool calls，且分别具有原生用户档案和大规模多轮多方对话，适合作为新的 reference-preserving 数据源","citations":["farn2023tooltalk","jang2025dicebench"],"grade":"A","evidence":"公开数据、工具文档、gold 参数与本地结构审计"}
+{"section":"数据源扩展","claim":"ToolSandbox、Live API-Bench 与 CRMArena-Pro 分别提供状态 milestone、大规模可执行 API sequence 和企业 confidentiality 场景，但需要不同程度的 adapter 与验证工程","citations":["lu2025toolsandbox","elder2026liveapibench","huang2026crmarenapro"],"grade":"A","evidence":"正式论文、公开仓库、数据 schema 与许可核验"}
+{"section":"任务定义","claim":"隐私适当性依赖信息主体、接收者、信息类型、目的和传递原则","citations":["nissenbaum2004contextual","mireshghallah2024confaide"],"grade":"A","evidence":"上下文完整性理论和 LLM 评测工作"}
+{"section":"数据构建方法","claim":"公开工具调用任务可作为功能骨架，但需要补充具体用户事实和用途授权关系","citations":["hu2026toolprivacybench"],"grade":"A","evidence":"ToolPrivacyBench 的用途约束隐私建模"}
+{"section":"数据分析与验证","claim":"最终回复或格式正确不能替代对执行轨迹和状态变化的检查","citations":["yao2025taubench","lu2025toolsandbox"],"grade":"A","evidence":"交互式、状态化工具评测基准"}
+{"section":"相关工作","claim":"正常任务中的非必要披露与提示注入攻击属于不同威胁模型","citations":["debenedetti2024agentdojo","hu2026toolprivacybench"],"grade":"B","evidence":"对抗性智能体安全和用途约束隐私基准"}
+{"section":"相关工作","claim":"轨迹级隐私评测需要检查最终输出之外的中间工具请求、工具响应和协议消息","citations":["hu2026toolprivacybench","ngong2026agentscope","wang2025privacyinaction"],"grade":"A","evidence":"用途绑定工具审计、逐边界 flow graph 和动态 MCP/A2A 环境"}
+{"section":"相关工作","claim":"agent 隐私泄露至少包括直接冗余披露、跨工具组合推断、主动探测和跨用户数据 spill 等不同机制","citations":["hu2026toolprivacybench","qiao2025topbench","zheng2026polarbench","gupta2026pisas"],"grade":"A","evidence":"四类机制分别具有不同观察点、攻击假设和判定对象"}
+{"section":"相关工作","claim":"人类隐私规范标注与确定性的 purpose-bound 参数审计互补，但不能相互替代","citations":["tamber2026privacyalign","shao2024privacylens","hu2026toolprivacybench"],"grade":"A","evidence":"human-norm alignment 与 executable trajectory policy 的证据边界不同"}
+{"section":"局限性与伦理","claim":"数据最小化、目的限制和可审计性是隐私工程的重要原则","citations":["nist2017privacyengineering","nist2020privacyframework","oecd2013privacy"],"grade":"A","evidence":"NIST 与 OECD 官方框架"}

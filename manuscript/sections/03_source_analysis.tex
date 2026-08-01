@@ -1,0 +1,51 @@
+\section{源数据分析}
+
+本文使用锁定 revision 的 $\tau$-bench、BFCL、API-Bank 与 AppWorld。四者分别提供正式 test split 的 typed task actions、多轮 possible answers、Level-1/Level-2 结构化 API 对话记录和上游 solution execution logs。表\ref{tab:source-characteristics}总结源规模与可利用证据。
+
+\begin{table}[t]
+  \centering
+  \caption{四个来源与完整 reference 转换结果。Adapter 接受表示调用被成功解析，并通过该来源规定的 schema、结构和可见性检查。}
+  \label{tab:source-characteristics}
+  \scriptsize
+  \begin{tabularx}{\textwidth}{L{1.55cm}L{1.35cm}L{1.35cm}L{1.45cm}L{1.05cm}Y}
+    \toprule
+    来源 & 源任务 & 调用范围 & Adapter 接受 & 发布 & 可利用信息 \\
+    \midrule
+    \input{../tables/source_characteristics.tex}
+  \end{tabularx}
+\end{table}
+
+$\tau$-bench 正式 \code{tasks\_test.py} 中有 165 个 typed task，其中一条完全重复，得到 164 个唯一 case；完整 reference calls 为 0--20。BFCL 的 200 个 base case 为 2--10 次调用，其中一个 source reference 参数与函数文档类型冲突，因此 199 个通过 adapter。API-Bank 提供 214 个 Level-1 given-description 对话和 50 个 Level-2 ToolSearcher 对话；adapter 只读取显式 \code{role=API} 的 \code{param\_dict} 与 recorded result，264 个对话中 244 个成功通过 adapter 的 schema、结构和 ToolSearcher 时序可见性检查。其余 20 个分别因缺少可用的 user/API 序列（3 个）、request/result/schema 键不对齐（8 个）或工具未被先前 ToolSearcher 暴露（9 个）而拒绝。成功记录包含 478 次 source calls，其中 64 个参数值按 schema 确定性规范化；未解析 AI 文本，也不修补未能对齐的对话。AppWorld 有 147 个带 API 日志的 task；其 \code{supervisor.complete\_task.answer} 使用 number/integer/string union。本文将 union 保留为有序 JSON type 数组，因此 147 个 task 全部无损通过 adapter。
+
+图\ref{fig:source-call-distribution}展示 adapter-accepted case 的完整 reference 长度。绿色虚线表示至少四次源调用门槛，而不是目标长度。AppWorld 的长执行日志使正式链长最高达到 245；主流程不为满足 5/7 而截断。
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=.91\textwidth]{source_call_distribution.pdf}
+  \caption{四个来源的完整 reference-call 分布。绿色虚线为至少四次源调用门槛。}
+  \label{fig:source-call-distribution}
+\end{figure}
+
+四源的 reference 证据强度并不相同。$\tau$-bench actions 和 BFCL possible answers 是上游指定的参考调用；API-Bank 的每个 API row 绑定了记录的请求与结果，但把同一 JSONL 对话内的 API rows 聚合成一条 reference sequence 是本项目的设计；AppWorld 文件进一步来自上游 solution execution log。本文只在 source trace 中保留这种差异，不把它自动升级为本项目独立环境执行或 final-state verification。
+
+图\ref{fig:bfcl-normalization}比较各来源 adapter-accepted 与最终发布数量。BFCL 的主要后续损失来自完整 reference 没有实际执行受控 carrier。API-Bank 的 244 个 adapter-accepted 对话中，231 个不足四次调用，余下 13 个中又有 6 个未达 forbidden-pair 门槛，最终保留 7 个。AppWorld 的 147 个 adapter-accepted task 全部通过公共硬门槛。
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=.72\textwidth]{bfcl_normalization.pdf}
+  \caption{四个来源 adapter-accepted case 与最终发布 case 的数量差异。}
+  \label{fig:bfcl-normalization}
+\end{figure}
+
+\begin{table}[t]
+  \centering
+  \caption{从源记录到发布数据的漏斗。解析失败包括无法形成 source-call 序列、schema 无法无损对齐或违反源工具可见性的 case。}
+  \label{tab:adapter-funnel}
+  \small
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    来源 & 原始 & Adapter & 源门槛 & 无 carrier & 发布 & 解析失败 \\
+    \midrule
+    \input{../tables/adapter_funnel.tex}
+  \end{tabular}
+\end{table}

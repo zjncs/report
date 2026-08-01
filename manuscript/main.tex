@@ -1,0 +1,135 @@
+% !TEX program = xelatex
+\documentclass[UTF8,11pt,a4paper]{ctexart}
+
+\usepackage[a4paper,top=2.15cm,bottom=2.25cm,left=2.25cm,right=2.25cm,headheight=15pt]{geometry}
+\usepackage{setspace}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{threeparttable}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{newunicodechar}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{bookmark}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,backgrounds,matrix}
+
+\definecolor{RPLBlue}{HTML}{285F9E}
+\definecolor{RPLGreen}{HTML}{3F7F5F}
+\definecolor{RPLOrange}{HTML}{CC7A29}
+\definecolor{RPLRed}{HTML}{B94A48}
+\definecolor{RPLGray}{HTML}{F3F5F7}
+\definecolor{RPLDark}{HTML}{243447}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=RPLBlue,
+  citecolor=RPLGreen,
+  urlcolor=RPLOrange,
+  pdftitle={RPLBench：面向工具调用智能体的冗余参数泄露评测数据构建},
+  pdfauthor={赵嘉宁}
+}
+
+\graphicspath{{../figures/}}
+\setstretch{1.22}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.12em}
+\setlist{nosep,leftmargin=2.2em}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+\emergencystretch=2em
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{RPLBench：冗余参数泄露评测数据构建}
+\fancyhead[R]{科研实习项目论文}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\Large\bfseries\color{RPLDark}}{\thesection}{0.65em}{}
+\titleformat{\subsection}{\large\bfseries\color{RPLDark}}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.8ex plus .4ex minus .2ex}{0.8ex}
+\titlespacing*{\subsection}{0pt}{1.35ex plus .3ex minus .2ex}{0.5ex}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newcommand{\RPL}{\textnormal{\textsc{RPL}}}
+\newcommand{\RPLBench}{\textnormal{\textsc{RPLBench Builder}}}
+\newcommand{\ToolPrivacyBench}{\textnormal{\textsc{ToolPrivacyBench}}}
+\newcommand{\code}[1]{\path{#1}}
+
+\newtcolorbox{keybox}[1][]{
+  enhanced,breakable,colback=RPLGray,colframe=RPLBlue,
+  boxrule=0.7pt,arc=1.5mm,left=2mm,right=2mm,top=1.3mm,bottom=1.3mm,
+  title=#1,fonttitle=\bfseries
+}
+\newtcolorbox{warningbox}[1][]{
+  enhanced,breakable,colback=red!3,colframe=RPLRed,
+  boxrule=0.7pt,arc=1.5mm,left=2mm,right=2mm,top=1.3mm,bottom=1.3mm,
+  title=#1,fonttitle=\bfseries
+}
+
+\lstdefinestyle{rplcode}{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{RPLGray},
+  frame=single,
+  rulecolor=\color{gray!45},
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keywordstyle=\color{RPLBlue}\bfseries,
+  stringstyle=\color{RPLGreen},
+  commentstyle=\color{gray}
+}
+\lstset{style=rplcode}
+
+\title{\vspace{-1.5em}\textbf{RPLBench：面向工具调用智能体的冗余参数泄露评测数据构建}\\[0.35em]
+\Large 基于 $\tau$-bench、BFCL、API-Bank 与 AppWorld 的可复现方法}
+\author{赵嘉宁}
+\date{2026年7月}
+
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/02_background_toolprivacybench}
+\input{sections/03_source_analysis}
+\input{sections/04_adapter}
+\input{sections/05_formalization}
+\input{sections/06_privacy_construction}
+\input{sections/07_implementation_reproducibility}
+\input{sections/08_evaluation}
+\input{sections/09_case_studies}
+\input{sections/10_limitations_ethics}
+\input{sections/11_conclusion}
+
+\begingroup
+\footnotesize
+\setstretch{1.0}
+\raggedright
+\setlength{\bibsep}{0.12em}
+\bibliographystyle{unsrtnat}
+\bibliography{../literature/references}
+\endgroup
+
+\end{document}

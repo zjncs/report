@@ -1,0 +1,44 @@
+\section{引言}
+
+大型语言模型智能体通过调用外部工具来完成搜索、支付、订单管理和通信等任务。每一次工具调用都会把参数传给外部服务，这些参数可能进入数据库、日志或第三方系统。因此，"任务成功"并不等于"披露恰当"：智能体可能正确地修改了一笔订单，却在可选的备注字段中顺手填入了用户的账户余额或私人偏好。删掉这些信息并不影响任务完成，但敏感数据已经越过了当前用途的边界。
+
+本文将这种现象称为\textbf{冗余参数泄露}（Redundant Parameter Leakage, RPL）。它不同于对抗场景下的提示注入\citep{debenedetti2024agentdojo}：RPL 发生在正常的、功能正确的任务执行中，智能体并非被攻击者诱导，而是在拥有完整用户档案时，习惯性地把任务并不需要的敏感信息填入了工具的可选参数。这种过度披露是隐蔽的——工具调用本身是成功的，最终状态也是正确的，唯一的区别只是多了几个本可删除的参数。
+
+现有工具调用基准为研究 RPL 提供了良好的任务骨架，但它们都不直接评测隐私披露。$\tau$-bench 在航空与零售环境中评估多轮工具-用户交互和最终数据库状态\citep{yao2025taubench}，但其奖励函数只比对写操作结果，身份认证等读操作不进入奖励，跳过认证也能获得满分。BFCL 覆盖单轮、并行和多轮函数调用\citep{patil2025bfcl}，但仅检查"调用是否正确"，不检查"调用是否该发生"。API-Bank 评估工具检索、规划和调用\citep{li2023apibank}，其对话大量涉及密码、薪资和健康信息，却不评测工具链中的隐私风险。AppWorld 通过可执行应用和状态测试评估跨应用任务\citep{trivedi2024appworld}，但其状态测试只关注任务目标和附带数据库改动，对"把不需要的敏感字段塞进可选参数"这类隐蔽泄露是盲区。
+
+\ToolPrivacyBench 首次将用途限制引入工具轨迹审计，指出任务成功与隐私合规是两个独立维度\citep{hu2026toolprivacybench}。它在 $\tau$-bench、BFCL、API-Bank 和 AppWorld 的工作流上构建了 1{,}000 条改编 case，通过 mock 后端执行智能体并审计其工具调用参数。然而，\ToolPrivacyBench 的隐私泄露是\emph{被动观察}智能体执行行为得到的——它依赖智能体在实际执行中主动把多余信息写入参数，而非构造确定性的泄露参照。\ToolPrivacyBench 也没有公开其逐 case 的源映射数据，使得独立复现其 1{,}000 条数据存在困难。
+
+本文关注一个更基础的问题：如何把四个锁定的公开基准稳定地转换为同一套可审计的 RPL 评测契约，同时确保转换过程没有改变上游标准调用。与 \ToolPrivacyBench 不同，本文\emph{主动构造}配对调用——每一步保留上游 reference 调用作为不泄露参照，并构造一个仅在可选参数中增加敏感字段的泄露参照，两者的参数键差集即为 RPL 触发参数。这样可以把隐私过度披露与工具选择错误、漏填必填参数等功能错误精确分离。
+
+图\ref{fig:rpl-motivation}给出评测对象。标准调用和泄露调用使用同一工具，并保持所有 source reference 参数不变；唯一差异是后者增加 optional carrier。这样可把隐私过度披露与工具选择错误、漏填必填参数等功能错误分离。
+
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}[
+    node distance=7mm and 8mm,
+    box/.style={rounded corners,draw,thick,align=left,inner sep=6pt,text width=.38\textwidth,font=\small},
+    source/.style={box,draw=RPLBlue,fill=RPLBlue!5},
+    safe/.style={box,draw=RPLGreen,fill=RPLGreen!5},
+    leak/.style={box,draw=RPLRed,fill=RPLRed!4},
+    arrow/.style={-{Latex[length=2mm]},thick}
+  ]
+    \node[source] (profile) {\textbf{任务档案}\\订单号、支付方式、余额、私人偏好等};
+    \node[safe,below=of profile,xshift=-.21\textwidth] (gold) {\textbf{源 reference 调用}\\保留权威参数};
+    \node[leak,below=of profile,xshift=.21\textwidth] (leak) {\textbf{参考泄露调用}\\保留全部 reference 参数\\\textcolor{RPLRed}{+ 同名 optional forbidden 字段}};
+    \draw[arrow,RPLGreen] (profile) -- node[left,font=\footnotesize]{必要披露} (gold);
+    \draw[arrow,RPLRed] (profile) -- node[right,font=\footnotesize]{冗余披露} (leak);
+  \end{tikzpicture}
+  \caption{RPL 的配对调用。泄露版本不修改任何源 reference 值，只增加受控 optional 参数。}
+  \label{fig:rpl-motivation}
+\end{figure}
+
+本文贡献如下：
+
+\begin{enumerate}
+  \item 定义冗余参数泄露（RPL）的形式化契约：每步提供不泄露与泄露两个参照调用，触发参数精确等于两者的参数键差集，且每个触发参数必须在工具 schema 中存在、标记为 optional、取值可追溯到当前用户档案。
+  \item 基于 $\tau$-bench、BFCL、API-Bank 与 AppWorld 的锁定版本构建 328 条 RPL 任务，保留完整 source reference，并通过独立校验器和源重放审计验证全部 ground calls 与锁定源逐项一致。
+  \item 在原生环境中执行全部 328 条 release-call 序列和 147 条 AppWorld 官方方案，321 条通过最终状态验证；将 16 条包含原生业务错误的 $\tau$-bench reference 保守过滤而非静默改写。
+  \item 明确区分 source replay、环境执行和最终状态验证三类证据，披露 synthetic carrier、reference-argument matching 启发式规则与档案补全的影响，不将参照调用冒充全局最小路径。
+\end{enumerate}
+
+本文定位为数据集构建和工程审计研究。双人盲审工具已经就绪，但在两名独立 reviewer 提交前不报告人工一致性，也不把程序规则描述为人工金标准。
